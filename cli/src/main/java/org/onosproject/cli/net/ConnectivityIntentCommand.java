@@ -68,6 +68,10 @@ public abstract class ConnectivityIntentCommand extends AbstractShellCommand {
             required = false, multiValued = false)
     private String vlanString = null;
 
+    @Option(name = "--vlanPcp", description = "VLAN Priority",
+            required = false, multiValued = false)
+    private String vlanPcpString = null;
+
     @Option(name = "--ipProto", description = "IP Protocol",
             required = false, multiValued = false)
     private String ipProtoString = null;
@@ -226,6 +230,9 @@ public abstract class ConnectivityIntentCommand extends AbstractShellCommand {
         }
         if (!isNullOrEmpty(vlanString)) {
             selectorBuilder.matchVlanId(VlanId.vlanId(Short.parseShort(vlanString)));
+        }
+        if (!isNullOrEmpty(vlanPcpString)) {
+            selectorBuilder.matchVlanPcp(Byte.parseByte(vlanPcpString));
         }
         if (!isNullOrEmpty(srcMacString)) {
             selectorBuilder.matchEthSrc(MacAddress.valueOf(srcMacString));

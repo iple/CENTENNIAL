@@ -137,7 +137,7 @@ public class WirelessCdaiProvider extends AbstractProvider implements DeviceProv
 
     @Reference(cardinality = ReferenceCardinality.MANDATORY_UNARY)
     protected EventDeliveryService eventDispatcher;
-    
+
     @Reference(cardinality = ReferenceCardinality.MANDATORY_UNARY)
     protected OpenflowController14 openFlowController14;
 
@@ -179,6 +179,17 @@ public class WirelessCdaiProvider extends AbstractProvider implements DeviceProv
 
     @Deactivate
     protected void deactivate() {
+        if (internalDb.size() != 0) {
+            for (InternalData data : internalDb) {
+                data.setPortMute(true);
+            }
+            for (InternalData data : internalDb) {
+                if (data.portMute()) {
+                    unmuteMwPort(data);
+                }
+            }
+        }
+
         openFlowController.removeEventListener(openFlowlistener);
         deviceService.removeListener(deviceListener);
         deviceProviderRegistry.unregister(this);
