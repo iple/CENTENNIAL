@@ -29,11 +29,11 @@ import org.apache.felix.scr.annotations.ReferenceCardinality;
 import org.onosproject.cfg.ComponentConfigService;
 import org.onosproject.core.ApplicationId;
 import org.onosproject.core.CoreService;
+import org.onosproject.core.DefaultApplicationId;
 import org.onosproject.net.ConnectPoint;
 import org.onosproject.net.Device;
 import org.onosproject.net.DeviceId;
 import org.onosproject.net.Link;
-import org.onosproject.net.PortNumber;
 import org.onosproject.net.device.DeviceEvent;
 import org.onosproject.net.device.DeviceListener;
 import org.onosproject.net.device.DeviceService;
@@ -54,18 +54,13 @@ import org.onosproject.net.meter.Meter;
 import org.onosproject.net.meter.MeterId;
 import org.onosproject.net.meter.MeterRequest;
 import org.onosproject.net.meter.MeterService;
-import org.onosproject.openflow.api.Dpid14;
 import org.onosproject.openflow.api.OpenflowController14;
 import org.onosproject.openflow.controller.OpenFlowController;
 import org.onosproject.openflow.controller.OpenFlowSwitch;
 import org.osgi.service.component.ComponentContext;
-import org.projectfloodlight.openflow.protocol.OFFactories;
-import org.projectfloodlight.openflow.protocol.OFHello;
-import org.projectfloodlight.openflow.protocol.OFVersion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Dictionary;
@@ -80,7 +75,7 @@ import static org.onosproject.net.meter.MeterOperation.Type;
 public class WirelessFlowShape {
     Logger log = LoggerFactory.getLogger(getClass());
     private static final int DEFAULT_MAX_THRESHOLD = 400000;
-    private static final int DEFAULT_MIN_THRESHOLD = 64;
+    private static final int DEFAULT_MIN_THRESHOLD = 300000;
     private static final int DEFAULT_NUMBER = 1;
     private static final int DEFAULT_BUFFER = 0;
     static final int POLL_INTERVAL = 10;
@@ -142,20 +137,7 @@ public class WirelessFlowShape {
         deviceService.addListener(listener);
         controller.getSwitches().forEach((this::createPortStatsCollection));
         controller14.getSwitches().forEach(this::createPortStatsCollection);
-//        test();
         log.info("Started");
-    }
-
-    private void test() {
-        deviceService.getDevices().forEach(device -> {
-            URI uri = device.id().uri();
-            Dpid14 dpid = Dpid14.dpid(uri);
-            OpenFlowSwitch aSwitch = controller14.getSwitch(dpid);
-            OFHello hi =
-                    OFFactories.getFactory(OFVersion.OF_13).buildHello()
-                            .build();
-            aSwitch.sendMsg(hi);
-        });
     }
 
     @Deactivate
@@ -276,17 +258,28 @@ public class WirelessFlowShape {
         FlowRule routerFlowRule = flowRuleMap.get(deviceId);
         switch (opType) {
             case ADD:
-                MeterRequest request = buildMeter(routerFlowRule.deviceId(), capacity);
-                Meter meterAdd = meterService.submit(request);
+                MeterRequest.Builder request = buildMeter(routerFlowRule.deviceId(), capacity);
+                Meter meterAdd = meterService.submit(request.add());
                 if (meterAdd == null) {
-                    log.info("Add meter {} for device {} failed", meterAdd.id(), meterAdd.deviceId());
+                    log.info("Add meter  for device {} failed", routerFlowRule.deviceId());
+                    break;
+                }
+                try {
+                    wait(1_000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
                 log.info("add meter successfully, modify router flow started.");
                 modifyRouterFlow(routerFlowRule, meterAdd.id(), opType);
                 break;
 
             case REMOVE:
+                //TODO FOR TEST
                 modifyRouterFlow(routerFlowRule, null, opType);
+                for (Meter meter : meterService.getAllMeters()) {
+                    MeterRequest.Builder buildMeter = buildMeter(meter.deviceId(), getRate(meter));
+                    meterService.withdraw(buildMeter.remove(), meter.id());
+                }
                 break;
 
             case MODIFY:
@@ -297,17 +290,16 @@ public class WirelessFlowShape {
         }
     }
 
-    private MeterRequest buildMeter(DeviceId deviceId, long capacity) {
+    private MeterRequest.Builder buildMeter(DeviceId deviceId, long capacity) {
         Band band = DefaultBand.builder()
                 .ofType(Band.Type.DROP)
                 .withRate(capacity)
                 .build();
-        MeterRequest request = DefaultMeterRequest.builder()
+        return DefaultMeterRequest.builder()
                 .forDevice(deviceId)
                 .fromApp(coreService.registerApplication(appId.name()))
                 .withUnit(Meter.Unit.KB_PER_SEC)
-                .withBands(Collections.singleton(band)).add();
-        return request;
+                .withBands(Collections.singleton(band));
     }
 
     private void modifyRouterFlow(FlowRule routerFlowRule, MeterId meterId, Type operation) {
@@ -321,12 +313,12 @@ public class WirelessFlowShape {
         flowService.applyFlowRules(newRule);
         log.info("Apply flow successfully, flow id is {}.", Long.toHexString(newRule.id().value()));
         //update the flow rule map
-        flowRuleMap.put(routerFlowRule.deviceId(), routerFlowRule);
+        flowRuleMap.put(routerFlowRule.deviceId(), newRule);
     }
 
     private FlowRule.Builder buildFlowRule(FlowRule routerFlowRule, MeterId meterId, Type operation) {
         FlowRule.Builder ruleBuilder;
-        TrafficTreatment.Builder treatmentBuilder = DefaultTrafficTreatment
+        TrafficTreatment.Builder tBuilder = DefaultTrafficTreatment
                 .builder();
         if (routerFlowRule.treatment() != null) {
             for (Instruction i : routerFlowRule.treatment().allInstructions()) {
@@ -335,31 +327,41 @@ public class WirelessFlowShape {
                              routerFlowRule.deviceId(), meterId);
                     return null;
                 } else if ((i.type() == Instruction.Type.METER) && (operation == Type.REMOVE)) {
+                    log.info("there is meter {} instruction in flow {}", meterId, routerFlowRule.id());
                     removeMeter((Instructions.MeterInstruction) i);
                     continue;
                 }
-                treatmentBuilder.add(i);
+                tBuilder.add(i);
             }
         }
         if (operation == Type.ADD) {
-            treatmentBuilder.add(Instructions.meterTraffic(meterId));
+            tBuilder.add(Instructions.meterTraffic(meterId));
         }
 
         ruleBuilder = DefaultFlowRule.builder()
-                .fromApp(appId).withPriority(routerFlowRule.priority())
+                .fromApp(new DefaultApplicationId(routerFlowRule.appId(), ""))
+                .withPriority(routerFlowRule.priority())
                 .forDevice(routerFlowRule.deviceId())
                 .forTable(routerFlowRule.tableId())
                 .withSelector(routerFlowRule.selector())
                 .makePermanent()
-                .withTreatment(treatmentBuilder.build());
+                .withTreatment(tBuilder.build());
         return ruleBuilder;
     }
 
     public void removeMeter(Instructions.MeterInstruction meterIn) {
         MeterId removeMeterId = meterIn.meterId();
         Meter meter = meterService.getMeter(removeMeterId);
-        buildMeter(meter.deviceId(), shapeMinThreshold);
-        meterService.withdraw(buildMeter(meter.deviceId(), shapeMinThreshold), removeMeterId);
+        MeterRequest.Builder buildMeter = buildMeter(meter.deviceId(), getRate(meter));
+        meterService.withdraw(buildMeter.remove(), removeMeterId);
+        log.info("Remove meter successfully!");
+    }
+
+    private long getRate(Meter meter) {
+        for (Band band : meter.bands()) {
+            return band.rate();
+        }
+        return shapeMinThreshold;
     }
 
     public long getPortFromAnnotation(Device device, String key) {
@@ -382,10 +384,7 @@ public class WirelessFlowShape {
     }
 
     private FlowRule findPeerRouterRule(DeviceId deviceId, long port) {
-        ConnectPoint routerPoint = null;
-        ConnectPoint peerPoint = null;
-        FlowRule routerFlowRule;
-        ConnectPoint connectPoint = new ConnectPoint(deviceId, PortNumber.portNumber(port));
+        ConnectPoint peerPoint;
         Set<Link> links = linkService.getDeviceLinks(deviceId);
         for (Link link : links) {
             peerPoint = link.src().deviceId().equals(deviceId) ? link.dst() : link.src();
@@ -421,7 +420,7 @@ public class WirelessFlowShape {
             FlowRule flowRule2 = flowRuleList.get(1);
             short vlanId1 = getVlanId(flowRule1);
             short vlanId2 = getVlanId(flowRule2);
-            if(vlanId1 == -1 || vlanId2 == -1) {
+            if (vlanId1 == -1 || vlanId2 == -1) {
                 return null;
             }
 
