@@ -1,0 +1,13 @@
+# Local VirtualBox-based ONOS instances 1,2 & ONOS mininet box
+
+export ONOS_NIC=192.168.0.*
+export OC1="192.168.0.100"
+
+export ONOS_APPS="drivers,openflow,openflow14,wireless.cdai"
+
+export ONOS_ROOT=~/onos
+export ONOS_USER=poc
+export ONOS_GROUP=poc
+export ONOS_WEB_USER=karaf
+export ONOS_WEB_PASS=karaf
+
