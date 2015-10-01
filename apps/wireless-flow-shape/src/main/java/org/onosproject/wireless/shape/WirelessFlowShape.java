@@ -421,7 +421,7 @@ public class WirelessFlowShape {
             FlowRule flowRule2 = flowRuleList.get(1);
             short vlanId1 = getVlanId(flowRule1);
             short vlanId2 = getVlanId(flowRule2);
-            if(vlanId1 == -1 || vlanId2 == -1) {
+            if (vlanId1 == -1 || vlanId2 == -1) {
                 return null;
             }
 
