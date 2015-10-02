@@ -43,22 +43,62 @@ public class AddPointToPointIntentExtendedCommand extends ConnectivityIntentComm
     @Argument(index = 0, name = "ingressDevice",
               description = "Ingress Device/Port Description",
               required = true, multiValued = false)
-    String ingressDeviceString = null;
+    private String ingressDeviceString = null;
 
     @Argument(index = 1, name = "egressDevice",
               description = "Egress Device/Port Description",
               required = true, multiValued = false)
-    String egressDeviceString = null;
+    private String egressDeviceString = null;
 
-    @Argument(index = 2, name = "ingressLinkPort",
+    @Argument(index = 2, name = "ingressLink1Port",
               description = "Ingress Device/Port Description",
               required = true, multiValued = false)
-    String ingressLinkPortString = null;
+    private String ingressLink1PortString = null;
 
-    @Argument(index = 3, name = "egressLinkPort",
+    @Argument(index = 3, name = "egressLink1Port",
               description = "Egress Device/Port Description",
               required = true, multiValued = false)
-    String egressLinkPortString = null;
+    private String egressLink1PortString = null;
+
+    @Argument(index = 4, name = "ingressLink2Port",
+              description = "Ingress Device/Port Description",
+              required = false, multiValued = false)
+    private String ingressLink2PortString = null;
+
+    @Argument(index = 5, name = "egressLink2Port",
+              description = "Egress Device/Port Description",
+              required = false, multiValued = false)
+    private String egressLink2PortString = null;
+
+    @Argument(index = 6, name = "ingressLink3Port",
+              description = "Ingress Device/Port Description",
+              required = false, multiValued = false)
+    private String ingressLink3PortString = null;
+
+    @Argument(index = 7, name = "egressLink3Port",
+              description = "Egress Device/Port Description",
+              required = false, multiValued = false)
+    private String egressLink3PortString = null;
+
+    @Argument(index = 8, name = "ingressLink4Port",
+              description = "Ingress Device/Port Description",
+              required = false, multiValued = false)
+    private String ingressLink4PortString = null;
+
+    @Argument(index = 9, name = "egressLink4Port",
+              description = "Egress Device/Port Description",
+              required = false, multiValued = false)
+    private String egressLink4PortString = null;
+
+    @Argument(index = 10, name = "ingressLink5Port",
+              description = "Ingress Device/Port Description",
+              required = false, multiValued = false)
+    String ingressLink5PortString = null;
+
+    @Argument(index = 11, name = "egressLink5Port",
+              description = "Egress Device/Port Description",
+              required = false, multiValued = false)
+    String egressLink5PortString = null;
 
     @Override
     protected void execute() {
@@ -71,13 +111,47 @@ public class AddPointToPointIntentExtendedCommand extends ConnectivityIntentComm
 
         LinkService linkService = get(LinkService.class);
 
-        ConnectPoint ingressLink = ConnectPoint.deviceConnectPoint(ingressLinkPortString);
-
-        ConnectPoint egressLink = ConnectPoint.deviceConnectPoint(egressLinkPortString);
-
         final HashSet<Link> links = new HashSet<>();
+
+        ConnectPoint ingressLink = ConnectPoint.deviceConnectPoint(ingressLink1PortString);
+
+        ConnectPoint egressLink = ConnectPoint.deviceConnectPoint(egressLink1PortString);
+
         Link link = linkService.getLink(ingressLink, egressLink);
         links.add(link);
+
+        if (ingressLink2PortString != null && egressLink2PortString != null) {
+            ingressLink = ConnectPoint.deviceConnectPoint(ingressLink2PortString);
+            egressLink = ConnectPoint.deviceConnectPoint(egressLink2PortString);
+
+            link = linkService.getLink(ingressLink, egressLink);
+            links.add(link);
+        }
+
+        if (ingressLink3PortString != null && egressLink3PortString != null) {
+            ingressLink = ConnectPoint.deviceConnectPoint(ingressLink3PortString);
+            egressLink = ConnectPoint.deviceConnectPoint(egressLink3PortString);
+
+            link = linkService.getLink(ingressLink, egressLink);
+            links.add(link);
+        }
+
+        if (ingressLink4PortString != null && egressLink4PortString != null) {
+            ingressLink = ConnectPoint.deviceConnectPoint(ingressLink4PortString);
+            egressLink = ConnectPoint.deviceConnectPoint(egressLink4PortString);
+
+            link = linkService.getLink(ingressLink, egressLink);
+            links.add(link);
+        }
+
+        if (ingressLink5PortString != null && egressLink5PortString != null) {
+            ingressLink = ConnectPoint.deviceConnectPoint(ingressLink5PortString);
+            egressLink = ConnectPoint.deviceConnectPoint(egressLink5PortString);
+
+            link = linkService.getLink(ingressLink, egressLink);
+            links.add(link);
+        }
+
 
         TrafficSelector selector = buildTrafficSelector();
         TrafficTreatment treatment = buildTrafficTreatment();
