@@ -349,7 +349,7 @@ public class OpenFlowMeterProvider extends AbstractProvider implements MeterProv
                         } else {
                             OFMeterModFailedErrorMsg meterError =
                                     (OFMeterModFailedErrorMsg) error;
-                            signalMeterError(meterError, op);
+//                            signalMeterError(meterError, op);
                         }
                     }
                     break;
