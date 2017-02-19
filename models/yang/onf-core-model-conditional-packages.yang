@@ -1,0 +1,229 @@
+module onf-core-model-conditional-packages {
+    namespace "urn:onf:params:xml:ns:yang:Onf-CoreModel-ConditionalPackages";
+    prefix onf-core-model-conditional-packages;
+    import core-model {
+        prefix core-model;
+    }
+    import microwave-model {
+        prefix microwave-model;
+    }
+    organization "ONF (Open Networking Foundation) Open Transport Working Group - Wireless Transport Project";
+    contact "WG Web: <https://www.opennetworking.org/technical-communities/areas/specification/1931-optical-transport>
+             WG List:  <mailto:wireless-transport@login.opennetworking.org>
+             WG Chair: Lyndon Ong
+                       <mailto:lyong@ciena.com>
+             WG Chair: Giorgio Cazzaniga
+                       <mailto:giorgio.cazzaniga@sm-optics.com>
+             Editors:  Thorsten Heinze
+                       <mailto:thorsten.heinze@telefonica.com>
+                       Martin Skorupski
+                       <mailto:martin.skorupski@highstreet-technologies.com>";
+    description "This model adds conditional packages to the ONF CoreModel in order to support fault management for object classes NetworkElement, Equipment and Holder.";
+    revision 2017-02-17 {
+        description "Initial version";
+        reference "ONF TR 532: A YANG Data Model for Wireless Networks.";
+    }
+    /***********************
+    * package type-definitions
+    **********************/ 
+        grouping current-problem-type {
+            leaf problem-name {
+                type string;
+                default "not-specified";
+                config false;
+                description "Name of the alarm according capability::supportedAlarms.";
+            }
+            uses microwave-model:mw-current-problem;
+            description "none";
+        }
+        grouping problem-severity-type {
+            leaf problem-type-name {
+                type string;
+                default "Problem kind name not defined.";
+                description "Name of the alarm according to AirInterface::AirInterfaceCapability::supportedAlarms";
+            }
+            leaf problem-type-severity {
+                type microwave-model:severity-type;
+                description "Severity of this type of alarm.";
+            }
+            description "none";
+        }
+
+    /***********************
+    * package object-classes
+    **********************/ 
+        /***********************
+        * package network-element
+        **********************/ 
+            container network-element-pac {
+                leaf network-element {
+                    type leafref {
+                        path '/core-model:network-element/core-model:uuid';
+                    }
+                    description "none";
+                }
+                container network-element-capability {
+                    uses onf-core-model-conditional-packages:network-element-capability;
+                    description "none";
+                }
+                container network-element-configuration {
+                    uses onf-core-model-conditional-packages:network-element-configuration;
+                    description "none";
+                }
+                container network-element-status {
+                    uses onf-core-model-conditional-packages:network-element-status;
+                    description "none";
+                }
+                container network-element-current-problems {
+                    uses onf-core-model-conditional-packages:network-element-current-problems;
+                    description "none";
+                }
+                description "none";
+            }
+            grouping network-element-capability {
+                leaf supported-alarms {
+                    type string;
+                    config false;
+                    description "none";
+                }
+                description "none";
+            }
+            grouping network-element-configuration {
+                list problem-type-severity-list {
+                    key 'problem-type-name';
+                    uses onf-core-model-conditional-packages:problem-severity-type;
+                    description "Severity of the problem to be configured.";
+                }
+                description "none";
+            }
+            grouping network-element-status {
+                description "none";
+            }
+            grouping network-element-current-problems {
+                list current-problem-list {
+                    key 'sequence-number';
+                    config false;
+                    uses onf-core-model-conditional-packages:current-problem-type;
+                    description "none";
+                }
+                description "none";
+            }
+
+        /***********************
+        * package equipment
+        **********************/ 
+            list equipment-pac {
+                key 'equipment';
+                leaf equipment {
+                    type leafref {
+                        path '/core-model:equipment/core-model:uuid';
+                    }
+                    description "none";
+                }
+                container equipment-capability {
+                    uses onf-core-model-conditional-packages:equipment-capability;
+                    description "none";
+                }
+                container equipment-configuration {
+                    uses onf-core-model-conditional-packages:equipment-configuration;
+                    description "none";
+                }
+                container equipment-status {
+                    uses onf-core-model-conditional-packages:equipment-status;
+                    description "none";
+                }
+                container equipment-current-problems {
+                    uses onf-core-model-conditional-packages:equipment-current-problems;
+                    description "none";
+                }
+                description "none";
+            }
+            grouping equipment-capability {
+                leaf supported-alarms {
+                    type string;
+                    config false;
+                    description "Available alarms to be listed. Names are to be separated by commas.";
+                }
+                description "none";
+            }
+            grouping equipment-configuration {
+                list problem-type-severity-list {
+                    key 'problem-type-name';
+                    uses onf-core-model-conditional-packages:problem-severity-type;
+                    description "Severity of the problem to be configured.";
+                }
+                description "none";
+            }
+            grouping equipment-status {
+                description "none";
+            }
+            grouping equipment-current-problems {
+                list current-problem-list {
+                    key 'sequence-number';
+                    config false;
+                    uses onf-core-model-conditional-packages:current-problem-type;
+                    description "none";
+                }
+                description "none";
+            }
+
+        /***********************
+        * package holder
+        **********************/ 
+            list holder-pac {
+                key 'holder';
+                leaf holder {
+                    type leafref {
+                        path '/core-model:equipment/core-model:contained-holder/core-model:uuid';
+                    }
+                    description "none";
+                }
+                container holder-capability {
+                    uses onf-core-model-conditional-packages:holder-capability;
+                    description "none";
+                }
+                container holder-configuration {
+                    uses onf-core-model-conditional-packages:holder-configuration;
+                    description "none";
+                }
+                container holder-current-problems {
+                    uses onf-core-model-conditional-packages:holder-current-problems;
+                    description "none";
+                }
+                container holder-status {
+                    uses onf-core-model-conditional-packages:holder-status;
+                    description "none";
+                }
+                description "none";
+            }
+            grouping holder-capability {
+                leaf supported-alarms {
+                    type string;
+                    config false;
+                    description "Available alarms to be listed. Names are to be separated by commas.";
+                }
+                description "none";
+            }
+            grouping holder-configuration {
+                list problem-type-severity-list {
+                    key 'problem-type-name';
+                    uses onf-core-model-conditional-packages:problem-severity-type;
+                    description "Severity of the problem to be configured.";
+                }
+                description "none";
+            }
+            grouping holder-status {
+                description "none";
+            }
+            grouping holder-current-problems {
+                list current-problem-list {
+                    key 'sequence-number';
+                    config false;
+                    uses onf-core-model-conditional-packages:current-problem-type;
+                    description "none";
+                }
+                description "none";
+            }
+
+
+}
