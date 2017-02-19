@@ -1942,6 +1942,8 @@ function obj2yang(ele){
                 }
             }
             if (ele[i].name === 'NetworkElement') obj.nodeType = "container";
+            if (ele[i].name === 'Equipment_Pac') obj.nodeType = "list";
+            if (ele[i].name === 'Holder_Pac') obj.nodeType = "list";
             if (ele[i].name.startsWith('MW_') && ele[i].name.endsWith('_Pac')) obj.nodeType = "list";
                       /*if(ele[i].key.length != 0){
                 obj.nodeType = "list";

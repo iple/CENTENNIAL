@@ -18,13 +18,21 @@ function log {
 }
 
 function post-processing {
-  # core-model
-  # sed -i -e "s/prefix core-model;/prefix core-model;\n\n    import ietf-yang-types {\n        prefix yang;\n    }\n/g" $1;
-  sed -i -e "s/type core-model:date-and-time;/type yang:date-and-time;/g" $1;
+
   sed -i -e 's/name,uuid/uuid/g' $1;
   sed -i -e 's/uuid,name/uuid/g' $1;
   sed -i -e "s/key 'uuid name';/key 'uuid';/g" $1;
   sed -i -e "s/key 'name uuid';/key 'uuid';/g" $1;
+
+  # no further post processing needed for onf-core-model-conditational-packages.yang
+  if [ $1 == "onf-core-model-conditional-packages.yang" ] 
+  then
+	return;
+  fi
+  
+  # core-model
+  # sed -i -e "s/prefix core-model;/prefix core-model;\n\n    import ietf-yang-types {\n        prefix yang;\n    }\n/g" $1;
+  sed -i -e "s/type core-model:date-and-time;/type yang:date-and-time;/g" $1;
   sed -i -e "s/\/core-model:global-pac/\/core-model:global-pac\/core-model:uuid/g" $1;
   sed -i -e "s/core-model:fd-and-link-rule-set\//core-model:fd-and-link-rule-set\/core-model:fd-rule/g" $1;
   sed -i -e "s/core-model:aggregate-function\//core-model:aggregate-function\/core-model:atomic-function/g" $1;
@@ -116,10 +124,23 @@ xslt="mwModelPreProcessor.xslt";
 java -jar $par/saxon9he.jar -s:$input/$in -xsl:$par/$xslt -o:"$project/$out";
 log "$project/$out generated!";
 
-
   in="MicrowaveModel.xml";
 xslt="uml2CentralisedDatabase.xslt";
  out="MicrowaveModel.json";
+java -jar $par/saxon9he.jar -s:"$project/$in" -xsl:$par/$xslt -o:"$project/$out";
+log "$project/$out generated!";
+
+
+# ONF-CoreModel-ConditionalPackages 0.1
+  in="onf-core-model-conditional-packages.uml";
+xslt="onf-core-model-conditional-packages.xslt";
+ out="onf-core-model-conditional-packages.xml";
+java -jar $par/saxon9he.jar -s:$input/$in -xsl:$par/$xslt -o:"$project/$out";
+log "$project/$out generated!";
+
+  in="onf-core-model-conditional-packages.xml";
+xslt="uml2CentralisedDatabase.xslt";
+ out="onf-core-model-conditional-packages.json";
 java -jar $par/saxon9he.jar -s:"$project/$in" -xsl:$par/$xslt -o:"$project/$out";
 log "$project/$out generated!";
 
