@@ -36,6 +36,9 @@
           <defaultValue xmi:type="uml:LiteralString" xmi:id="_0XQ-VPmyEeaOH6heSczBpQ" value="not-specified"/>
         </ownedAttribute>
         <ownedAttribute xmi:type="uml:Property" xmi:id="_BW8g0PmzEeaOH6heSczBpQ" name="objectReference" visibility="private" isReadOnly="true">
+          <ownedComment xmi:type="uml:Comment" xmi:id="_I4mTYPm-EeaOH6heSczBpQ">
+            <body>An explaining string of the related object class. This is necesseary, because the current problem list of the NetworkElement object class acts as a container for all alarms, where its object classes are not modeled.</body>
+          </ownedComment>
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
           <defaultValue xmi:type="uml:LiteralString" xmi:id="_KNayQPmzEeaOH6heSczBpQ"/>
         </ownedAttribute>
@@ -89,7 +92,7 @@
           </ownedAttribute>
           <ownedAttribute xmi:type="uml:Property" xmi:id="_F6C-8Pm7EeaOH6heSczBpQ" name="triggerRefresh" visibility="private">
             <ownedComment xmi:type="uml:Comment" xmi:id="_ICAJ8Pm7EeaOH6heSczBpQ">
-              <body>A trigger to instuct the netconf server to refresh its internal database/cache. It is primary used for alarms status, but could used for anything else too. It is assumed that the refresh mechanismn takes somes time. In order to indictate the process to the controller a refreshStatus attirubte is used.</body>
+              <body>A trigger to instuct the netconf server to refresh its internal database/cache. It is primary used for alarms status, but could used for anything else too. It is assumed that the refresh mechanismn takes somes time. In order to indictate the process to the controller a refreshStatus attribute is used.</body>
             </ownedComment>
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
             <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_ReJ7UPm7EeaOH6heSczBpQ"/>
@@ -99,7 +102,7 @@
           <ownedAttribute xmi:type="uml:Property" xmi:id="_w0x8wPm3EeaOH6heSczBpQ" name="refreshStatus" visibility="private" type="_7HZcEPm3EeaOH6heSczBpQ" isReadOnly="true"/>
         </packagedElement>
         <packagedElement xmi:type="uml:Class" xmi:id="_Pu6HIfaNEeaW9u5N6usiTA" name="NetworkElementCurrentProblems">
-          <ownedAttribute xmi:type="uml:Property" xmi:id="_kM95MPatEeaW9u5N6usiTA" name="currentProblemList" visibility="private" type="_TBaooPasEeaW9u5N6usiTA" isUnique="false" isReadOnly="true">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_kM95MPatEeaW9u5N6usiTA" name="currentProblemList" visibility="private" type="_0XQ-UPmyEeaOH6heSczBpQ" isUnique="false" isReadOnly="true">
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_kM95MfatEeaW9u5N6usiTA"/>
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kM95MvatEeaW9u5N6usiTA" value="*"/>
           </ownedAttribute>

@@ -46,7 +46,7 @@ module onf-core-model-conditional-packages {
             leaf object-reference {
                 type string;
                 config false;
-                description "none";
+                description "An explaining string of the related object class. This is necesseary, because the current problem list of the NetworkElement object class acts as a container for all alarms, where its object classes are not modeled.";
             }
             uses microwave-model:mw-current-problem;
             description "none";
@@ -138,7 +138,7 @@ module onf-core-model-conditional-packages {
                 list current-problem-list {
                     key 'sequence-number';
                     config false;
-                    uses onf-core-model-conditional-packages:current-problem-type;
+                    uses network-element-current-problem-type;
                     description "none";
                 }
                 description "none";
