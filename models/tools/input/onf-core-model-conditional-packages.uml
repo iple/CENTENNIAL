@@ -17,12 +17,28 @@
         <generalization xmi:type="uml:Generalization" xmi:id="_TBaoofasEeaW9u5N6usiTA">
           <general xmi:type="uml:Class" href="../OnfModel-MicrowaveTransportNetwork/MicrowaveModel.uml#_LKRM4JNQEeWuAeXkr703BA"/>
         </generalization>
-        <ownedAttribute xmi:type="uml:Property" xmi:id="_TBaoovasEeaW9u5N6usiTA" name="problemName" isUnique="false" isReadOnly="true">
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_TBaoovasEeaW9u5N6usiTA" name="problemName" visibility="private" isUnique="false" isReadOnly="true">
           <ownedComment xmi:type="uml:Comment" xmi:id="_TBaoo_asEeaW9u5N6usiTA" annotatedElement="_TBaoovasEeaW9u5N6usiTA">
             <body>Name of the alarm according capability::supportedAlarms.</body>
           </ownedComment>
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
           <defaultValue xmi:type="uml:LiteralString" xmi:id="_TBaopPasEeaW9u5N6usiTA" value="not-specified"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:DataType" xmi:id="_0XQ-UPmyEeaOH6heSczBpQ" name="NetworkElementCurrentProblemType">
+        <generalization xmi:type="uml:Generalization" xmi:id="_0XQ-UfmyEeaOH6heSczBpQ">
+          <general xmi:type="uml:Class" href="../OnfModel-MicrowaveTransportNetwork/MicrowaveModel.uml#_LKRM4JNQEeWuAeXkr703BA"/>
+        </generalization>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_0XQ-UvmyEeaOH6heSczBpQ" name="problemName" visibility="private" isUnique="false" isReadOnly="true">
+          <ownedComment xmi:type="uml:Comment" xmi:id="_0XQ-U_myEeaOH6heSczBpQ" annotatedElement="_0XQ-UvmyEeaOH6heSczBpQ">
+            <body>Name of the alarm according capability::supportedAlarms.</body>
+          </ownedComment>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_0XQ-VPmyEeaOH6heSczBpQ" value="not-specified"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_BW8g0PmzEeaOH6heSczBpQ" name="objectReference" visibility="private" isReadOnly="true">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_KNayQPmzEeaOH6heSczBpQ"/>
         </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:DataType" xmi:id="_rvDAAPasEeaW9u5N6usiTA" name="ProblemSeverityType">
@@ -45,33 +61,46 @@
           </defaultValue>
         </ownedAttribute>
       </packagedElement>
+      <packagedElement xmi:type="uml:Enumeration" xmi:id="_7HZcEPm3EeaOH6heSczBpQ" name="ProcessingType">
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_M7wOgPm4EeaOH6heSczBpQ" name="DONE"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_TPVscPm4EeaOH6heSczBpQ" name="PROCESSING"/>
+      </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_vKuxoPaJEeaW9u5N6usiTA" name="ObjectClasses">
       <packagedElement xmi:type="uml:Package" xmi:id="_-HNQoPaMEeaW9u5N6usiTA" name="NetworkElement">
         <packagedElement xmi:type="uml:Class" xmi:id="_RamCUPaMEeaW9u5N6usiTA" name="NetworkElement_Pac">
-          <ownedAttribute xmi:type="uml:Property" xmi:id="_5z06cPaNEeaW9u5N6usiTA" name="networkElement" association="_5zx3IPaNEeaW9u5N6usiTA">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_5z06cPaNEeaW9u5N6usiTA" name="_networkElement" visibility="private" association="_5zx3IPaNEeaW9u5N6usiTA">
             <type xmi:type="uml:Class" href="../OnfModel/CoreModel.uml#_oGqnr1LNEeO75dO39GbF8Q"/>
           </ownedAttribute>
-          <ownedAttribute xmi:type="uml:Property" xmi:id="_8cqIcPaOEeaW9u5N6usiTA" name="networkElementCapability" type="_1_TVYPaMEeaW9u5N6usiTA" aggregation="composite" association="_8cnFIPaOEeaW9u5N6usiTA"/>
-          <ownedAttribute xmi:type="uml:Property" xmi:id="_9N6mQPaOEeaW9u5N6usiTA" name="networkElementConfiguration" type="_Pu6HIPaNEeaW9u5N6usiTA" aggregation="composite" association="_9N5YIPaOEeaW9u5N6usiTA"/>
-          <ownedAttribute xmi:type="uml:Property" xmi:id="_94z9YPaOEeaW9u5N6usiTA" name="networkElementStatus" type="_g5u0YPaNEeaW9u5N6usiTA" aggregation="composite" association="_94w6EPaOEeaW9u5N6usiTA"/>
-          <ownedAttribute xmi:type="uml:Property" xmi:id="_-imhQvaOEeaW9u5N6usiTA" name="networkElementCurrentProblems" type="_Pu6HIfaNEeaW9u5N6usiTA" aggregation="composite" association="_-il6MPaOEeaW9u5N6usiTA"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_8cqIcPaOEeaW9u5N6usiTA" name="_networkElementCapability" visibility="private" type="_1_TVYPaMEeaW9u5N6usiTA" aggregation="composite" association="_8cnFIPaOEeaW9u5N6usiTA"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_9N6mQPaOEeaW9u5N6usiTA" name="_networkElementConfiguration" visibility="private" type="_Pu6HIPaNEeaW9u5N6usiTA" aggregation="composite" association="_9N5YIPaOEeaW9u5N6usiTA"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_94z9YPaOEeaW9u5N6usiTA" name="_networkElementStatus" visibility="private" type="_g5u0YPaNEeaW9u5N6usiTA" aggregation="composite" association="_94w6EPaOEeaW9u5N6usiTA"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_-imhQvaOEeaW9u5N6usiTA" name="_networkElementCurrentProblems" visibility="private" type="_Pu6HIfaNEeaW9u5N6usiTA" aggregation="composite" association="_-il6MPaOEeaW9u5N6usiTA"/>
         </packagedElement>
         <packagedElement xmi:type="uml:Class" xmi:id="_1_TVYPaMEeaW9u5N6usiTA" name="NetworkElementCapability">
-          <ownedAttribute xmi:type="uml:Property" xmi:id="_FuRNAParEeaW9u5N6usiTA" name="supportedAlarms" isReadOnly="true"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_FuRNAParEeaW9u5N6usiTA" name="supportedAlarms" visibility="private" isReadOnly="true"/>
         </packagedElement>
         <packagedElement xmi:type="uml:Class" xmi:id="_Pu6HIPaNEeaW9u5N6usiTA" name="NetworkElementConfiguration">
-          <ownedAttribute xmi:type="uml:Property" xmi:id="_KpmMoPatEeaW9u5N6usiTA" name="problemTypeSeverityList" type="_rvDAAPasEeaW9u5N6usiTA" isOrdered="true" isUnique="false">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_KpmMoPatEeaW9u5N6usiTA" name="problemTypeSeverityList" visibility="private" type="_rvDAAPasEeaW9u5N6usiTA" isOrdered="true" isUnique="false">
             <ownedComment xmi:type="uml:Comment" xmi:id="_KpmMofatEeaW9u5N6usiTA" annotatedElement="_KpmMoPatEeaW9u5N6usiTA">
               <body>Severity of the problem to be configured.</body>
             </ownedComment>
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_KpmMovatEeaW9u5N6usiTA"/>
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_KpmMo_atEeaW9u5N6usiTA" value="*"/>
           </ownedAttribute>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_F6C-8Pm7EeaOH6heSczBpQ" name="triggerRefresh" visibility="private">
+            <ownedComment xmi:type="uml:Comment" xmi:id="_ICAJ8Pm7EeaOH6heSczBpQ">
+              <body>A trigger to instuct the netconf server to refresh its internal database/cache. It is primary used for alarms status, but could used for anything else too. It is assumed that the refresh mechanismn takes somes time. In order to indictate the process to the controller a refreshStatus attribute is used.</body>
+            </ownedComment>
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+            <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_ReJ7UPm7EeaOH6heSczBpQ"/>
+          </ownedAttribute>
         </packagedElement>
-        <packagedElement xmi:type="uml:Class" xmi:id="_g5u0YPaNEeaW9u5N6usiTA" name="NetworkElementStatus"/>
+        <packagedElement xmi:type="uml:Class" xmi:id="_g5u0YPaNEeaW9u5N6usiTA" name="NetworkElementStatus">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_w0x8wPm3EeaOH6heSczBpQ" name="refreshStatus" visibility="private" type="_7HZcEPm3EeaOH6heSczBpQ" isReadOnly="true"/>
+        </packagedElement>
         <packagedElement xmi:type="uml:Class" xmi:id="_Pu6HIfaNEeaW9u5N6usiTA" name="NetworkElementCurrentProblems">
-          <ownedAttribute xmi:type="uml:Property" xmi:id="_kM95MPatEeaW9u5N6usiTA" name="currentProblemList" type="_TBaooPasEeaW9u5N6usiTA" isUnique="false" isReadOnly="true">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_kM95MPatEeaW9u5N6usiTA" name="currentProblemList" visibility="private" type="_TBaooPasEeaW9u5N6usiTA" isUnique="false" isReadOnly="true">
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_kM95MfatEeaW9u5N6usiTA"/>
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kM95MvatEeaW9u5N6usiTA" value="*"/>
           </ownedAttribute>
@@ -79,13 +108,13 @@
       </packagedElement>
       <packagedElement xmi:type="uml:Package" xmi:id="_A6ZJ8PaNEeaW9u5N6usiTA" name="Equipment">
         <packagedElement xmi:type="uml:Class" xmi:id="_VtO8MPaMEeaW9u5N6usiTA" name="Equipment_Pac">
-          <ownedAttribute xmi:type="uml:Property" xmi:id="_92PqMfaREeaW9u5N6usiTA" name="equipment" association="_92OcEPaREeaW9u5N6usiTA">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_92PqMfaREeaW9u5N6usiTA" name="_equipment" visibility="private" association="_92OcEPaREeaW9u5N6usiTA">
             <type xmi:type="uml:Class" href="../OnfModel/CoreModel.uml#_8SXNej-HEeaRI-H69PghuA"/>
           </ownedAttribute>
-          <ownedAttribute xmi:type="uml:Property" xmi:id="_CDGk0vaVEeaW9u5N6usiTA" name="equipmentCapability" type="_g5u0YfaNEeaW9u5N6usiTA" aggregation="composite" association="_CDF9wPaVEeaW9u5N6usiTA"/>
-          <ownedAttribute xmi:type="uml:Property" xmi:id="_eC20QvaVEeaW9u5N6usiTA" name="equipmentConfiguration" type="_OGWN4PaNEeaW9u5N6usiTA" aggregation="composite" association="_eC2NMPaVEeaW9u5N6usiTA"/>
-          <ownedAttribute xmi:type="uml:Property" xmi:id="_vVSlY_aVEeaW9u5N6usiTA" name="equipmentStatus" type="_gJH6APaREeaW9u5N6usiTA" aggregation="composite" association="_vVSlYPaVEeaW9u5N6usiTA"/>
-          <ownedAttribute xmi:type="uml:Property" xmi:id="_4WaAkvaVEeaW9u5N6usiTA" name="equipmentCurrentProblems" type="_kRHqIPaREeaW9u5N6usiTA" aggregation="composite" association="_4WZZgPaVEeaW9u5N6usiTA"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_CDGk0vaVEeaW9u5N6usiTA" name="_equipmentCapability" visibility="private" type="_g5u0YfaNEeaW9u5N6usiTA" aggregation="composite" association="_CDF9wPaVEeaW9u5N6usiTA"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_eC20QvaVEeaW9u5N6usiTA" name="_equipmentConfiguration" visibility="private" type="_OGWN4PaNEeaW9u5N6usiTA" aggregation="composite" association="_eC2NMPaVEeaW9u5N6usiTA"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_vVSlY_aVEeaW9u5N6usiTA" name="_equipmentStatus" visibility="private" type="_gJH6APaREeaW9u5N6usiTA" aggregation="composite" association="_vVSlYPaVEeaW9u5N6usiTA"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_4WaAkvaVEeaW9u5N6usiTA" name="_equipmentCurrentProblems" visibility="private" type="_kRHqIPaREeaW9u5N6usiTA" aggregation="composite" association="_4WZZgPaVEeaW9u5N6usiTA"/>
         </packagedElement>
         <packagedElement xmi:type="uml:Class" xmi:id="_g5u0YfaNEeaW9u5N6usiTA" name="EquipmentCapability">
           <ownedAttribute xmi:type="uml:Property" xmi:id="__dB4cPaqEeaW9u5N6usiTA" name="supportedAlarms" visibility="private" isReadOnly="true">
@@ -95,7 +124,7 @@
           </ownedAttribute>
         </packagedElement>
         <packagedElement xmi:type="uml:Class" xmi:id="_OGWN4PaNEeaW9u5N6usiTA" name="EquipmentConfiguration">
-          <ownedAttribute xmi:type="uml:Property" xmi:id="_Yxy2YPatEeaW9u5N6usiTA" name="problemTypeSeverityList" type="_rvDAAPasEeaW9u5N6usiTA" isOrdered="true" isUnique="false">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_Yxy2YPatEeaW9u5N6usiTA" name="problemTypeSeverityList" visibility="private" type="_rvDAAPasEeaW9u5N6usiTA" isOrdered="true" isUnique="false">
             <ownedComment xmi:type="uml:Comment" xmi:id="_Yxy2YfatEeaW9u5N6usiTA" annotatedElement="_Yxy2YPatEeaW9u5N6usiTA">
               <body>Severity of the problem to be configured.</body>
             </ownedComment>
@@ -105,7 +134,7 @@
         </packagedElement>
         <packagedElement xmi:type="uml:Class" xmi:id="_gJH6APaREeaW9u5N6usiTA" name="EquipmentStatus"/>
         <packagedElement xmi:type="uml:Class" xmi:id="_kRHqIPaREeaW9u5N6usiTA" name="EquipmentCurrentProblems">
-          <ownedAttribute xmi:type="uml:Property" xmi:id="_pq6voPatEeaW9u5N6usiTA" name="currentProblemList" type="_TBaooPasEeaW9u5N6usiTA" isUnique="false" isReadOnly="true">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_pq6voPatEeaW9u5N6usiTA" name="currentProblemList" visibility="private" type="_TBaooPasEeaW9u5N6usiTA" isUnique="false" isReadOnly="true">
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_pq6vofatEeaW9u5N6usiTA"/>
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_pq6vovatEeaW9u5N6usiTA" value="*"/>
           </ownedAttribute>
@@ -113,13 +142,13 @@
       </packagedElement>
       <packagedElement xmi:type="uml:Package" xmi:id="_DoS6oPaNEeaW9u5N6usiTA" name="Holder">
         <packagedElement xmi:type="uml:Class" xmi:id="_dECKoPaMEeaW9u5N6usiTA" name="Holder_Pac">
-          <ownedAttribute xmi:type="uml:Property" xmi:id="_TNk0IfaSEeaW9u5N6usiTA" name="holder" association="_TNi-8PaSEeaW9u5N6usiTA">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_TNk0IfaSEeaW9u5N6usiTA" name="_holder" visibility="private" association="_TNi-8PaSEeaW9u5N6usiTA">
             <type xmi:type="uml:Class" href="../OnfModel/CoreModel.uml#_8SXNjj-HEeaRI-H69PghuA"/>
           </ownedAttribute>
-          <ownedAttribute xmi:type="uml:Property" xmi:id="_iOdj8vaTEeaW9u5N6usiTA" name="holderCapability" type="_gtTvsPaSEeaW9u5N6usiTA" aggregation="composite" association="_iOc84PaTEeaW9u5N6usiTA"/>
-          <ownedAttribute xmi:type="uml:Property" xmi:id="_wGiuEvaTEeaW9u5N6usiTA" name="holderConfiguration" type="_g8TN8PaSEeaW9u5N6usiTA" aggregation="composite" association="_wGiHAPaTEeaW9u5N6usiTA"/>
-          <ownedAttribute xmi:type="uml:Property" xmi:id="_AoVFYvaUEeaW9u5N6usiTA" name="holderCurrentProblems" type="_hJQE0PaSEeaW9u5N6usiTA" aggregation="composite" association="_AoUeUPaUEeaW9u5N6usiTA"/>
-          <ownedAttribute xmi:type="uml:Property" xmi:id="_PK9BUPaUEeaW9u5N6usiTA" name="holderStatus" type="_hDSmwPaSEeaW9u5N6usiTA" aggregation="composite" association="_PK8aQPaUEeaW9u5N6usiTA"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_iOdj8vaTEeaW9u5N6usiTA" name="_holderCapability" visibility="private" type="_gtTvsPaSEeaW9u5N6usiTA" aggregation="composite" association="_iOc84PaTEeaW9u5N6usiTA"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_wGiuEvaTEeaW9u5N6usiTA" name="_holderConfiguration" visibility="private" type="_g8TN8PaSEeaW9u5N6usiTA" aggregation="composite" association="_wGiHAPaTEeaW9u5N6usiTA"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_AoVFYvaUEeaW9u5N6usiTA" name="_holderCurrentProblems" visibility="private" type="_hJQE0PaSEeaW9u5N6usiTA" aggregation="composite" association="_AoUeUPaUEeaW9u5N6usiTA"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_PK9BUPaUEeaW9u5N6usiTA" name="_holderStatus" visibility="private" type="_hDSmwPaSEeaW9u5N6usiTA" aggregation="composite" association="_PK8aQPaUEeaW9u5N6usiTA"/>
         </packagedElement>
         <packagedElement xmi:type="uml:Class" xmi:id="_gtTvsPaSEeaW9u5N6usiTA" name="HolderCapability">
           <ownedAttribute xmi:type="uml:Property" xmi:id="_p0qB0PaqEeaW9u5N6usiTA" name="supportedAlarms" visibility="private" isReadOnly="true">
@@ -129,7 +158,7 @@
           </ownedAttribute>
         </packagedElement>
         <packagedElement xmi:type="uml:Class" xmi:id="_g8TN8PaSEeaW9u5N6usiTA" name="HolderConfiguration">
-          <ownedAttribute xmi:type="uml:Property" xmi:id="_aJ0ZQPatEeaW9u5N6usiTA" name="problemTypeSeverityList" type="_rvDAAPasEeaW9u5N6usiTA" isOrdered="true" isUnique="false">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_aJ0ZQPatEeaW9u5N6usiTA" name="problemTypeSeverityList" visibility="private" type="_rvDAAPasEeaW9u5N6usiTA" isOrdered="true" isUnique="false">
             <ownedComment xmi:type="uml:Comment" xmi:id="_aJ0ZQfatEeaW9u5N6usiTA" annotatedElement="_aJ0ZQPatEeaW9u5N6usiTA">
               <body>Severity of the problem to be configured.</body>
             </ownedComment>
@@ -139,7 +168,7 @@
         </packagedElement>
         <packagedElement xmi:type="uml:Class" xmi:id="_hDSmwPaSEeaW9u5N6usiTA" name="HolderStatus"/>
         <packagedElement xmi:type="uml:Class" xmi:id="_hJQE0PaSEeaW9u5N6usiTA" name="HolderCurrentProblems">
-          <ownedAttribute xmi:type="uml:Property" xmi:id="_qmKP4PatEeaW9u5N6usiTA" name="currentProblemList" type="_TBaooPasEeaW9u5N6usiTA" isUnique="false" isReadOnly="true">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_qmKP4PatEeaW9u5N6usiTA" name="currentProblemList" visibility="private" type="_TBaooPasEeaW9u5N6usiTA" isUnique="false" isReadOnly="true">
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_qmKP4fatEeaW9u5N6usiTA"/>
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_qmKP4vatEeaW9u5N6usiTA" value="*"/>
           </ownedAttribute>
@@ -152,91 +181,91 @@
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_5z0TYPaNEeaW9u5N6usiTA" source="org.eclipse.papyrus">
           <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_5z0TYfaNEeaW9u5N6usiTA" key="nature" value="UML_Nature"/>
         </eAnnotations>
-        <ownedEnd xmi:type="uml:Property" xmi:id="_5z39wPaNEeaW9u5N6usiTA" name="networkElement_pac" type="_RamCUPaMEeaW9u5N6usiTA" aggregation="composite" association="_5zx3IPaNEeaW9u5N6usiTA"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_5z39wPaNEeaW9u5N6usiTA" name="_networkElement_pac" type="_RamCUPaMEeaW9u5N6usiTA" aggregation="composite" association="_5zx3IPaNEeaW9u5N6usiTA"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_8cnFIPaOEeaW9u5N6usiTA" name="hasNetworkElementCapability" memberEnd="_8cqIcPaOEeaW9u5N6usiTA _8crWkPaOEeaW9u5N6usiTA">
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_8co6UPaOEeaW9u5N6usiTA" source="org.eclipse.papyrus">
           <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_8cphYPaOEeaW9u5N6usiTA" key="nature" value="UML_Nature"/>
         </eAnnotations>
-        <ownedEnd xmi:type="uml:Property" xmi:id="_8crWkPaOEeaW9u5N6usiTA" name="networkElement_pac" type="_RamCUPaMEeaW9u5N6usiTA" association="_8cnFIPaOEeaW9u5N6usiTA"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_8crWkPaOEeaW9u5N6usiTA" name="_networkElement_pac" type="_RamCUPaMEeaW9u5N6usiTA" association="_8cnFIPaOEeaW9u5N6usiTA"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_9N5YIPaOEeaW9u5N6usiTA" name="hasNetworkElementConfiguation" memberEnd="_9N6mQPaOEeaW9u5N6usiTA _9N7NUPaOEeaW9u5N6usiTA">
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_9N5_MPaOEeaW9u5N6usiTA" source="org.eclipse.papyrus">
           <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_9N5_MfaOEeaW9u5N6usiTA" key="nature" value="UML_Nature"/>
         </eAnnotations>
-        <ownedEnd xmi:type="uml:Property" xmi:id="_9N7NUPaOEeaW9u5N6usiTA" name="networkElement_pac" type="_RamCUPaMEeaW9u5N6usiTA" association="_9N5YIPaOEeaW9u5N6usiTA"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_9N7NUPaOEeaW9u5N6usiTA" name="_networkElement_pac" type="_RamCUPaMEeaW9u5N6usiTA" association="_9N5YIPaOEeaW9u5N6usiTA"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_94w6EPaOEeaW9u5N6usiTA" name="hasNetworkElementStatus" memberEnd="_94z9YPaOEeaW9u5N6usiTA _941LgPaOEeaW9u5N6usiTA">
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_94yvQPaOEeaW9u5N6usiTA" source="org.eclipse.papyrus">
           <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_94zWUPaOEeaW9u5N6usiTA" key="nature" value="UML_Nature"/>
         </eAnnotations>
-        <ownedEnd xmi:type="uml:Property" xmi:id="_941LgPaOEeaW9u5N6usiTA" name="networkElement_pac" type="_RamCUPaMEeaW9u5N6usiTA" association="_94w6EPaOEeaW9u5N6usiTA"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_941LgPaOEeaW9u5N6usiTA" name="_networkElement_pac" type="_RamCUPaMEeaW9u5N6usiTA" association="_94w6EPaOEeaW9u5N6usiTA"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_-il6MPaOEeaW9u5N6usiTA" name="hasNetworkElementCurrentProblems" memberEnd="_-imhQvaOEeaW9u5N6usiTA _-invYPaOEeaW9u5N6usiTA">
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_-imhQPaOEeaW9u5N6usiTA" source="org.eclipse.papyrus">
           <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_-imhQfaOEeaW9u5N6usiTA" key="nature" value="UML_Nature"/>
         </eAnnotations>
-        <ownedEnd xmi:type="uml:Property" xmi:id="_-invYPaOEeaW9u5N6usiTA" name="networkElement_pac" type="_RamCUPaMEeaW9u5N6usiTA" association="_-il6MPaOEeaW9u5N6usiTA"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_-invYPaOEeaW9u5N6usiTA" name="_networkElement_pac" type="_RamCUPaMEeaW9u5N6usiTA" association="_-il6MPaOEeaW9u5N6usiTA"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_92OcEPaREeaW9u5N6usiTA" name="hasEquipment_Pac" memberEnd="_92PqMfaREeaW9u5N6usiTA _92UisPaREeaW9u5N6usiTA">
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_92PDIPaREeaW9u5N6usiTA" source="org.eclipse.papyrus">
           <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_92PqMPaREeaW9u5N6usiTA" key="nature" value="UML_Nature"/>
         </eAnnotations>
-        <ownedEnd xmi:type="uml:Property" xmi:id="_92UisPaREeaW9u5N6usiTA" name="equipment_pac" type="_VtO8MPaMEeaW9u5N6usiTA" aggregation="composite" association="_92OcEPaREeaW9u5N6usiTA"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_92UisPaREeaW9u5N6usiTA" name="_equipment_pac" type="_VtO8MPaMEeaW9u5N6usiTA" aggregation="composite" association="_92OcEPaREeaW9u5N6usiTA"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_CDF9wPaVEeaW9u5N6usiTA" name="hasEquipmentCapability" memberEnd="_CDGk0vaVEeaW9u5N6usiTA _CDHy8PaVEeaW9u5N6usiTA">
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_CDGk0PaVEeaW9u5N6usiTA" source="org.eclipse.papyrus">
           <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_CDGk0faVEeaW9u5N6usiTA" key="nature" value="UML_Nature"/>
         </eAnnotations>
-        <ownedEnd xmi:type="uml:Property" xmi:id="_CDHy8PaVEeaW9u5N6usiTA" name="equipment_pac" type="_VtO8MPaMEeaW9u5N6usiTA" association="_CDF9wPaVEeaW9u5N6usiTA"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_CDHy8PaVEeaW9u5N6usiTA" name="_equipment_pac" type="_VtO8MPaMEeaW9u5N6usiTA" association="_CDF9wPaVEeaW9u5N6usiTA"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_eC2NMPaVEeaW9u5N6usiTA" name="hasEquipmentConfiguration" memberEnd="_eC20QvaVEeaW9u5N6usiTA _eC3bUPaVEeaW9u5N6usiTA">
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_eC20QPaVEeaW9u5N6usiTA" source="org.eclipse.papyrus">
           <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_eC20QfaVEeaW9u5N6usiTA" key="nature" value="UML_Nature"/>
         </eAnnotations>
-        <ownedEnd xmi:type="uml:Property" xmi:id="_eC3bUPaVEeaW9u5N6usiTA" name="equipment_pac" type="_VtO8MPaMEeaW9u5N6usiTA" association="_eC2NMPaVEeaW9u5N6usiTA"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_eC3bUPaVEeaW9u5N6usiTA" name="_equipment_pac" type="_VtO8MPaMEeaW9u5N6usiTA" association="_eC2NMPaVEeaW9u5N6usiTA"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_vVSlYPaVEeaW9u5N6usiTA" name="hasEquipmentStatus" memberEnd="_vVSlY_aVEeaW9u5N6usiTA _vVTzgPaVEeaW9u5N6usiTA">
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_vVSlYfaVEeaW9u5N6usiTA" source="org.eclipse.papyrus">
           <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_vVSlYvaVEeaW9u5N6usiTA" key="nature" value="UML_Nature"/>
         </eAnnotations>
-        <ownedEnd xmi:type="uml:Property" xmi:id="_vVTzgPaVEeaW9u5N6usiTA" name="equipment_pac" type="_VtO8MPaMEeaW9u5N6usiTA" association="_vVSlYPaVEeaW9u5N6usiTA"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_vVTzgPaVEeaW9u5N6usiTA" name="_equipment_pac" type="_VtO8MPaMEeaW9u5N6usiTA" association="_vVSlYPaVEeaW9u5N6usiTA"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_4WZZgPaVEeaW9u5N6usiTA" name="hasEquipmentCurrentProblems" memberEnd="_4WaAkvaVEeaW9u5N6usiTA _4WanoPaVEeaW9u5N6usiTA">
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_4WaAkPaVEeaW9u5N6usiTA" source="org.eclipse.papyrus">
           <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_4WaAkfaVEeaW9u5N6usiTA" key="nature" value="UML_Nature"/>
         </eAnnotations>
-        <ownedEnd xmi:type="uml:Property" xmi:id="_4WanoPaVEeaW9u5N6usiTA" name="equipment_pac" type="_VtO8MPaMEeaW9u5N6usiTA" association="_4WZZgPaVEeaW9u5N6usiTA"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_4WanoPaVEeaW9u5N6usiTA" name="_equipment_pac" type="_VtO8MPaMEeaW9u5N6usiTA" association="_4WZZgPaVEeaW9u5N6usiTA"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_TNi-8PaSEeaW9u5N6usiTA" name="hasHolder_Pac" memberEnd="_TNk0IfaSEeaW9u5N6usiTA _TNpsoPaSEeaW9u5N6usiTA">
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_TNkNEPaSEeaW9u5N6usiTA" source="org.eclipse.papyrus">
           <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_TNk0IPaSEeaW9u5N6usiTA" key="nature" value="UML_Nature"/>
         </eAnnotations>
-        <ownedEnd xmi:type="uml:Property" xmi:id="_TNpsoPaSEeaW9u5N6usiTA" name="holder_pac" type="_dECKoPaMEeaW9u5N6usiTA" aggregation="composite" association="_TNi-8PaSEeaW9u5N6usiTA"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_TNpsoPaSEeaW9u5N6usiTA" name="_holder_pac" type="_dECKoPaMEeaW9u5N6usiTA" aggregation="composite" association="_TNi-8PaSEeaW9u5N6usiTA"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_PK8aQPaUEeaW9u5N6usiTA" name="hasHolderStatus" memberEnd="_PK9BUPaUEeaW9u5N6usiTA _PK9oYPaUEeaW9u5N6usiTA">
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_PK8aQfaUEeaW9u5N6usiTA" source="org.eclipse.papyrus">
           <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_PK8aQvaUEeaW9u5N6usiTA" key="nature" value="UML_Nature"/>
         </eAnnotations>
-        <ownedEnd xmi:type="uml:Property" xmi:id="_PK9oYPaUEeaW9u5N6usiTA" name="holder_pac" type="_dECKoPaMEeaW9u5N6usiTA" association="_PK8aQPaUEeaW9u5N6usiTA"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_PK9oYPaUEeaW9u5N6usiTA" name="_holder_pac" type="_dECKoPaMEeaW9u5N6usiTA" association="_PK8aQPaUEeaW9u5N6usiTA"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_AoUeUPaUEeaW9u5N6usiTA" name="hasHolderCurrentProblems" memberEnd="_AoVFYvaUEeaW9u5N6usiTA _AoWTgPaUEeaW9u5N6usiTA">
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_AoVFYPaUEeaW9u5N6usiTA" source="org.eclipse.papyrus">
           <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_AoVFYfaUEeaW9u5N6usiTA" key="nature" value="UML_Nature"/>
         </eAnnotations>
-        <ownedEnd xmi:type="uml:Property" xmi:id="_AoWTgPaUEeaW9u5N6usiTA" name="holder_pac" type="_dECKoPaMEeaW9u5N6usiTA" association="_AoUeUPaUEeaW9u5N6usiTA"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_AoWTgPaUEeaW9u5N6usiTA" name="_holder_pac" type="_dECKoPaMEeaW9u5N6usiTA" association="_AoUeUPaUEeaW9u5N6usiTA"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_wGiHAPaTEeaW9u5N6usiTA" name="hasHolderConfiguration" memberEnd="_wGiuEvaTEeaW9u5N6usiTA _wGjVIPaTEeaW9u5N6usiTA">
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_wGiuEPaTEeaW9u5N6usiTA" source="org.eclipse.papyrus">
           <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_wGiuEfaTEeaW9u5N6usiTA" key="nature" value="UML_Nature"/>
         </eAnnotations>
-        <ownedEnd xmi:type="uml:Property" xmi:id="_wGjVIPaTEeaW9u5N6usiTA" name="holder_pac" type="_dECKoPaMEeaW9u5N6usiTA" association="_wGiHAPaTEeaW9u5N6usiTA"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_wGjVIPaTEeaW9u5N6usiTA" name="_holder_pac" type="_dECKoPaMEeaW9u5N6usiTA" association="_wGiHAPaTEeaW9u5N6usiTA"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_iOc84PaTEeaW9u5N6usiTA" name="hasHolderCapability" memberEnd="_iOdj8vaTEeaW9u5N6usiTA _iOeyEPaTEeaW9u5N6usiTA">
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_iOdj8PaTEeaW9u5N6usiTA" source="org.eclipse.papyrus">
           <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_iOdj8faTEeaW9u5N6usiTA" key="nature" value="UML_Nature"/>
         </eAnnotations>
-        <ownedEnd xmi:type="uml:Property" xmi:id="_iOeyEPaTEeaW9u5N6usiTA" name="holder_pac" type="_dECKoPaMEeaW9u5N6usiTA" association="_iOc84PaTEeaW9u5N6usiTA"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_iOeyEPaTEeaW9u5N6usiTA" name="_holder_pac" type="_dECKoPaMEeaW9u5N6usiTA" association="_iOc84PaTEeaW9u5N6usiTA"/>
       </packagedElement>
     </packagedElement>
     <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_nC1rYPazEeaW9u5N6usiTA">
@@ -310,4 +339,8 @@
   <OpenModel_Profile:OpenModelAttribute xmi:id="_nC6j5PazEeaW9u5N6usiTA" base_StructuralFeature="_AoWTgPaUEeaW9u5N6usiTA"/>
   <OpenModel_Profile:OpenModelAttribute xmi:id="_nC6j5fazEeaW9u5N6usiTA" base_StructuralFeature="_wGjVIPaTEeaW9u5N6usiTA"/>
   <OpenModel_Profile:OpenModelAttribute xmi:id="_nC6j5vazEeaW9u5N6usiTA" base_StructuralFeature="_iOeyEPaTEeaW9u5N6usiTA"/>
+  <OpenModel_Profile:OpenModelAttribute xmi:id="_0XTakPmyEeaOH6heSczBpQ" base_StructuralFeature="_0XQ-UvmyEeaOH6heSczBpQ"/>
+  <OpenModel_Profile:OpenModelAttribute xmi:id="_BW8g0fmzEeaOH6heSczBpQ" base_StructuralFeature="_BW8g0PmzEeaOH6heSczBpQ"/>
+  <OpenModel_Profile:OpenModelAttribute xmi:id="_w0x8wfm3EeaOH6heSczBpQ" base_StructuralFeature="_w0x8wPm3EeaOH6heSczBpQ"/>
+  <OpenModel_Profile:OpenModelAttribute xmi:id="_F6DmAPm7EeaOH6heSczBpQ" base_StructuralFeature="_F6C-8Pm7EeaOH6heSczBpQ"/>
 </xmi:XMI>

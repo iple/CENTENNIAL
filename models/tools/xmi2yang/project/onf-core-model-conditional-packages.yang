@@ -36,6 +36,21 @@ module onf-core-model-conditional-packages {
             uses microwave-model:mw-current-problem;
             description "none";
         }
+        grouping network-element-current-problem-type {
+            leaf problem-name {
+                type string;
+                default "not-specified";
+                config false;
+                description "Name of the alarm according capability::supportedAlarms.";
+            }
+            leaf object-reference {
+                type string;
+                config false;
+                description "none";
+            }
+            uses microwave-model:mw-current-problem;
+            description "none";
+        }
         grouping problem-severity-type {
             leaf problem-type-name {
                 type string;
@@ -45,6 +60,17 @@ module onf-core-model-conditional-packages {
             leaf problem-type-severity {
                 type microwave-model:severity-type;
                 description "Severity of this type of alarm.";
+            }
+            description "none";
+        }
+        typedef processing-type {
+            type enumeration {
+                enum done {
+                    description "none";
+                }
+                enum processing {
+                    description "none";
+                }
             }
             description "none";
         }
@@ -94,9 +120,18 @@ module onf-core-model-conditional-packages {
                     uses onf-core-model-conditional-packages:problem-severity-type;
                     description "Severity of the problem to be configured.";
                 }
+                leaf trigger-refresh {
+                    type boolean;
+                    description "A trigger to instuct the netconf server to refresh its internal database/cache. It is primary used for alarms status, but could used for anything else too. It is assumed that the refresh mechanismn takes somes time. In order to indictate the process to the controller a refreshStatus attribute is used.";
+                }
                 description "none";
             }
             grouping network-element-status {
+                leaf refresh-status {
+                    type processing-type;
+                    config false;
+                    description "none";
+                }
                 description "none";
             }
             grouping network-element-current-problems {
