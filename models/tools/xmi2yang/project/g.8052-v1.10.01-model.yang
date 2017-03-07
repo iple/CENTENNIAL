@@ -270,7 +270,6 @@ module g.8052-v1.10.01-model {
                 type int64 {
                     range "0..8191";
                 }
-                config false;
                 description "This attribute contains the identifier of the MEP.";
             }
             leaf csf-config {
@@ -299,10 +298,12 @@ module g.8052-v1.10.01-model {
                     See section 8.1.5    APS insert process in G.8021.";
             }
             list proactive-dual-ended-measurement-job-control-source {
+                key destination-address;
                 uses pro-active-dual-ended-measurement-job-control-source;
                 description "none";
             }
             list on-demand-measurement-job-control-source {
+                key destination-address;
                 uses on-demand-dual-ended-measurement-job-control-source;
                 description "none";
             }
@@ -366,10 +367,12 @@ module g.8052-v1.10.01-model {
                 description "This attribute indicates the list of 1DM priorities for the MepSink.";
             }
             list on-demand-dual-ended-measurement-job-control-sink {
+                key source-address;
                 uses on-demand-dual-ended-measurement-job-control-sink;
                 description "none";
             }
             list proactive-dual-ended-measurement-job-control-sink {
+                key source-address;
                 uses pro-active-dual-ended-measurement-job-control-sink;
                 description "none";
             }
@@ -383,6 +386,10 @@ module g.8052-v1.10.01-model {
                 CSF Process related attributes: isCsfRdiFdiEnabled, isCsfReported
                 Basic attribute: peerMepRefList
                 Defect correlation Process related attribute: currentProblemList";
+        }
+        list eth-connection-termination-point-source {
+            key key;
+            uses eth-connection-termination-point-source;
         }
         grouping eth-connection-termination-point-source {
             leaf lag-manager {
@@ -408,6 +415,7 @@ module g.8052-v1.10.01-model {
                 description "none";
             }
             list mep-source {
+                key mep-identifier;
                 uses mep-source;
                 description "This field contains the mepsource associationEnd documentation";
             }
@@ -416,6 +424,10 @@ module g.8052-v1.10.01-model {
                 LAG Process related attributes: _lagManager, _aggregatorSource
                 Consequent actions Process related attributes: _csfConfig, _csfRdiFdiEnable
                 VID MUX Process related attrbute: _vlanConfig";
+        }
+        list eth-connection-termination-point-sink {
+           key key;
+           uses eth-connection-termination-point-sink;
         }
         grouping eth-connection-termination-point-sink {
             leaf lag-manager {
@@ -445,6 +457,7 @@ module g.8052-v1.10.01-model {
                 description "This association identifies the FilterConfigSink_Pac  objectt which is only applicable under certain conditions defined in the constraint property of the association.";
             }
             list mep-sink {
+                key mep-mac;
                 uses mep-sink;
                 description "none";
             }
@@ -455,6 +468,10 @@ module g.8052-v1.10.01-model {
                 Defect correlations Process related attribute: _csfReport
                 Filter Process related attribute: _filterConfig
                 VID DEMUX Process related attribute: _vlanConfig";
+        }
+        list ety-trail-termination-point-source {
+            key uuid;
+            uses ety-trail-termination-point-source;
         }
         grouping ety-trail-termination-point-source {
             leaf is-fts-enabled {
@@ -491,6 +508,10 @@ module g.8052-v1.10.01-model {
                 Fault propagation Process related attribute: isFtsEnabled
                 Transmit pause Process related attribute: isTxPauseEnabled
                 Basic attributes: phyType, phyTypeList";
+        }
+        list ety-trail-termination-point-sink {
+            key uuid;
+            uses ety-trail-termination-point-sink;
         }
         grouping ety-trail-termination-point-sink {
             leaf lag-manager {
@@ -639,10 +660,13 @@ module g.8052-v1.10.01-model {
                 Basic operations: createMip, deleteMip, getAllContainedMips
                 RAPS related opertion: createRapsCapableMip";
         }
+        list lag-manager {
+            key lag-identifier;
+            uses lag-manager;
+        }
         grouping lag-manager {
             leaf lag-identifier {
                 type int64;
-                config false;
                 description "This attribute identifies the instance of the LagManager object.
                     range of type : positive integer";
             }
@@ -662,14 +686,14 @@ module g.8052-v1.10.01-model {
             }
             leaf eth-ctp-source-ref-list {
                 type leafref {
-                    path '/g8052:eth-connection-termination-point-source/g8052:lag-manager';
+                    path '/g8052:eth-connection-termination-point-source/g8052:key';
                 }
                 config false;
                 description "This navigable attribute identifies the ETH_ConnectionTerminationPointSource object instances to which the LagManager is associated for Ethernet Link Aggregation.";
             }
             leaf eth-ctp-sink-ref-list {
                 type leafref {
-                    path '/g8052:eth-connection-termination-point-sink/g8052:lag-manager';
+                    path '/g8052:eth-connection-termination-point-sink/g8052:key';
                 }
                 config false;
                 description "This navigable attribute identifies the ETH_ConnectionTerminationPointSink object instances to which the LagManager is associated for Ethernet Link Aggregation.";
@@ -698,7 +722,6 @@ module g.8052-v1.10.01-model {
             }
             leaf source-address {
                 type mac-address;
-                config false;
                 description "This attribute contains the MAC address of the peer MEP. See G.8013 for details.";
             }
             leaf oam-type {
@@ -731,10 +754,6 @@ module g.8052-v1.10.01-model {
                 Performance data related operation: getIntermediateReport";
         }
         grouping eth-connection-termination-point {
-            list auxiliary-function-position-sequence {
-                uses auxiliary-functions;
-                description "This attribute indicates the positions (i.e., the relative order) of all the MEP, MIP, and TCS objects which are associated with the CTP.";
-            }
             uses mep-control;
             uses g8052-layer-protocol;
             description "This object class models the common properties of the ETH_ConnectionTerminationPointSink and ETH_ConnectionTerminationPointSource object classes.
@@ -750,7 +769,6 @@ module g.8052-v1.10.01-model {
             }
             leaf mep-mac {
                 type mac-address;
-                config false;
                 description "This attribute contains the MAC Address of the MEP.";
             }
             leaf mel {
@@ -908,7 +926,6 @@ module g.8052-v1.10.01-model {
             }
             leaf destination-address {
                 type mac-address;
-                config false;
                 description "This attribute contains the MAC address of the peer MEP. See G.8013 for details.";
             }
             leaf oam-pdu-generation-type {
@@ -982,7 +999,6 @@ module g.8052-v1.10.01-model {
             }
             leaf destination-address {
                 type mac-address;
-                config false;
                 description "This attribute provides the Unicast MAC address of the intented destination.";
             }
             leaf period {
@@ -1058,7 +1074,6 @@ module g.8052-v1.10.01-model {
             }
             leaf source-address {
                 type mac-address;
-                config false;
                 description "This attribute contains the MAC address of the peer MEP. See G.8013 for details.";
             }
             leaf test-identifier {
@@ -1159,7 +1174,6 @@ module g.8052-v1.10.01-model {
         grouping mcc-connection-termination-point {
             leaf mep-mac {
                 type mac-address;
-                config false;
                 description "This attribute contains the MAC Address of the MEP.";
             }
             leaf mel {
@@ -1913,25 +1927,6 @@ module g.8052-v1.10.01-model {
                 }
             }
             description "This enumeration defines the valid list of problems for the LAG aggregator.";
-        }
-        grouping auxiliary-functions {
-            container mip {
-                uses mip-bidirectional;
-                description "none";
-            }
-            container mep {
-                uses mep;
-                description "none";
-            }
-            container traffic-conditioning {
-                uses eth-traffic-conditioning;
-                description "none";
-            }
-            container traffic-shaping {
-                uses eth-traffic-shaping;
-                description "none";
-            }
-            description "This choice data type represents a MEP, MIP, or TCS object.";
         }
         typedef scheduling-configuration {
             type string;
@@ -3058,6 +3053,10 @@ module g.8052-v1.10.01-model {
             }
 
         grouping g8052-layer-protocol {
+            leaf key {
+                type string;
+                description "none";
+            }
             leaf layer-protocol-name {
                 type string;
                 description "Indicate the specific layer-protocol described by the LayerProtocol entity.";
@@ -3285,7 +3284,8 @@ module g.8052-v1.10.01-model {
             }
             leaf alarm-severity-assignment-profile-pointer {
                 type string;
-                description "This role (when present) represents the Termination Point (include its child classes Trail/Connection Termination Point Source/Sink/Bidirectional, Network CTP/TTP Source/Sink/Bidirectional) capability to identify the Alarm Severity Assignment Profile that is associated with this Termination Point. When this role is present, the TerminationPoint.alarmSeverityAssignmentProfilePointe shall carry the DN of Alarm Severity Assignment Profile.";
+                description "This role (when present) represents the Termination Point (include its child classes Trail/Connection Termination Point Source/Sink/Bidirectional, Network CTP/TTP Source/Sink/Bidirectional) 
+capability to identify the Alarm Severity Assignment Profile that is associated with this Termination Point. When this role is present, the TerminationPoint.alarmSeverityAssignmentProfilePointe shall carry the DN of Alarm Severity Assignment Profile.";
             }
             leaf containing-physical-subsystem {
                 type string;

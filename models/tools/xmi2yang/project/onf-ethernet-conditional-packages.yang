@@ -1,0 +1,87 @@
+module onf-ethernet-conditional-packages {
+    namespace "urn:onf:params:xml:ns:yang:Onf-Ethernet-ConditionalPackages";
+    prefix onf-ethernet-conditional-packages;
+    import core-model {
+        prefix core-model;
+    }
+    import g.8052-v1.10.01-model {
+        prefix g8052;
+    }
+    organization "ONF (Open Networking Foundation) Open Transport Working Group - Wireless Transport Project";
+    contact "WG Web: <https://www.opennetworking.org/technical-communities/areas/specification/1931-optical-transport>
+             WG List:  <mailto:wireless-transport@login.opennetworking.org>
+             WG Chair: Lyndon Ong
+                       <mailto:lyong@ciena.com>
+             WG Chair: Giorgio Cazzaniga
+                       <mailto:giorgio.cazzaniga@sm-optics.com>
+             Editors:  Thorsten Heinze
+                       <mailto:thorsten.heinze@telefonica.com>
+                       Martin Skorupski
+                       <mailto:martin.skorupski@highstreet-technologies.com>";
+    description "This model adds conditional packages for Ethernet (ITU-T G.8052) to the ONF CoreModel in order to support ethernet management and control.
+";
+    revision 2017-02-17 {
+        description "Initial version";
+        reference "ONF TR 532: A YANG Data Model for Wireless Networks.";
+    }
+    /***********************
+    * package object-classes
+    **********************/ 
+        list ety-trail-termination-point-source-pac {
+            key 'layer-protocol';
+            leaf layer-protocol {
+                type leafref {
+                    path '/core-model:network-element/core-model:ltp/core-model:lp/core-model:uuid';
+                }
+                description "none";
+            }
+            container ety-ttp-source {
+                uses g8052:ety-trail-termination-point-source;
+                description "none";
+            }
+            description "none";
+        }
+        list ety-trail-termination-point-sink-pac {
+            key 'layer-protocol';
+            leaf layer-protocol {
+                type leafref {
+                    path '/core-model:network-element/core-model:ltp/core-model:lp/core-model:uuid';
+                }
+                description "none";
+            }
+            container ety-ttp-sink {
+                uses g8052:ety-trail-termination-point-sink;
+                description "none";
+            }
+            description "none";
+        }
+        list eth-connection-termination-point-source-pac {
+            key 'layer-protocol';
+            leaf layer-protocol {
+                type leafref {
+                    path '/core-model:network-element/core-model:ltp/core-model:lp/core-model:uuid';
+                }
+                description "none";
+            }
+            container eth-ctp-source {
+                uses g8052:eth-connection-termination-point-source;
+                description "none";
+            }
+            description "none";
+        }
+        list eth-connection-termination-point-sink-pac {
+            key 'layer-protocol';
+            leaf layer-protocol {
+                type leafref {
+                    path '/core-model:network-element/core-model:ltp/core-model:lp/core-model:uuid';
+                }
+                description "none";
+            }
+            container eth-ctp-sink {
+                uses g8052:eth-connection-termination-point-sink;
+                description "none";
+            }
+            description "none";
+        }
+
+}
