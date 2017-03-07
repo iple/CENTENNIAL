@@ -10,6 +10,36 @@
  * The above copyright information should be included in all distribution, reproduction or derivative works of this software.
  *
  ****************************************************************************************************/
+if (!String.prototype.contains) {
+    String.prototype.contains = function(search) {
+        return this.indexOf(search) > -1;
+    };
+}
+
+if (!String.prototype.hasFeatureName) {
+  String.prototype.hasFeatureName = function() {
+      return this.contains('\r') && !this.split('\r')[0].contains(' ');
+  };
+}
+
+if (!String.prototype.featureName) {
+  String.prototype.featureName = function() {
+      if (this.hasFeatureName()) {
+          return this.split('\r')[0];
+      }
+      return this;
+  };
+}
+
+if (!String.prototype.featureDescription) {
+  String.prototype.featureDescription = function() {
+      if (this.hasFeatureName()) {
+          return this.split('\r').slice(1).join('\r');
+      }
+      return this;
+  };
+}
+
 var SpellChecker = require('spellchecker');
 var dictionary = require('./dictionary.json');
 

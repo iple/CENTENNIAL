@@ -25,7 +25,7 @@ function post-processing {
   sed -i -e "s/key 'name uuid';/key 'uuid';/g" $1;
 
   # no further post processing needed for onf-core-model-conditational-packages.yang
-  if [ $1 == "onf-core-model-conditional-packages.yang" ] 
+  if [ $1 == "onf-core-model-conditional-packages.yang" || $1 = "onf-ethernet-conditional-packages.yang"] 
   then
 	return;
   fi
@@ -52,6 +52,15 @@ function post-processing {
   sed -i -e 's/quantised/quantized/g' $1;
   sed -i -e 's/characeristics/characteristics/g' $1;
   sed -i -e 's/mechanicall/mechanical/g' $1;
+
+  # g.8052
+  sed -i -e "s/path '\/g:lag-manager\/';/path '\/g:lag-manager\/g:lag-identifier';/g" $1;
+  sed -i -e "s/path '\/g:eth-connection-termination-point-sink\/';/path '\/g:eth-connection-termination-point-sink\/g:lag-manager';/g" $1;
+  sed -i -e "s/path '\/g:eth-connection-termination-point-source\/';/path '\/g:eth-connection-termination-point-source\/g:lag-manager';/g" $1;
+  sed -i -e "s/path '\/g:eth-connection-termination-point\/';/path '\/g:eth-connection-termination-point\/g:layer-protocol-name';/g" $1;
+  sed -i -e "s/\/g:/\/g8052:/g" $1;
+  sed -i -e "s/\/onf-ethernet-conditional-packages:/\/g8052:/g" $1;
+  sed -i -e "s/prefix g.8052-v1.10.01-model;/prefix g8052;/g" $1;
 
   # g.874.1
   sed -i -e "s/type core-model:date-and-time;/type yang:date-and-time;/g" $1;
@@ -93,13 +102,13 @@ log "Folder $project cleaned!";
   in="CoreModel.uml";
 xslt="CM-PruningAndRefactor-4MW.xslt";
  out="CoreModel.xml";
-java -jar $par/saxon9he.jar -s:$input/$in -xsl:$par/$xslt -o:"$project/$out";
+# java -jar $par/saxon9he.jar -s:$input/$in -xsl:$par/$xslt -o:"$project/$out";
 log "$project/$out generated!";
 
   in="CoreModel.xml";
 xslt="uml2CentralisedDatabase.xslt";
  out="CoreModel.json";
-java -jar $par/saxon9he.jar -s:"$project/$in" -xsl:$par/$xslt -o:"$project/$out";
+# java -jar $par/saxon9he.jar -s:"$project/$in" -xsl:$par/$xslt -o:"$project/$out";
 log "$project/$out generated!";
 
 
@@ -107,13 +116,27 @@ log "$project/$out generated!";
   in="g874.1-model.uml";
 xslt="G.874.1-PruningAndRefactor-4MW.xslt";
  out="G.874.1.xml";
-java -jar $par/saxon9he.jar -s:$input/$in -xsl:$par/$xslt -o:"$project/$out";
+# java -jar $par/saxon9he.jar -s:$input/$in -xsl:$par/$xslt -o:"$project/$out";
 log "$project/$out generated!";
 
   in="G.874.1.xml";
 xslt="uml2CentralisedDatabase.xslt";
  out="G.874.1.json";
-java -jar $par/saxon9he.jar -s:"$project/$in" -xsl:$par/$xslt -o:"$project/$out";
+# java -jar $par/saxon9he.jar -s:"$project/$in" -xsl:$par/$xslt -o:"$project/$out";
+log "$project/$out generated!";
+
+
+# G.8052
+  in="G.8052_v1.10.01-model.uml";
+xslt="G.8052_v1.10.01-model-PruningAndRefactor-4MW.xslt";
+ out="G.8052_v1.10.01-model.xml";
+java -jar $par/saxon9he.jar -s:$input/$in -xsl:$par/$xslt -o:"$project/$out";
+log "$project/$out generated!";
+
+  in="G.8052_v1.10.01-model.xml";
+xslt="uml2CentralisedDatabase.xslt";
+ out="G.8052_v1.10.01-model.uml.json";
+# java -jar $par/saxon9he.jar -s:"$project/$in" -xsl:$par/$xslt -o:"$project/$out";
 log "$project/$out generated!";
 
 
@@ -121,13 +144,13 @@ log "$project/$out generated!";
   in="MicrowaveModel.uml";
 xslt="mwModelPreProcessor.xslt";
  out="MicrowaveModel.xml";
-java -jar $par/saxon9he.jar -s:$input/$in -xsl:$par/$xslt -o:"$project/$out";
+# java -jar $par/saxon9he.jar -s:$input/$in -xsl:$par/$xslt -o:"$project/$out";
 log "$project/$out generated!";
 
   in="MicrowaveModel.xml";
 xslt="uml2CentralisedDatabase.xslt";
  out="MicrowaveModel.json";
-java -jar $par/saxon9he.jar -s:"$project/$in" -xsl:$par/$xslt -o:"$project/$out";
+# java -jar $par/saxon9he.jar -s:"$project/$in" -xsl:$par/$xslt -o:"$project/$out";
 log "$project/$out generated!";
 
 
@@ -135,13 +158,26 @@ log "$project/$out generated!";
   in="onf-core-model-conditional-packages.uml";
 xslt="onf-core-model-conditional-packages.xslt";
  out="onf-core-model-conditional-packages.xml";
-java -jar $par/saxon9he.jar -s:$input/$in -xsl:$par/$xslt -o:"$project/$out";
+# java -jar $par/saxon9he.jar -s:$input/$in -xsl:$par/$xslt -o:"$project/$out";
 log "$project/$out generated!";
 
   in="onf-core-model-conditional-packages.xml";
 xslt="uml2CentralisedDatabase.xslt";
  out="onf-core-model-conditional-packages.json";
-java -jar $par/saxon9he.jar -s:"$project/$in" -xsl:$par/$xslt -o:"$project/$out";
+# java -jar $par/saxon9he.jar -s:"$project/$in" -xsl:$par/$xslt -o:"$project/$out";
+log "$project/$out generated!";
+
+# ONF-Ethernet-ConditionalPackages 0.1
+  in="onf-ethernet-conditional-packages.uml";
+xslt="onf-ethernet-conditional-packages.xslt";
+ out="onf-ethernet-conditional-packages.xml";
+# java -jar $par/saxon9he.jar -s:$input/$in -xsl:$par/$xslt -o:"$project/$out";
+log "$project/$out generated!";
+
+  in="onf-ethernet-conditional-packages.xml";
+xslt="uml2CentralisedDatabase.xslt";
+ out="onf-ethernet-conditional-packages.json";
+# java -jar $par/saxon9he.jar -s:"$project/$in" -xsl:$par/$xslt -o:"$project/$out";
 log "$project/$out generated!";
 
 # generate yang from pruned and refactored uml

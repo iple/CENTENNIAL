@@ -258,6 +258,12 @@ Node.prototype.writeNode = function (layer) {
                 }).map(function(item) {
                   return Util.yangifyName(item);
                 });
+                var uuidFound = keys.filter(function(key){
+                  return key === 'uuid';
+                }).length === 1;
+                if (uuidFound) {
+                  keys = ['uuid'];
+                }
                 Key = PRE + "\tkey '" + keys.join(" ") + "';\r\n";
             }
         }else{

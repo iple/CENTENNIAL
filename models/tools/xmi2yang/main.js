@@ -21,6 +21,7 @@ var xmlreader = require('xmlreader'),
     Uses = require('./model/yang/uses.js'),
     Module = require('./model/yang/module.js'),
     Type = require('./model/yang/type.js'),
+    Util = require('./model/yang/util.js'),
     RPC = require('./model/yang/rpc.js'),
     Package = require('./model/yang/package.js'),
     Augment = require('./model/yang/augment.js');
@@ -1945,6 +1946,7 @@ function obj2yang(ele){
             if (ele[i].name === 'Equipment_Pac') obj.nodeType = "list";
             if (ele[i].name === 'Holder_Pac') obj.nodeType = "list";
             if (ele[i].name.startsWith('MW_') && ele[i].name.endsWith('_Pac')) obj.nodeType = "list";
+            if (ele[i].name.startsWith('ET') && ele[i].name.endsWith('_Pac')) obj.nodeType = "list";
                       /*if(ele[i].key.length != 0){
                 obj.nodeType = "list";
             }*/
