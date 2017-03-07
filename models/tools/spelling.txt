@@ -1,0 +1,105 @@
+adminisatratve > administrative
+conector > connector
+quantised > quantized
+characeristics > characteristics
+permenantly > permanently
+mechanicall > mechanical
+
+
+2017-02-09T06:14:17.328Z |   spelling | INFO  | cmd better cdm,cm,cad,cod,cud,cpd,cm d,Cm,Md,MD,Comdr,cammed
+2017-02-09T06:14:17.347Z |   spelling | INFO  | octk better Oct,octagon,octal
+2017-02-09T06:14:17.364Z |   spelling | INFO  | nim better min,nm,aim,rim,nit,nil,dim,nip,him,nib,vim,Sim,Tim,Kim,nimbi
+2017-02-09T06:14:17.365Z |   spelling | INFO  | tim better chm,teem,Tim,rim,tum,tom,tin,ti,time,trim,tie,tis,tam,aim,tit
+2017-02-09T06:14:17.382Z |   spelling | INFO  | det better set,et,diet,dent,duet,dept,debt,deft,den,net,dot,let,deg,get,met
+2017-02-09T06:14:17.403Z |   spelling | INFO  | octk better Oct,octagon,octal
+2017-02-09T06:14:17.421Z |   spelling | INFO  | nim better min,nm,aim,rim,nit,nil,dim,nip,him,nib,vim,Sim,Tim,Kim,nimbi
+2017-02-09T06:14:17.445Z |   spelling | INFO  | opsmnk better optimism,corpsmen,corpsman
+2017-02-09T06:14:17.469Z |   spelling | INFO  | opsmnk better optimism,corpsmen,corpsman
+2017-02-09T06:14:17.487Z |   spelling | INFO  | opsn better pons,ops,open,ops n,snoop,Snoopy,opus,oppose
+2017-02-09T06:14:17.505Z |   spelling | INFO  | otm better tom,otn,om,mot,otu,ohm,OT,moot,Tm,TM,odium,Atman
+2017-02-09T06:14:17.522Z |   spelling | INFO  | otm better tom,otn,om,mot,otu,ohm,OT,moot,Tm,TM,odium,Atman
+2017-02-09T06:14:17.522Z |   spelling | INFO  | apr better APR,par,Apr,ape,apt,pr,aper,rap,aps,air,arr,ppr,a pr
+2017-02-09T06:14:17.542Z |   spelling | INFO  | otsn better tons,otn,snot,snoot,toots,Edison,Otes
+2017-02-09T06:14:17.560Z |   spelling | INFO  | thr better the,th,tr,hr,tar,tho,tor,thy,t hr,th r,Th,HRH,tiara
+2017-02-09T06:14:17.665Z |   spelling | INFO  | timestates better time states,time-states,time2states,time8states,time4states,time16states,time32states,time64states
+2017-02-09T06:14:17.718Z |   spelling | INFO  | timestates better time states,time-states,time2states,time8states,time4states,time16states,time32states,time64states
+2017-02-09T06:14:17.770Z |   spelling | INFO  | timestates better time states,time-states,time2states,time8states,time4states,time16states,time32states,time64states
+2017-02-09T06:14:17.818Z |   spelling | INFO  | timestates better time states,time-states,time2states,time8states,time4states,time16states,time32states,time64states
+2017-02-09T06:14:17.868Z |   spelling | INFO  | timestates better time states,time-states,time2states,time8states,time4states,time16states,time32states,time64states
+2017-02-09T06:14:17.917Z |   spelling | INFO  | timestates better time states,time-states,time2states,time8states,time4states,time16states,time32states,time64states
+2017-02-09T06:14:17.968Z |   spelling | INFO  | timestates better time states,time-states,time2states,time8states,time4states,time16states,time32states,time64states
+2017-02-09T06:14:18.017Z |   spelling | INFO  | timestates better time states,time-states,time2states,time8states,time4states,time16states,time32states,time64states
+2017-02-09T06:14:18.066Z |   spelling | INFO  | timestates better time states,time-states,time2states,time8states,time4states,time16states,time32states,time64states
+2017-02-09T06:14:18.117Z |   spelling | INFO  | timestates better time states,time-states,time2states,time8states,time4states,time16states,time32states,time64states
+2017-02-09T06:14:18.168Z |   spelling | INFO  | timestates better time states,time-states,time2states,time8states,time4states,time16states,time32states,time64states
+2017-02-09T06:14:18.221Z |   spelling | INFO  | timestates better time states,time-states,time2states,time8states,time4states,time16states,time32states,time64states
+2017-02-09T06:14:18.272Z |   spelling | INFO  | timestates better time states,time-states,time2states,time8states,time4states,time16states,time32states,time64states
+2017-02-09T06:14:18.323Z |   spelling | INFO  | timestates better time states,time-states,time2states,time8states,time4states,time16states,time32states,time64states
+2017-02-09T06:14:18.373Z |   spelling | INFO  | timestates better time states,time-states,time2states,time8states,time4states,time16states,time32states,time64states
+2017-02-09T06:14:18.422Z |   spelling | INFO  | timestates better time states,time-states,time2states,time8states,time4states,time16states,time32states,time64states
+2017-02-09T06:14:18.471Z |   spelling | INFO  | timestates better time states,time-states,time2states,time8states,time4states,time16states,time32states,time64states
+2017-02-09T06:14:18.521Z |   spelling | INFO  | timestates better time states,time-states,time2states,time8states,time4states,time16states,time32states,time64states
+2017-02-09T06:14:18.570Z |   spelling | INFO  | timestates better time states,time-states,time2states,time8states,time4states,time16states,time32states,time64states
+2017-02-09T06:14:18.619Z |   spelling | INFO  | timestates better time states,time-states,time2states,time8states,time4states,time16states,time32states,time64states
+2017-02-09T06:14:18.635Z |   spelling | INFO  | xpd better cpd,pd,x pd,Pd,PD,xpic,expend
+2017-02-09T06:14:18.650Z |   spelling | INFO  | xpd better cpd,pd,x pd,Pd,PD,xpic,expend
+2017-02-09T06:14:18.667Z |   spelling | INFO  | xpd better cpd,pd,x pd,Pd,PD,xpic,expend
+2017-02-09T06:14:18.727Z |   spelling | INFO  | reservable better preservable,observable,resolvable,resealable,researchable,receivable,crucifiable
+2017-02-09T06:14:18.774Z |   spelling | INFO  | atpc better ATP,atop,topic
+2017-02-09T06:14:18.794Z |   spelling | INFO  | atpc better ATP,atop,topic
+2017-02-09T06:14:18.814Z |   spelling | INFO  | atpc better ATP,atop,topic
+2017-02-09T06:14:18.832Z |   spelling | INFO  | atpc better ATP,atop,topic
+2017-02-09T06:14:18.852Z |   spelling | INFO  | atpc better ATP,atop,topic
+2017-02-09T06:14:18.893Z |   spelling | INFO  | xpd better cpd,pd,x pd,Pd,PD,xpic,expend
+2017-02-09T06:14:18.917Z |   spelling | INFO  | atpc better ATP,atop,topic
+2017-02-09T06:14:18.968Z |   spelling | INFO  | logicalterminationpoint better interdenominational,internationalization,nondeterministically,terminological,compartmentalization,electroencephalographic
+2017-02-09T06:14:19.003Z |   spelling | INFO  | fcswitch better fc switch,fc-switch,switch,witchcraft,twitch,witch,fixation,Ipswich
+2017-02-09T06:14:19.098Z |   spelling | INFO  | layercompression better layer compression,layer-compression,compressional,compression,impressionableness,impressionability,impressionistic,impressionable
+2017-02-09T06:14:19.143Z |   spelling | INFO  | qcompression better compression,q compression,comprehension,impression,compressive,compressible,expressionism,compromising
+2017-02-09T06:14:19.187Z |   spelling | INFO  | ipvcompression better compression,impressionistic,impressionism,comprehension,impressionable,impressionist
+2017-02-09T06:14:19.226Z |   spelling | INFO  | ipvcompression better compression,impressionistic,impressionism,comprehension,impressionable,impressionist
+2017-02-09T06:14:19.261Z |   spelling | INFO  | layercompression better layer compression,layer-compression,compressional,compression,impressionableness,impressionability,impressionistic,impressionable
+2017-02-09T06:14:19.298Z |   spelling | INFO  | layercompression better layer compression,layer-compression,compressional,compression,impressionableness,impressionability,impressionistic,impressionable
+2017-02-09T06:14:19.343Z |   spelling | INFO  | qcompression better compression,q compression,comprehension,impression,compressive,compressible,expressionism,compromising
+2017-02-09T06:14:19.384Z |   spelling | INFO  | ipvcompression better compression,impressionistic,impressionism,comprehension,impressionable,impressionist
+2017-02-09T06:14:19.422Z |   spelling | INFO  | ipvcompression better compression,impressionistic,impressionism,comprehension,impressionable,impressionist
+2017-02-09T06:14:19.460Z |   spelling | INFO  | layercompression better layer compression,layer-compression,compressional,compression,impressionableness,impressionability,impressionistic,impressionable
+2017-02-09T06:14:19.487Z |   spelling | INFO  | lt better Lt,kt,l,t,let,lit,lat,alt,lot,ltd,ult,ltp,flt,et,ls
+2017-02-09T06:14:19.504Z |   spelling | INFO  | lt better Lt,kt,l,t,let,lit,lat,alt,lot,ltd,ult,ltp,flt,et,ls
+2017-02-09T06:14:19.604Z |   spelling | INFO  | initialcondition better initial condition,initial-condition,initialization,conditionals,conditional,conditioning,intelligentsia,unconstitutional
+2017-02-09T06:14:19.651Z |   spelling | INFO  | generaldirectives better general directives,general-directives,generalizations,remunerativeness,restrictivenesses,overgeneralizes,ultraconservative,nonrestrictive
+2017-02-09T06:14:19.695Z |   spelling | INFO  | operationidentifiers better operation identifiers,operation-identifiers,operationalizations,operationalization,misidentification,underspecification,antivivisectionist,internationalization
+2017-02-09T06:14:19.742Z |   spelling | INFO  | conector better connector,convector,corrector,connection,reconnect,collector,Concorde,connected
+2017-02-09T06:14:19.786Z |   spelling | INFO  | conector better connector,convector,corrector,connection,reconnect,collector,Concorde,connected
+2017-02-09T06:14:19.835Z |   spelling | INFO  | swapability better swap ability,swap-ability,capability,separability,applicability,adaptability,swappable,culpability
+2017-02-09T06:14:19.930Z |   spelling | INFO  | swapability better swap ability,swap-ability,capability,separability,applicability,adaptability,swappable,culpability
+2017-02-09T06:14:19.975Z |   spelling | INFO  | swapability better swap ability,swap-ability,capability,separability,applicability,adaptability,swappable,culpability
+2017-02-09T06:14:20.010Z |   spelling | INFO  | subrack better sub rack,sub-rack,subtract,brackish,barrack,backtrack,subregion,subrange
+2017-02-09T06:14:20.057Z |   spelling | INFO  | formfactor better form factor,form-factor,malefactor,cofactor,formulator,factorial,formfitting,manufacture
+2017-02-09T06:14:20.077Z |   spelling | INFO  | cmd better cdm,cm,cad,cod,cud,cpd,cm d,Cm,Md,MD,Comdr,cammed
+2017-02-09T06:14:20.095Z |   spelling | INFO  | octk better Oct,octagon,octal
+2017-02-09T06:14:20.112Z |   spelling | INFO  | nim better min,nm,aim,rim,nit,nil,dim,nip,him,nib,vim,Sim,Tim,Kim,nimbi
+2017-02-09T06:14:20.113Z |   spelling | INFO  | tim better chm,teem,Tim,rim,tum,tom,tin,ti,time,trim,tie,tis,tam,aim,tit
+2017-02-09T06:14:20.130Z |   spelling | INFO  | det better set,et,diet,dent,duet,dept,debt,deft,den,net,dot,let,deg,get,met
+2017-02-09T06:14:20.147Z |   spelling | INFO  | octk better Oct,octagon,octal
+2017-02-09T06:14:20.163Z |   spelling | INFO  | nim better min,nm,aim,rim,nit,nil,dim,nip,him,nib,vim,Sim,Tim,Kim,nimbi
+2017-02-09T06:14:20.186Z |   spelling | INFO  | oci better loci,foci,sci,obi,cocci,socio,Ci,Oise,ocean
+2017-02-09T06:14:20.187Z |   spelling | INFO  | tim better chm,teem,Tim,rim,tum,tom,tin,ti,time,trim,tie,tis,tam,aim,tit
+2017-02-09T06:14:20.211Z |   spelling | INFO  | opsmnk better optimism,corpsmen,corpsman
+2017-02-09T06:14:20.234Z |   spelling | INFO  | opsmnk better optimism,corpsmen,corpsman
+2017-02-09T06:14:20.252Z |   spelling | INFO  | lol better lo,ll,loll,los,sol,lot,col,log,lop,pol,lob,fol,vol,low,Sol
+2017-02-09T06:14:20.270Z |   spelling | INFO  | opsn better pons,ops,open,ops n,snoop,Snoopy,opus,oppose
+2017-02-09T06:14:20.286Z |   spelling | INFO  | otm better tom,otn,om,mot,otu,ohm,OT,moot,Tm,TM,odium,Atman
+2017-02-09T06:14:20.304Z |   spelling | INFO  | otm better tom,otn,om,mot,otu,ohm,OT,moot,Tm,TM,odium,Atman
+2017-02-09T06:14:20.348Z |   spelling | INFO  | shorthaul better short haul,short-haul,shorthand,shorthorn,Shorthorn,ultrashort,southland,shibboleth
+2017-02-09T06:14:20.388Z |   spelling | INFO  | longhaul better long haul,long-haul,longhand,longhair,longhorn,longing,Longueuil,loincloth
+2017-02-09T06:14:20.389Z |   spelling | INFO  | apr better APR,par,Apr,ape,apt,pr,aper,rap,aps,air,arr,ppr,a pr
+2017-02-09T06:14:20.406Z |   spelling | INFO  | otsn better tons,otn,snot,snoot,toots,Edison,Otes
+2017-02-09T06:14:20.406Z |   spelling | INFO  | tim better chm,teem,Tim,rim,tum,tom,tin,ti,time,trim,tie,tis,tam,aim,tit
+2017-02-09T06:14:20.424Z |   spelling | INFO  | lof better fol,log,lo,of,loaf,loft,los,lot,lop,lob,low,l of,lo f,Loafer,Love
+2017-02-09T06:14:20.443Z |   spelling | INFO  | ais better sis,aid,ai,as,is,airs,ails,aids,dais,aims,ass,ans,air,tis,ail
+2017-02-09T06:14:20.462Z |   spelling | INFO  | lom better lo,om,loam,loom,los,lam,lot,tom,com,log,mom,lop,lob,low,Rom
+2017-02-09T06:14:20.462Z |   spelling | INFO  | tim better chm,teem,Tim,rim,tum,tom,tin,ti,time,trim,tie,tis,tam,aim,tit
+2017-02-09T06:14:20.480Z |   spelling | INFO  | thr better the,th,tr,hr,tar,tho,tor,thy,t hr,th r,Th,HRH,tiara
+2017-02-09T06:14:20.523Z |   spelling | INFO  | errored better error ed,error-ed,error,erred,ordered,eroded,arrowroot,Eritrea
+2017-02-09T06:14:20.540Z |   spelling | INFO  | wdm better cwdm,dwdm,tdm,cdm,wpm,Adm,DMD,DMZ,wisdom

@@ -1,0 +1,3391 @@
+module g.8052-v1.10.01-model {
+    namespace "urn:onf:params:xml:ns:yang:G.8052_v1.10.01-model";
+    prefix g8052;
+    organization "ONF (Open Networking Foundation) Open Transport Working Group - Wireless Transport Project";
+    contact "WG Web: <https://www.opennetworking.org/technical-communities/areas/specification/1931-optical-transport>
+             WG List:  <mailto:wireless-transport@login.opennetworking.org>
+             WG Chair: Lyndon Ong
+                       <mailto:lyong@ciena.com>
+             WG Chair: Giorgio Cazzaniga
+                       <mailto:giorgio.cazzaniga@sm-optics.com>
+             Editors:  Thorsten Heinze
+                       <mailto:thorsten.heinze@telefonica.com>
+                       Martin Skorupski
+                       <mailto:martin.skorupski@highstreet-technologies.com>";
+    description "Version 1.10.01: input to 09-2016 Geneva.
+        Version 1.10: output from 02-2016 Geneva.
+        Version 1.09: output from 10-2015 Wuhan.
+        Version 1.08: output from 07-2015 Geneva.
+        Version 1.07: no change to model just document.
+        Version 1.06: using OpenProfile.
+        Version 1.05: output from November Geneva meeting.
+        Version 1.04: input to November Geneva meeting.
+        Version 1.03: outcome of March Geneva meeting.";
+    revision 2017-02-17 {
+        description "Initial version";
+        reference "ONF TR 532: A YANG Data Model for Wireless Networks.";
+    }
+    /***********************
+    * package object-classes
+    **********************/ 
+        grouping eth-traffic-conditioning {
+            list prio-config-list {
+                config false;
+                min-elements 1;
+                max-elements 8;
+                uses priority-configuration;
+                description "This attribute indicates the Priority Splitter function for the mapping of the Ethernet frame priority (ETH_CI_P) values to the output queue.";
+            }
+            list cond-config-list {
+                config false;
+                min-elements 1;
+                max-elements 8;
+                uses traffic-conditioning-configuration;
+                description "This attribute indicates for the conditioner process the conditioning parameters:
+                    - Queue ID: Indicates the Queue ID
+                    - Committed Information Rate (CIR): number of bits per second
+                    - Committed Burst Size (CBS): number of bytes
+                    - Excess Information Rate (EIR): number of bits per second
+                    - Excess Burst Size (EBS): number of bytes
+                    - Coupling flag (CF): 0 or 1
+                    - Color mode (CM): color-blind and color-aware.";
+            }
+            leaf codirectional {
+                type boolean;
+                config false;
+                description "This attribute indicates the direction of the conditioner. The value of true means that the conditioner (modeled as a TCS Sink according to G.8021) is associated with the sink part of the containing CTP. The value of false means that the conditioner (modeled as a TCS Sink according to G.8021) is associated with the source part of the containing CTP.";
+            }
+            description "This object class models the ETH traffic conditioning function as defined in G.8021.
+                Basic attributes: codirectional, condConfigList, prioConfigList";
+        }
+        grouping eth-traffic-shaping {
+            list prio-config-list {
+                config false;
+                min-elements 1;
+                max-elements 8;
+                uses priority-configuration;
+                description "This attribute configures the Priority Splitter function for the mapping of the Ethernet frame priority (ETH_CI_P) values to the output queue.";
+            }
+            list queue-config-list {
+                config false;
+                min-elements 1;
+                max-elements 8;
+                uses queue-configuration;
+                description "This attribute configures the Queue depth and Dropping threshold parameters of the Queue process. The Queue depth sets the maximum size of the queue in bytes. An incoming ETH_CI traffic unit is dropped if there is insufficient space in the queue to hold the whole unit. The Dropping threshold sets the threshold of the queue. If the queue is filled beyond this threshold, incoming ETH_CI traffic units accompanied by the ETH_CI_DE signal set are dropped.";
+            }
+            leaf sched-config {
+                type scheduling-configuration;
+                config false;
+                description "This attribute configures the scheduler process. The value of this attribute is for further study because it is for further study in G.8021.
+                    Scheduler is a pointer to a Scheduler object, which is to be defined in the future (because in G.8021, this is FFS).
+                    Note that the only significance of the GTCS function defined in G.8021 is the use of a common scheduler for shaping. Given that, G.8052 models the common scheduler feature by having a common value for this attribute.";
+            }
+            leaf codirectional {
+                type boolean;
+                config false;
+                description "This attribute indicates the direction of the shaping function. The value of true means that the shaping (modeled as a TCS Source according to G.8021) is associated with the source part of the containing CTP. The value of false means that the shaping (modeled as a TCS Source according to G.8021) is associated with the sink part of the containing CTP.";
+            }
+            description "This object class models the ETH traffic shaping function as defined in G.8021.
+                Basic attribute: codirectional, prioConfigList, queueConfigList, schedConfig";
+        }
+        grouping aggregation-port-sink {
+            description "An instance of this object class manages the aggregation port of the ETH Link Aggregation Sink function. 
+                This object class models the ETYn-Np/ETH-LAG-Na_A_Sk_MI_AggPort[1..Np]_ information.";
+        }
+        grouping aggregation-port-source {
+            leaf actor-admin-state {
+                type bit-string;
+                description "See IEEE 802.1AX:
+                    A string of 8 bits, corresponding to the administrative values of Actor_State (5.4.2) as transmitted by the Actor in LACPDUs. The first bit corresponds to bit 0 of Actor_State (LACP_Activity), the second bit corresponds to bit 1 (LACP_Timeout), the third bit corresponds to bit 2 (Aggregation), the fourth bit corresponds to bit 3 (Synchronization), the fifth bit corresponds to bit 4 (Collecting), the sixth bit corresponds to bit 5 (Distributing), the seventh bit corresponds to bit 6 (Defaulted), and the eighth bit corresponds to bit 7 (Expired). These values allow administrative control over the values of LACP_Activity, LACP_Timeout, and Aggregation. This attribute value is read-write.
+                    range of type : SIZE(1..8)";
+            }
+            leaf actor-oper-key {
+                type int64;
+                config false;
+                description "See IEEE 802.1AX:
+                    The current operational value of the Key for the Aggregation Port. This is a 16-bit read-only value. The meaning of particular Key values is of local significance.";
+            }
+            leaf partner-oper-system-priority {
+                type int64;
+                config false;
+                description "See IEEE 802.1AX:
+                    A 2-octet read-only value indicating the operational value of priority associated with the Partner’s System ID. The value of this attribute may contain the manually configured value carried in aAggPortPartnerAdminSystemPriority if there is no protocol Partner.
+                    range of type : Size(1..16)";
+            }
+            leaf partner-oper-system-id {
+                type mac-address;
+                config false;
+                description "See IEEE 802.1AX:
+                    A 6-octet read-only MACAddress value representing the current value of the Aggregation Port’s protocol Partner’s System ID. A value of zero indicates that there is no known protocol Partner. The value of this attribute may contain the manually configured value carried in aAggPortPartnerAdminSystemID if there is no protocol Partner.";
+            }
+            leaf partner-oper-key {
+                type int64;
+                config false;
+                description "See IEEE 802.1AX:
+                    The current operational value of the Key for the protocol Partner. The value of this attribute may contain the manually configured value carried in aAggPortPartnerAdminKey if there is no protocol Partner.
+                    range of type : 16 bit";
+            }
+            leaf actor-port {
+                type int64;
+                config false;
+                description "See IEEE 802.1AX:
+                    The port number locally assigned to the Aggregation Port. The port number is communicated in LACPDUs as the Actor_Port.";
+            }
+            leaf actor-port-priority {
+                type int64;
+                description "See IEEE 802.1AX:
+                    The priority value assigned to this Aggregation Port.
+                    range of type : 16 bit";
+            }
+            leaf partner-oper-port {
+                type int64;
+                config false;
+                description "See IEEE 802.1AX:
+                    The operational port number assigned to this Aggregation Port by the Aggregation Port’s protocol Partner. The value of this attribute may contain the manually configured value carried in aAggPortPartnerAdminPort if there is no protocol Partner.
+                    range of type : 16 bit";
+            }
+            leaf partner-oper-port-priority {
+                type int64;
+                config false;
+                description "See IEEE 802.1AX:
+                    The priority value assigned to this Aggregation Port by the Partner. The value of this attribute may contain the manually configured value carried in aAggPortPartnerAdminPortPriority if there is no protocol Partner.
+                    range of type : 16 bit";
+            }
+            leaf actor-oper-state {
+                type bit-string;
+                config false;
+                description "See IEEE 802.1AX:
+                    A string of 8 bits, corresponding to the current operational values of Actor_State (5.4.2) as transmitted by the Actor in LACPDUs. The bit allocations are as defined in 802.1AX clause 6.3.2.1.20. This attribute value is read-only.
+                    range of type : Size(1..8)";
+            }
+            leaf partner-oper-state {
+                type bit-string;
+                default "Na";
+                config false;
+                description "See IEEE 802.1AX:
+                    A string of 8 bits, corresponding to the current values of Actor_State in the most recently received LACPDU transmitted by the protocol Partner. The bit allocations are as defined in 802.1AX clause 6.3.2.1.20. In the absence of an active protocol Partner, this value may reflect the manually configured value aAggPortPartnerAdminState.
+                    range of type : Size(1..8)";
+            }
+            description "An instance of this object class manages the aggregation port of the ETH Link Aggregation Source function. 
+                This object class models the ETYn-Np/ETH-LAG-Na_A_So_MI_AggPort[1..Np]_ information.
+                Note: 802.1AX clause 6.3.2.1 has the following additional attributes: Port ID, ActorSystemPriority, ActorSystemID, ActorAdminKey, PartnerAdminSystemPriority, PartnerAdminSystemID, PartnerAdminKey, SelectedAggID, AttachedAggID, PartnerAdminPort, PartnerAdminPortPriority, PartnerAdminState, and AggregateOrIndividual. These attributes have been omitted because they are specific to the IEEE management philosophy or for simplification in transport equipment.
+                Actor Process related attributes: actorAdminState, actorOperKey, actorOperState,actorPort, actorPortPriority
+                Partner Process related attributes: partnerOperKey, partnerOperPort, partnerOperPortPriority, partnerOperState, partnerOperSystemId, partnerOperSystemPriority";
+        }
+        grouping aggregator-sink {
+            leaf pll-thr {
+                type int64;
+                description "This attribute provisions the threshold for the number of active ports. If the number of active ports is more than zero but less than the provisioned threshold, a cPLL (Partial Link Loss) is raised. See section 9.7.1.2 of G.8021.
+                    range of type : 0..number of ports";
+            }
+            leaf is-ssf-reported {
+                type boolean;
+                description "This attribute provisions whether the SSF defect should be reported as fault cause or not.
+                    It models the ETH-LAG_FT_Sk_MI_SSF_Reported defined in G.8021.";
+            }
+            container filter-config {
+                uses control-frame-filter;
+                description "This attribute models the FilterConfig MI defined in section 8.3/G.8021. It indicates the configured filter action for each of the 33 group MAC addresses for control frames. The 33 MAC addresses are:
+                    - All bridges address: 01-80-C2-00-00-10,
+                    - Reserved addresses: 01-80-C2-00-00-00 to 01-80-C2-00-00-0F,
+                    - GARP Application addresses: 01-80-C2-00-00-20 to 01-80-C2-00-00-2F.
+                    The filter action is Pass or Block. 
+                    If the destination address of the incoming ETH_CI_D matches one of the above addresses, the filter process shall perform the corresponding configured filter action. 
+                    If none of the above addresses match, the ETH_CI_D is passed.";
+            }
+            leaf-list current-problem-list {
+                type aggregator-problem-list;
+                config false;
+                description "This attribute identifies the active probable causes (failure) of the object.
+                    range of type : SSF, PLL, TLL";
+            }
+            uses aggregator;
+            description "An instance of this object class manages the aggregator of the ETH Link Aggregation Sink function.
+                This object class models the ETYn-Np/ETH-LAG-Na_A_Sk_MI_Agg[1..Na]_ information.
+                Basic attributes: filterConfig, isSsfReported, pllThr
+                Defect correlation Process related attribute: currentProblemList";
+        }
+        grouping aggregator-source {
+            leaf actor-system-id {
+                type mac-address;
+                description "See 802.1AX:
+                    A MAC address used as a unique identifier for the System that contains this Aggregator.";
+            }
+            leaf actor-system-priority {
+                type int64;
+                description "See 802.1AX:
+                    Indicating the priority associated with the Actor’s System ID.
+                    range of type : 2-octet";
+            }
+            leaf actor-oper-key {
+                type int64;
+                config false;
+                description "See 802.1AX:
+                    The current operational value of the Key for the Aggregator. The administrative Key value may differ from the operational Key value for the reasons discussed in 5.6.2.
+                    The meaning of particular Key values is of local significance.
+                    range of type : 16 bit";
+            }
+            leaf partner-system-id {
+                type mac-address;
+                config false;
+                description "See 802.1AX:
+                    A MAC address consisting of the unique identifier for the current protocol Partner of this Aggregator. A value of zero indicates that there is no known Partner. If the aggregation is manually configured, this System ID value will be a value assigned by the local System.";
+            }
+            leaf partner-system-priority {
+                type int64;
+                config false;
+                description "See 802.1AX:
+                    Indicates the priority associated with the Partner’s System ID. If the aggregation is manually configured, this System Priority value will be a value assigned by the local System.
+                    range of type : 2-octet";
+            }
+            leaf partner-oper-key {
+                type int64;
+                config false;
+                description "See 802.1AX:
+                    The current operational value of the Key for the Aggregator’s current protocol Partner. If the aggregation is manually configured, this Key value will be a value assigned by the local System.
+                    range of type : 16-bit";
+            }
+            leaf data-rate {
+                type int64;
+                config false;
+                description "See 802.1AX:
+                    The current data rate, in bits per second, of the aggregate link. The value is calculated as N times the data rate of a single link in the aggregation, where N is the number of active links.";
+            }
+            leaf collector-max-delay {
+                type int64;
+                description "See 802.1AX:
+                    The value of this attribute defines the maximum delay, in tens of microseconds, that may be imposed by the Frame Collector between receiving a frame from an Aggregator Parser, and either delivering the frame to its MAC Client or discarding the frame (see IEEE 802.1AX clause 5.2.3.1.1).
+                    range of type : 16-bit";
+            }
+            uses aggregator;
+            description "An instance of this object class manages the aggregator of the ETH Link Aggregation Source function. 
+                This object class models the ETYn-Np/ETH-LAG-Na_A_So_MI_Agg[1..Na]_ information.
+                Note: 802.1AX clause 6.3.1.1 has the following additional attributes: AdminKey, MACAddress, AdminState (up/down), OperState (up/down), TimeOfLastOperChange. These attributes have been omitted because they are specific to the IEEE management philosophy or for simplification in transport equipment.
+                Basic attributes: collectorMaxDelay, dataRate
+                Actor related attributes: actorOperKey, actorSystemId, actorSystemPriority
+                Partner related attributes: partnerOperKey, partnerSystemId, partnerSystemPriority";
+        }
+        grouping mep-source {
+            leaf mep-identifier {
+                type int64 {
+                    range "0..8191";
+                }
+                config false;
+                description "This attribute contains the identifier of the MEP.";
+            }
+            leaf csf-config {
+                type csf-config;
+                description "This attribute models the combination of all CSF related MI signals (MI_CSF_Enable, MI_CSFrdifdi_Enable, MI_CSFdci_Enable) as defined in G.8021.";
+            }
+            leaf csf-period {
+                type oam-period;
+                default 1-s;
+                description "This attribute models the MI_CSF_Period signal defined in G.8021 and configured as specified in G8051. It is the period at which the CSF messages should be sent.
+                    range of type : 1s, 1min";
+            }
+            leaf csf-priority {
+                type int64 {
+                    range "0..7";
+                }
+                default 7;
+                description "This attribute models the MI_CSF_Pri signal defined in G.8021 and configured as specified in G8051. It is the priority at which the CSF messages should be sent";
+            }
+            leaf aps-priority {
+                type int64 {
+                    range "0..7";
+                }
+                default 7;
+                description "This attribute specifies the priority of the APS messages.
+                    See section 8.1.5    APS insert process in G.8021.";
+            }
+            list proactive-dual-ended-measurement-job-control-source {
+                uses pro-active-dual-ended-measurement-job-control-source;
+                description "none";
+            }
+            list on-demand-measurement-job-control-source {
+                uses on-demand-dual-ended-measurement-job-control-source;
+                description "none";
+            }
+            uses measurement-job-control;
+            uses mep;
+            description "This object class models the MEP source function. Instance of this object class can be created and contained by ETH CTP or TTP objects.
+                It also provides the management of single-ended maintenance jobs, such as loopback test, loopback discover, loopback series, link trace, and dual-ended maintenance job, such as test.
+                Basic attribute: mepIdentifier
+                APS Process related attribute: apsPriority
+                CSF Process related attributes: csfConfig, csfPeriod, csfPriority
+                On demand measurement job control related operation: establishOnDemandDualEndedMeasurementJobSource
+                Proactive measurement job control related operation: establishProActiveDualEndedMeasurementJobSource
+                Link trace related operation: linkTrace
+                Loopback related operations: loopbackDiscover, loopbackSeries, loopbackTest, loopbackTestTerminate
+                Test related operations: testInitiatorStart, testInitiatorTerminate";
+        }
+        grouping mep-sink {
+            leaf-list peer-mep-ref-list {
+                type int64 {
+                    range "0..8191";
+                }
+                description "This attribute models the MI_PeerMEP_ID[i] signal defined in G.8021 and configured as specified in G.8051. It provides the identifiers of the MEPs which are peer to the subject MEP.";
+            }
+            leaf ais-period {
+                type oam-period;
+                default 1-s;
+                description "This attribute models the MI_AIS_Period signal defined in G.8021 and configured as specified in G8051. It is the frequency at which the AIS messages should be sent.
+                    range of type : 1s, 1min";
+            }
+            leaf ais-priority {
+                type int64 {
+                    range "0..7";
+                }
+                default 7;
+                description "This attribute models the MI_AIS_Pri signal defined in G.8021 and configured as specified in G8051. It is the priority at which the AIS messages should be sent.";
+            }
+            leaf is-csf-reported {
+                type boolean;
+                default true;
+                description "This attribute models the MI_CSF_Reported signal defined in G.8021 and configured as specified in G8051. It configures whether the secondary failure CSF should be reported or not.";
+            }
+            leaf is-csf-rdi-fdi-enabled {
+                type boolean;
+                default true;
+                description "This attribute models the MI_CSFrdifdiEnable signal defined in G.8021 and configured as specified in G8051.";
+            }
+            leaf current-problem-list {
+                type string;
+                config false;
+                description "This attribute indicates the active alarms (i.e. current problems) of the MEP.
+                    range of type : cLOC[i], cUNL, cMMG, cUNM, cDEG, cUNP, cUNPr, cRDI, cSSF, cLCK";
+            }
+            container bandwidth-report {
+                config false;
+                uses bandwidth-report;
+                description "This attribute models the content of the bandwidth report received by the MEP Sink from the peer MEP Source.";
+            }
+            leaf-list dm-priority {
+                type int64;
+                min-elements 1;
+                description "This attribute indicates the list of 1DM priorities for the MepSink.";
+            }
+            list on-demand-dual-ended-measurement-job-control-sink {
+                uses on-demand-dual-ended-measurement-job-control-sink;
+                description "none";
+            }
+            list proactive-dual-ended-measurement-job-control-sink {
+                uses pro-active-dual-ended-measurement-job-control-sink;
+                description "none";
+            }
+            uses measurement-job-control;
+            uses mep;
+            description "This object class models the MEP sink function. Instance of this object class can be created and contained by ETH CTP or TTP objects.
+                It also provides the management of the dual-ended maintenance job, such as test.
+                1DM related attribute: 1DmPriority
+                AIS Process related attributes: aisPeriod, aisPriority
+                Bandwidth notification Process related attribute: bandwidthReport
+                CSF Process related attributes: isCsfRdiFdiEnabled, isCsfReported
+                Basic attribute: peerMepRefList
+                Defect correlation Process related attribute: currentProblemList";
+        }
+        grouping eth-connection-termination-point-source {
+            leaf lag-manager {
+                type leafref {
+                    path '/g8052:lag-manager/g8052:lag-identifier';
+                }
+                description "This attribute identifies the LAG Manager object instance to which the ETH CTP is associated for Ethernet Link Aggregation.";
+            }
+            container aggregator-source {
+                uses aggregator-source;
+                description "This attribute identifies the aggregatorSource object instance to which the ETH CTP is associated for Ethernet Link Aggregation.";
+            }
+            container csf-config {
+                uses csf-config-source-pac;
+                description "This association identifies the CsfConfigSource_Pac object which is only applicable under certain conditions defined in the constraint property of the association.";
+            }
+            container vlan-config {
+                uses vlan-config-source-pac;
+                description "This association identifies the VlanConfigSource_Pac  object that specifies the vlanConfig attribute.";
+            }
+            container csf-rdi-fdi-enable {
+                uses csf-rdi-fdi-enable-source-pac;
+                description "none";
+            }
+            list mep-source {
+                uses mep-source;
+                description "This field contains the mepsource associationEnd documentation";
+            }
+            uses eth-connection-termination-point;
+            description "This object class models the client layer related source function of all adaptation functions defined in G.8021 who has Ethernet as their client.
+                LAG Process related attributes: _lagManager, _aggregatorSource
+                Consequent actions Process related attributes: _csfConfig, _csfRdiFdiEnable
+                VID MUX Process related attrbute: _vlanConfig";
+        }
+        grouping eth-connection-termination-point-sink {
+            leaf lag-manager {
+                type leafref {
+                    path '/g8052:lag-manager/g8052:lag-identifier';
+                }
+                description "This association identifies the LAG Manager object instance to which the ETH CTP is associated for Ethernet Link Aggregation.";
+            }
+            container aggregator-sink {
+                uses aggregator-sink;
+                description "This association identifies the aggregatorSink object instance to which the ETH CTP is associated for Ethernet Link Aggregation.";
+            }
+            container csf-report {
+                uses csf-report-sink-pac;
+                description "This association identifies the CsfReportSink _Pac object which is only applicable under certain conditions defined in the constraint property of the association.";
+            }
+            container csf-rdi-fdi-enable {
+                uses csf-rdi-fdi-enable-sink-pac;
+                description "This association identifies the CsfRdiFdiEnableSink _Pac object which is only applicable under certain conditions defined in the constraint property of the association.";
+            }
+            container vlan-config {
+                uses vlan-config-sink-pac;
+                description "This association identifies the VlanConfigSink_Pac  objectt which is only applicable under certain conditions defined in the constraint property of the association.";
+            }
+            container filter-config {
+                uses filter-config-sink-pac;
+                description "This association identifies the FilterConfigSink_Pac  objectt which is only applicable under certain conditions defined in the constraint property of the association.";
+            }
+            list mep-sink {
+                uses mep-sink;
+                description "none";
+            }
+            uses eth-connection-termination-point;
+            description "This object class models the client layer related sink function of all adaptation functions defined in G.8021 who has Ethernet as their client.
+                LAG Process related attributes: _lagManager, _aggregatorSink
+                Consequent Actions Process related attribute: _csfRdiFdiEnable
+                Defect correlations Process related attribute: _csfReport
+                Filter Process related attribute: _filterConfig
+                VID DEMUX Process related attribute: _vlanConfig";
+        }
+        grouping ety-trail-termination-point-source {
+            leaf is-fts-enabled {
+                type boolean;
+                description "This attribute indicates whether Forced Transmitter Shutdown (FTS) is enabled or not. It models the ETYn_TT_So_MI_FTSEnable information.";
+            }
+            leaf phy-type {
+                type ety-phy-type;
+                config false;
+                description "This attribute identifies the PHY type of the ETY trail termination. See IEEE 802.3 clause 30.3.2.1.2.";
+            }
+            leaf-list phy-type-list {
+                type ety-phy-type;
+                config false;
+                description "This attribute identifies the possible PHY types that could be supported at the ETY trail termination. See IEEE 802.3 clause 30.3.2.1.3.";
+            }
+            leaf lag-manager {
+                type leafref {
+                    path '/g8052:lag-manager/g8052:lag-identifier';
+                }
+                description "This navigable attribute identifies the LAG Manager object instance to which the ETY TTP is associated for Ethernet Link Aggregation.";
+            }
+            leaf is-tx-pause-enabled {
+                type boolean;
+                description "This attribute identifies whether the Transmit Pause process is enabled or not. It models the MI_TxPauseEnable defined in G.8021.";
+            }
+            container aggregation-port-source {
+                uses aggregation-port-source;
+                description "This navigable attribute identifies the aggregationPortSource object instance to which the ETY TTP is associated for Ethernet Link Aggregation.";
+            }
+            uses ety-trail-termination-point;
+            description "This object class models the ETYn_TT_So function and also the sever layer (i.e. ETY) related ETY/ETH adaptation function, which are defined in G.8021.
+                LAG Process related attributes: _lagManager, _aggregationPortSource
+                Fault propagation Process related attribute: isFtsEnabled
+                Transmit pause Process related attribute: isTxPauseEnabled
+                Basic attributes: phyType, phyTypeList";
+        }
+        grouping ety-trail-termination-point-sink {
+            leaf lag-manager {
+                type leafref {
+                    path '/g8052:lag-manager/g8052:lag-identifier';
+                }
+                description "This navigable attribute identifies the LAG Manager object instance to which the ETY TTP is associated for Ethernet Link Aggregation.";
+            }
+            container aggregation-port-sink {
+                uses aggregation-port-sink;
+                description "This navigable attribute identifies the aggregationPortSink object instance to which the ETY TTP is associated for Ethernet Link Aggregation.";
+            }
+            uses ety-trail-termination-point;
+            description "This object class models the ETYn_TT_Sk function and also the sever layer (i.e. ETY) related ETY/ETH adaptation function, which are defined in G.8021.
+                LAG Process related attributes: _lagManager, _aggregationPortSink
+                Defect correlation Process related attribute: currentProblemList";
+        }
+        grouping proactive-lm-current-data {
+            leaf timestamp {
+                type generalized-time;
+                config false;
+                description "This attribute indicates the start of the current monitoring interval.
+                    The value is bound to the quarter of an hour in case of a 15 minute interval and bound to the hour in case of a 24 hour interval.";
+            }
+            container loss-measurement-parameters {
+                config false;
+                uses pro-active-lm-performance-parameters;
+                description "This attribute contains the pro-active loss measurement PM data.";
+            }
+            list proactive-lm-history-data {
+                key 'history-data-id';
+                min-elements 1;
+                uses proactive-lm-history-data;
+                description "none";
+            }
+            uses current-data;
+            description "This object class represents the PM current data collected in a pro-active loss measurement job (using LMM/LMR or SLM/SLR).
+                Basic attribute: timestamp
+                Performance data related attribute: lossMeasurementParameters";
+        }
+        grouping proactive-lm-history-data {
+            leaf is-suspect-interval-flag-set {
+                type boolean;
+                config false;
+                description "This attribute indicates that the performance data may not be reliable.";
+            }
+            container loss-measurement-parameters {
+                config false;
+                uses pro-active-lm-performance-parameters;
+                description "This attribute contains the near and far end pro-active PM data.";
+            }
+            uses q.822-history-data;
+            description "This object class represents the PM history data collected in a pro-active loss measurement job (using LMM/LMR or SLM/SLR).
+                Basic attribute: isSuspectIntervalFlagSet
+                Performance data related attribute: lossMeasurementParameters";
+        }
+        grouping proactive-dm-current-data {
+            leaf timestamp {
+                type generalized-time;
+                config false;
+                description "This attribute contains the interval start time. The value is bound to the quarter of an hour in case of a 15 minute interval and bound to the hour in case of a 24 hour interval.";
+            }
+            container delay-measurement-parameters {
+                config false;
+                uses pro-active-dm-performance-parameters;
+                description "This attribute contains the current pro-active delay measurement PM data.";
+            }
+            list proactive-dm-history-data {
+                key 'history-data-id';
+                min-elements 1;
+                uses proactive-dm-history-data;
+                description "none";
+            }
+            uses current-data;
+            description "This object class represents the PM current data collected in a pro-active delay measurement job (using DMM/DMR).
+                Basic attribute: timestamp
+                Performance data related attribute: delayMeasurementParameters";
+        }
+        grouping proactive-dm-history-data {
+            leaf is-suspect-interval-flag-set {
+                type boolean;
+                config false;
+                description "This attribute indicates that the performance data may not be reliable.";
+            }
+            container delay-measurement-parameters {
+                uses pro-active-dm-performance-parameters;
+                description "This attribute contains the history pro-active delay measurement PM data.";
+            }
+            uses q.822-history-data;
+            description "This object class represents the PM history data collected in a pro-active delay measurement job (using DMM/DMR).
+                Basic attribute: isSuspectIntervalFlagSet
+                Performance data related attribute: delayMeasurementParameters";
+        }
+        grouping mip-bidirectional {
+            leaf mip-mac {
+                type mac-address;
+                config false;
+                description "This attribute contains the MAC address of the MIP instance.";
+            }
+            leaf mel {
+                type int64 {
+                    range "0..7";
+                }
+                config false;
+                description "This attribute identifies the MEG Level associated to the MIP.";
+            }
+            leaf is-full-mip {
+                type boolean;
+                default true;
+                config false;
+                description "This attribute indicates whether the MIP is a full MIP (true) or a down-half MIP (false).";
+            }
+            description "This object class models the MIP Sink and MIP Source functions. Only the bidirectional MIP is defined in the model.
+                Basic attributes: isFullMip, mel, mipMac";
+        }
+        grouping measurement-job-control {
+            description "This object class models the function of managing Measurement Jobs, such as enable/disable/terminate/get Measurement Jobs and retrieve PM data. The object class can be subclassed by MEP Source and MEP Sink for inheriting the management functions.
+                On demand measurement job related operation: abortOnDemandMeasurementJob
+                Proactive meausrement job related operations: disabeProActiveMeasurementJob, enableProActiveMeasurementJob, terminateProActiveMeasurementJob, getAllContainedMeasurementJobs, getCurrentDataValues, getHistoryDataValues";
+        }
+        grouping on-demand-single-ended-measurement-job-control {
+            leaf oam-type {
+                type two-way-oam-type;
+                config false;
+                description "This attribute contains the type of the 2-way measurement.
+                    range of type : See corresponding Enum.";
+            }
+            container on-demand-performance-data {
+                config false;
+                uses on-demand-performance-data;
+                description "This attribute provides the final (at the end of the measurement interval) PM data report. The OS receives the final PM data report via the attributeValueChangeNotification of this attribute.";
+            }
+            uses on-demand-measurement-job-control;
+            description "This object class represents an on-demand measurement job controller for 2-way measurements. It is created as a result of an establishOnDemandSingleEndedMeasurementJob() operation. It is deleted either automatically after the measurement job has completed (stop time reached) and the performance data AVC notification has been sent, or by an explicit abortOnDemandMeasurementJob() operation while the measurement job is running.
+                Basic attribute: oamType
+                Performance data related attribute: onDemandPerformanceData
+                Performance data related operation: getIntermediateReport";
+        }
+        grouping mep-control {
+            description "This object class models the function of managing MEPs, such as create/modify/delete/get MEPs and retrieve PM data. The object class can be sub classed by ETH CTP and TTP for inheriting the MEP management functions.
+                Basic operations: createMep, modifyMep, deleteMep, getAllContainedMeps";
+        }
+        grouping mip-control {
+            description "This object class models the function of managing MIPs, such as create/delete/get MIPs.
+                It can be subclassed by ETH CTP Bidirectional for inheriting the MIP management functions.
+                Basic operations: createMip, deleteMip, getAllContainedMips
+                RAPS related opertion: createRapsCapableMip";
+        }
+        grouping lag-manager {
+            leaf lag-identifier {
+                type int64;
+                config false;
+                description "This attribute identifies the instance of the LagManager object.
+                    range of type : positive integer";
+            }
+            leaf ety-ttp-sink-ref-list {
+                type leafref {
+                    path '/g8052:ety-trail-termination-point-sink/g8052:uuid';
+                }
+                config false;
+                description "This navigable attribute identifies the ETY_TrailTerminationPointSink object instances to which the LagManager is associated for Ethernet Link Aggregation.";
+            }
+            leaf ety-ttp-source-ref-list {
+                type leafref {
+                    path '/g8052:ety-trail-termination-point-source/g8052:uuid';
+                }
+                config false;
+                description "This navigable attribute identifies the ETY_TrailTerminationPointSource object instances to which the LagManager is associated for Ethernet Link Aggregation.";
+            }
+            leaf eth-ctp-source-ref-list {
+                type leafref {
+                    path '/g8052:eth-connection-termination-point-source/g8052:lag-manager';
+                }
+                config false;
+                description "This navigable attribute identifies the ETH_ConnectionTerminationPointSource object instances to which the LagManager is associated for Ethernet Link Aggregation.";
+            }
+            leaf eth-ctp-sink-ref-list {
+                type leafref {
+                    path '/g8052:eth-connection-termination-point-sink/g8052:lag-manager';
+                }
+                config false;
+                description "This navigable attribute identifies the ETH_ConnectionTerminationPointSink object instances to which the LagManager is associated for Ethernet Link Aggregation.";
+            }
+            leaf is-active {
+                type boolean;
+                default true;
+                description "This attribute indicates whether the LagManager instance is active.";
+            }
+            description "This object class models the Ethernet link aggregation functions for adding and removing aggregators and/or aggregation ports to or from the aggregation.
+                Basic attributes: _ethCtpSinkRefList, _ethCtpSourceRefList, _etyTtpSinkRefList, _etyTtpSourceRefList, lagIdentifier
+                LAG function control related attribute: isActive
+                Aggregator related operations: addEthCtps, removeEthCtps
+                Aggregation Port related operations: addEtyTtps, removeEtyTtps";
+        }
+        grouping on-demand-dual-ended-measurement-job-control-sink {
+            leaf start-time {
+                type generalized-time;
+                config false;
+                description "This attribute contains the start date and time of the on-demand session.";
+            }
+            leaf stop-time {
+                type generalized-time;
+                config false;
+                description "This attribute contains the stop date and time of the on-demand session.";
+            }
+            leaf source-address {
+                type mac-address;
+                config false;
+                description "This attribute contains the MAC address of the peer MEP. See G.8013 for details.";
+            }
+            leaf oam-type {
+                type one-way-oam-type;
+                config false;
+                description "This attribute contains the type of the 1-way measurement.
+                    range of type : See corresponding Enum.";
+            }
+            leaf test-identifier {
+                type int64;
+                config false;
+                description "This attribute is used to distinguish each measurement session if multiple measurement sessions are simultaneously activated towards a peer MEP including concurrent on-demand and proactive tests. It must be unique at least within the context of any measurement type for the MEG and initiating MEP.
+                    range of type : 0..(2^32) - 1";
+            }
+            container on-demand-performance-data {
+                config false;
+                uses on-demand-sink-performance-data;
+                description "This attribute provides the final (at the end of the measurement interval) PM data report. The management system receives the final PM data report via the attributeValueChangeNotification of this attribute.";
+            }
+            leaf priority {
+                type int64;
+                default 7;
+                config false;
+                description "This attribute contains the priority of the OAM PDU frames.
+                    range of type : 0, 1, 2, 3, 4, 5, 6, 7";
+            }
+            description "This object class represents an on-demand measurement job controller sink for 1-way measurements. It is created as a result of an establishOnDemandDualEndedMeasurementJobSink() operation. It is deleted either automatically after the measurement job has completed (stop time reached) and the performance data AVC notification has been sent, or by an explicit abortOnDemandMeasurementJob() operation when the measurement job is running.
+                Basic attributes: oamType, priority, sourceAddress, startTime, stopTime, testIdentifier
+                Performance data related attribute: onDemandPerformanceData
+                Performance data related operation: getIntermediateReport";
+        }
+        grouping eth-connection-termination-point {
+            list auxiliary-function-position-sequence {
+                uses auxiliary-functions;
+                description "This attribute indicates the positions (i.e., the relative order) of all the MEP, MIP, and TCS objects which are associated with the CTP.";
+            }
+            uses mep-control;
+            uses g8052-layer-protocol;
+            description "This object class models the common properties of the ETH_ConnectionTerminationPointSink and ETH_ConnectionTerminationPointSource object classes.
+                It is a subclass of the MEP Control and MIP Control object classes to inherit the control operations for MEP and MIP (e.g. create/modify/delete/get MEP and MIP.
+                Auxiliary function related attribute: auxiliaryFunctionPositionSequence
+                Traffic conditioning Process related operations: createTrafficConditioning, modifyTrafficConditioning, deleteTrafficConditioning
+                Traffic shaping Process related operations: createTrafficShaping, modifyTrafficShaping, deleteTrafficShaping";
+        }
+        grouping mep {
+            leaf admin-state {
+                type admin-state;
+                description "This attribute models the MI_Admin_State information defined in G.8021.";
+            }
+            leaf mep-mac {
+                type mac-address;
+                config false;
+                description "This attribute contains the MAC Address of the MEP.";
+            }
+            leaf mel {
+                type int64 {
+                    range "0..7";
+                }
+                description "This attribute identifies the MEG Level associated to the MEP.";
+            }
+            leaf client-mel {
+                type int64 {
+                    range "0..7";
+                }
+                description "This attribute models the MI_Client_MEL signal defined in G.8021 and configured as specified in G8051.";
+            }
+            leaf meg-identifier {
+                type string;
+                description "This attribute identifies the MEG associated to the MEP.";
+            }
+            leaf is-cc-enabled {
+                type boolean;
+                description "This attribute models the MI_CC_Enable signal defined in G.8021 and configured as specified in G8051.";
+            }
+            leaf cc-period {
+                type oam-period;
+                description "This attribute models the MI_CC_Period signal defined in G.8021 and configured as specified in G8051. 
+                    It is the period at which the CCM message should be sent. 
+                    Default values are: 3.33 ms for PS, 100 ms for PM, 1 s for FM.";
+            }
+            leaf cc-priority {
+                type int64 {
+                    range "0..7";
+                }
+                default 7;
+                description "This attribute models the MI_CC_Pri signal defined in G.8021 and configured as specified in G8051. It is the priority at which the CCM message should be sent.";
+            }
+            leaf lck-period {
+                type oam-period;
+                default 1-s;
+                description "This attribute models the MI_LCK_Period signal defined in G.8021 and configured as specified in G8051. It is the frequency at which the LCK messages should be sent.
+                    range of type : 1s, 1min";
+            }
+            leaf lck-priority {
+                type int64 {
+                    range "0..7";
+                }
+                default 7;
+                description "This attribute models the MI_LCK_Pri signal defined in G.8021 and configured as specified in G8051. It is the priority at which the LCK messages should be sent.";
+            }
+            description "This object class models the MEP functions that are common to MEP Sink and MEP Source.
+                Basic attributes: adminState, clientMel, megIdentifier, mepMac
+                Continuity Check Process related attributes: ccPeriod, ccPriority, isCcEnabled
+                Lock Process related attributes: lckPeriod, lckPriority";
+        }
+        grouping ety-trail-termination-point {
+            uses g8052-global-class;
+            uses g8052-layer-protocol;
+            uses tp-pac;
+            description "This object class models the common parts of the ETYn_TT function, which are defined in G.8021.";
+        }
+        grouping proactive1-sl-current-data {
+            leaf timestamp {
+                type generalized-time;
+                config false;
+                description "This attribute indicates the start of the current monitoring interval.
+                    The value is bound to the quarter of an hour in case of a 15 minute interval and bound to the hour in case of a 24 hour interval.";
+            }
+            container loss-measurement-parameters {
+                config false;
+                uses pro-active1-sl-performance-parameters;
+                description "This attribute contains the current pro-active loss measurement PM data.";
+            }
+            list proactive1-sl-history-data {
+                key 'history-data-id';
+                min-elements 1;
+                uses proactive1-sl-history-data;
+                description "none";
+            }
+            uses current-data;
+            description "This object class represents the PM current data collected in a pro-active loss measurement job (using 1SL).
+                Basic attribute: timestamp
+                Performance data related attribute: lossMeasurementParameters";
+        }
+        grouping proactive1-sl-history-data {
+            leaf is-suspect-interval-flag-set {
+                type boolean;
+                config false;
+                description "This attribute indicates that the performance data may not be reliable.";
+            }
+            container loss-measurement-parameters {
+                config false;
+                uses pro-active1-sl-performance-parameters;
+                description "This attribute contains the near end pro-active PM data.";
+            }
+            uses q.822-history-data;
+            description "This object class represents the PM history data collected in a pro-active loss measurement job (using 1SL).
+                Basic attribute: isSuspectIntervalFlagSet
+                Performance data related attribute: lossMeasurementParameters";
+        }
+        grouping proactive1-dm-current-data {
+            leaf timestamp {
+                type generalized-time;
+                config false;
+                description "This attribute contains the interval start time. The value is bound to the quarter of an hour in case of a 15 minute interval and bound to the hour in case of a 24 hour interval.";
+            }
+            container delay-measurement-parameters {
+                config false;
+                uses pro-active1-dm-performance-parameters;
+                description "This attribute contains the current pro-active delay measurement PM data.";
+            }
+            list proactive1-dm-history-data {
+                key 'history-data-id';
+                min-elements 1;
+                uses proactive1-dm-history-data;
+                description "none";
+            }
+            uses current-data;
+            description "This object class represents the PM current data collected in a pro-active delay measurement job (using 1DM).
+                Basic attribute: timestamp
+                Performance data related attribute: delayMeasurementParameters";
+        }
+        grouping proactive1-dm-history-data {
+            leaf is-suspect-interval-flag-set {
+                type boolean;
+                config false;
+                description "This attribute indicates that the performance data may not be reliable.";
+            }
+            container delay-measurement-parameters {
+                config false;
+                uses pro-active1-dm-performance-parameters;
+                description "This attribute contains the history pro-active delay measurement PM data.";
+            }
+            uses q.822-history-data;
+            description "This object class represents the PM history data collected in a pro-active delay measurement job (using 1DM).
+                Basic attribute: isSuspectIntervalFlagSet
+                Performance data related attribute: delayMeasurementParameters";
+        }
+        grouping current-data {
+            leaf-list associated-threshold-profile-list {
+                type string;
+                description "none";
+            }
+            uses q.822-current-data;
+            description "This object class is used to model the Ethernet specific Current Data.
+                Basic attribute: _associatedThresholdProfileList
+                Basic operation: resetAllPmCounters";
+        }
+        grouping on-demand-measurement-job-control {
+            leaf start-time {
+                type generalized-time;
+                description "This attribute contains the start date and time of the on-demand session.";
+            }
+            leaf stop-time {
+                type generalized-time;
+                description "This attribute contains the stop date and time of the on-demand session.";
+            }
+            leaf destination-address {
+                type mac-address;
+                config false;
+                description "This attribute contains the MAC address of the peer MEP. See G.8013 for details.";
+            }
+            leaf oam-pdu-generation-type {
+                type oam-pdu-generation-type;
+                config false;
+                description "This attribute contains the pattern that is used for the generation of OAM PDUs.";
+            }
+            leaf measurement-interval {
+                type int64;
+                description "This attribute contains the discrete non overlapping periods of time (in seconds) during which measurements are performed (i.e., OAM messages are generated) and reports are gathered at the end of the measurement intervals. Note that the value 0 means a degenerated measurement interval with a single OAM message and the report is sent as immediately as possible.
+                    range of type : Non-negative";
+            }
+            leaf message-period {
+                type message-period;
+                config false;
+                description "This attribute contains the frequency of the OAM message (PDU) generation within a series. 
+                    Note that the value 0 means that only one OAM message per measurement interval is generated.
+                    range of type : See corresponding Enum.";
+            }
+            leaf repetition-period {
+                type repetition-period;
+                description "This attribute contains the time between the start of two measurement intervals. This IS applicable for the repetitive instance type and MAY be applicable for the repetitive series type. 
+                    Note that a value of 0 means not applicable (NA), which is for the cases of single instance, single series, or repetitive series without extra gap in between the measurement intervals (i.e., also as known as continuous series).";
+            }
+            leaf priority {
+                type int64;
+                default 7;
+                config false;
+                description "This attribute contains the priority of the OAM PDU frames.
+                    range of type : 0, 1, 2, 3, 4, 5, 6, 7";
+            }
+            leaf test-identifier {
+                type int64;
+                config false;
+                description "This attribute is used to distinguish each measurement session if multiple measurement sessions are simultaneously activated towards a peer MEP including concurrent on-demand and proactive tests. It must be unique at least within the context of any measurement type for the MEG and initiating MEP.
+                    Note: The attribute is not used in case of LMM/LMR measurement.
+                    range of type : 0..(2^32) - 1";
+            }
+            leaf data-tlv-length {
+                type int64;
+                config false;
+                description "This parameter provides the size of the optional data TLV.
+                    Non-negative integer represents the number of bytes for the length of the padding TLV.
+                    Notes:
+                    When configuring this parameter one should be aware of the maximum allowed total frame size limitation.
+                    The attribute is not used in case of 2-way loss measurement.
+                    range of type : Depends on the allowed MTU size.";
+            }
+            description "This object class contains the common attributes representing the configuration of an on-demand measurement job.
+                Basic attributes: destinationAddress, priority
+                Measurement configuration related attributes: oamPduGenerationType, startTime, stopTime, messagePeriod, repetitionPeriod, measurementInterval
+                Optional attributes: dataTlvLength, testIdentifier";
+        }
+        grouping on-demand-dual-ended-measurement-job-control-source {
+            leaf oam-type {
+                type one-way-oam-type;
+                config false;
+                description "This attribute contains the type of the 1-way measurement.
+                    range of type : See corresponding Enum";
+            }
+            uses on-demand-measurement-job-control;
+            description "This object class represents an on-demand measurement job controller source for 1-way measurements. It is created as a result of an establishOnDemandDualEndedMeasurementJobSource() operation. It is deleted either automatically after the measurement job has completed (stop time reached), or by an explicit abortOnDemandMeasurementJob() operation while the measurement job is running.
+                Basic attribute: oamType";
+        }
+        grouping pro-active-measurement-job-control {
+            leaf is-enabled {
+                type boolean;
+                default true;
+                config false;
+                description "This attribute identifies the state of the measurement job. If set to TRUE, the MEP performs proactive Performance Measurement.";
+            }
+            leaf destination-address {
+                type mac-address;
+                config false;
+                description "This attribute provides the Unicast MAC address of the intented destination.";
+            }
+            leaf period {
+                type oam-period;
+                config false;
+                description "This attribute indicates the period (frequency) of the measurement frame transmission.
+                    range of type : 100ms, 1s, 10s";
+            }
+            leaf priority {
+                type int64 {
+                    range "0..7";
+                }
+                default 7;
+                config false;
+                description "This attribute contains the priority value on which the MEP performs the measurement. When the measurement is enabled, the MEP should use this value to encode the priority of generated measurement frames. The EMF usese this value to assign the “P” parameter of the measurement operation.";
+            }
+            leaf test-identifier {
+                type int64;
+                config false;
+                description "This attribute is used to distinguish each measurement session if multiple measurement sessions are simultaneously activated towards a peer MEP including concurrent on-demand and proactive tests. It must be unique at least within the context of any measurement type for the MEG and initiating MEP.
+                    Note: The attribute is not used in case of 2-way loss measurement. 
+                    range of type : 0..(2^32) - 1";
+            }
+            leaf data-tlv-length {
+                type int64;
+                config false;
+                description "This parameter provides the size of the optional data TLV.
+                    Non-negative integer represents the number of bytes for the length of the padding TLV.
+                    Notes:
+                    When configuring this parameter one should be aware of the maximum allowed total frame size limitation.
+                    The attribute is not used in case of 2-way loss measurement.
+                    range of type : Depends on the allowed MTU size.";
+            }
+            description "This object class contains the common attributes representing the configuration of an Proactive Measurement Job.
+                Basic attributes: destinationAddress, isEnabled, period, priority
+                Optional attributes: dataTlvLength, testIdentifier";
+        }
+        grouping pro-active-single-ended-measurement-job-control {
+            leaf oam-type {
+                type two-way-oam-type;
+                config false;
+                description "This attribute contains the type of the 2-way measurement.";
+            }
+            container pro-active-ccm-sink-attribute-list {
+                config false;
+                uses degraded-detection-pac;
+                description "This relationship provides the configuration parameters for detecting 'degraded signal' (DEG). Only applicable if the OAM Type is set to LM CCM.";
+            }
+            list proactive-dm-current-data {
+                key 'scanner-id';
+                min-elements 2;
+                max-elements 3;
+                uses proactive-dm-current-data;
+                description "none";
+            }
+            list proactive-lm-current-data {
+                key 'scanner-id';
+                min-elements 2;
+                max-elements 3;
+                uses proactive-lm-current-data;
+                description "none";
+            }
+            uses pro-active-measurement-job-control;
+            description "This object class represents a proactive measurement job controller for 2-way measurements. It is created as a result of an establishProActiveSingleEndedMeasurementJob() operation.
+                Basic attributes: oamType, _proActiveCcmSinkAttributeList";
+        }
+        grouping pro-active-dual-ended-measurement-job-control-sink {
+            leaf is-enabled {
+                type boolean;
+                default true;
+                config false;
+                description "This attribute identifies the state of the measurement job. If set to TRUE, the MEP performs proactive Performance Measurement.";
+            }
+            leaf source-address {
+                type mac-address;
+                config false;
+                description "This attribute contains the MAC address of the peer MEP. See G.8013 for details.";
+            }
+            leaf test-identifier {
+                type int64;
+                config false;
+                description "This attribute is used to distinguish each measurement session if multiple measurement sessions are simultaneously activated towards a peer MEP including concurrent on-demand and proactive tests. It must be unique at least within the context of any measurement type for the MEG and initiating MEP.
+                    range of type : 0..(2^32) - 1";
+            }
+            leaf oam-type {
+                type one-way-oam-type;
+                config false;
+                description "This attribute contains the type of the 1way measurement.";
+            }
+            list proactive1-sl-current-data {
+                key 'scanner-id';
+                min-elements 2;
+                max-elements 3;
+                uses proactive1-sl-current-data;
+                description "none";
+            }
+            list proactive1-dm-current-data {
+                key 'scanner-id';
+                min-elements 2;
+                max-elements 3;
+                uses proactive1-dm-current-data;
+                description "none";
+            }
+            description "This object class allows the control of the proactive 1-way measurement. It is created as a result of an establishProActiveDualEndedMeasurementJobSink() operation. Lifecycle: A pre-condition of deleting the object is that the “Enable” attribute should have the value “FALSE”.
+                Basic attributes: oamType, isEnabled, sourceAddress
+                Optional attribute: testIdentifier";
+        }
+        grouping pro-active-dual-ended-measurement-job-control-source {
+            leaf oam-type {
+                type one-way-oam-type;
+                config false;
+                description "This attribute contains the type of the 1way measurement.";
+            }
+            uses pro-active-measurement-job-control;
+            description "This object class represents a proactive measurement job controller source for 1way measurements. It is created as a result of an establishProactiveDualEndedMeasurementJobSource() operation.
+                Basic attribue: oamType";
+        }
+        grouping aggregator {
+            description "This object class the common properties of the Aggregator Source and Aggregator Sink object classes.";
+        }
+        grouping pro-active-measurement-job {
+            container pro-active-dual-ended-measurement-job-control-sink {
+                uses pro-active-dual-ended-measurement-job-control-sink;
+                description "none";
+            }
+            container pro-active-single-ended-measurement-job-control {
+                uses pro-active-single-ended-measurement-job-control;
+                description "none";
+            }
+            container pro-active-dual-ended-measurement-job-control-source {
+                uses pro-active-dual-ended-measurement-job-control-source;
+                description "none";
+            }
+            description "This object class models the 'proxy' of all ProActive Measurement Jobs.";
+        }
+        grouping on-demand-measurement-job {
+            container on-demand-dual-ended-measurement-job-control-sink {
+                uses on-demand-dual-ended-measurement-job-control-sink;
+                description "none";
+            }
+            container on-demand-single-ended-measurement-job-control {
+                uses on-demand-single-ended-measurement-job-control;
+                description "none";
+            }
+            container on-demand-dual-ended-measurement-job-control-source {
+                uses on-demand-dual-ended-measurement-job-control-source;
+                description "none";
+            }
+            description "This object class models the 'proxy' of all OnDemand Measurement Jobs.
+                Basic attributes: onDemandDualEndedMeasurementJobControlSink, onDemandDualEndedMeasurementJobControlSource, onDemandSingleEndedMeasurementJobControl";
+        }
+        container raps-capable-half-mip-bidirectional {
+            leaf mip-mac {
+                type mac-address;
+                config false;
+                description "This attribute contains the MAC address of the MIP instance.";
+            }
+            leaf mel {
+                type int64 {
+                    range "0..7";
+                }
+                config false;
+                description "This attribute identifies the MEG Level associated to the MIP.";
+            }
+            leaf raps-priority {
+                type int64;
+                default 7;
+                config false;
+                description "This attribute models the MI_RAPS_Pri signal defined in G.8021 and configured as specified in G8051.";
+            }
+            description "This object class models the MIP Sink and MIP Source functions. Only the bidirectional MIP is defined in the model.
+                Basic attributes: mel, mipMac, rapsPriority";
+        }
+        grouping mcc-connection-termination-point {
+            leaf mep-mac {
+                type mac-address;
+                config false;
+                description "This attribute contains the MAC Address of the MEP.";
+            }
+            leaf mel {
+                type int64 {
+                    range "0..7";
+                }
+                description "This attribute identifies the MEG Level associated to the MEP.";
+            }
+            description "This object class models the client specific (MCC) of the ETH/MCC adaptation function.
+                Basic attributes: mel, mepMac";
+        }
+        container mcc-connection-termination-point-sink {
+            container received-expected-defect-message {
+                config false;
+                uses expected-defect-message;
+                description "This attribute models the received expected defect message.";
+            }
+            uses mcc-connection-termination-point;
+            description "This object class models the sink side of the client specific (MCC) of the ETH/MCC adaptation function.
+                Expected defect Process related attribute: receivedExpectedDefectMessage";
+        }
+        container mcc-connection-termination-point-source {
+            leaf mcc-priority {
+                type int64 {
+                    range "0..7";
+                }
+                description "This attribute is the priority of the expected defect message.";
+            }
+            leaf mep-identifier {
+                type int64 {
+                    range "0..8191";
+                }
+                description "This attribute identifies the peer MEP.";
+            }
+            leaf expected-defect-message-enable {
+                type boolean;
+                description "This attribute enables the sending of expected defect messages.";
+            }
+            leaf expected-defect-message-period {
+                type int64;
+                description "This attribute configures how often to send expected defect messages.";
+            }
+            leaf expected-defect-message-duration {
+                type int64;
+                description "This attribute configures the duration for sending expected defect messages.
+                    range of type : Non negative (in seconds)";
+            }
+            uses mcc-connection-termination-point;
+            description "This object class models the source side of the client specific (MCC) of the ETH/MCC adaptation function.
+                Basic attributes: mccPriority, mepIdentifier
+                Expected defect Process related attributes: expectedDefectMessageDuration, expectedDefectMessageEnable, expectedDefectMessagePeriod";
+        }
+
+    /***********************
+    * package type-definitions-specific
+    **********************/ 
+        typedef colour-mode {
+            type enumeration {
+                enum colour-blind {
+                    description "none";
+                }
+                enum colour-aware {
+                    description "none";
+                }
+            }
+            description "none";
+        }
+        grouping priority-configuration {
+            leaf priority {
+                type int64 {
+                    range "0..7";
+                }
+                description "none";
+            }
+            leaf queue-id {
+                type int64 {
+                    range "1..8";
+                }
+                description "none";
+            }
+            description "none";
+        }
+        grouping queue-configuration {
+            leaf queue-id {
+                type int64;
+                description "This attribute indicates the queue id.";
+            }
+            leaf queue-depth {
+                type int64;
+                description "This attribute defines the depth of the queue in bytes.";
+            }
+            leaf queue-threshold {
+                type int64;
+                description "This attribute defines the threshold of the queue in bytes.";
+            }
+            description "none";
+        }
+        grouping traffic-conditioning-configuration {
+            leaf cir {
+                type int64;
+                description "This attribute indicates the Committed Information Rate in bits/s.";
+            }
+            leaf cbs {
+                type int64;
+                description "This attribute indicates the Committed Burst Size in bytes.";
+            }
+            leaf eir {
+                type int64;
+                description "This attribute indicates the Excess Information Rate in bits/s.";
+            }
+            leaf ebs {
+                type int64;
+                description "This attribute indicates the Excess Burst Size in bytes.";
+            }
+            leaf coupling-flag {
+                type boolean;
+                description "This attribute indicates the coupling flag.";
+            }
+            leaf colour-mode {
+                type colour-mode;
+                description "This attribute indicates the colour mode.";
+            }
+            leaf queue-id {
+                type int64 {
+                    range "1..8";
+                }
+                description "This attribute indicates the queue id.";
+            }
+            description "none";
+        }
+        typedef oam-period {
+            type enumeration {
+                enum 3.33-ms {
+                    description "Default for protection.";
+                }
+                enum 10-ms {
+                    description "none";
+                }
+                enum 100-ms {
+                    description "none";
+                }
+                enum 1-s {
+                    description "none";
+                }
+                enum 10-s {
+                    description "none";
+                }
+                enum 1-min {
+                    description "none";
+                }
+                enum 10-min {
+                    description "none";
+                }
+            }
+            description "Provides the frequency for the OAM PDU insertion.";
+        }
+        typedef time-period-tbdeleted {
+            type enumeration {
+                enum 1-sec {
+                    description "none";
+                }
+                enum 1-min {
+                    description "none";
+                }
+            }
+            description "none";
+        }
+        typedef admin-state {
+            type enumeration {
+                enum lock {
+                    description "none";
+                }
+                enum normal {
+                    description "none";
+                }
+            }
+            description "none";
+        }
+        typedef message-period {
+            type enumeration {
+                enum 10-ms {
+                    description "none";
+                }
+                enum 100-ms {
+                    description "none";
+                }
+                enum 1-s {
+                    description "none";
+                }
+                enum 10-s {
+                    description "none";
+                }
+                enum 0 {
+                    description "none";
+                }
+            }
+            description "This enumeration defines the allowed values for the message period in on-demand measurements.
+                Notes:
+                The value 10ms is only used in synthetic loss measurements.
+                The value 0 means that the value is not relevant.";
+        }
+        grouping dm-threshold-values {
+            leaf granularity-period {
+                type time-period;
+                description "This attribute defines the granularity period of the current registers to which the thresholds are assigned.
+                    range of type : 24hr, 15min, 1 - 14 min";
+            }
+            container near-end-cross-threshold {
+                uses statistical-dm-performance-parameters;
+                description "This attribute contains the near end cross threshold values of the delay measurements.";
+            }
+            container near-end-clear-threshold {
+                uses statistical-dm-performance-parameters;
+                description "This attribute contains the near end clear threshold values of the delay measurements.";
+            }
+            container far-end-cross-threshold {
+                uses statistical-dm-performance-parameters;
+                description "This attribute contains the far end cross threshold values of the delay measurements.";
+            }
+            container far-end-clear-threshold {
+                uses statistical-dm-performance-parameters;
+                description "This attribute contains the far end clear threshold values of the delay measurements.";
+            }
+            container bidirectional-cross-threshold {
+                uses statistical-dm-performance-parameters;
+                description "This attribute contains the bidirectional cross threshold values of the delay measurements.";
+            }
+            container bidirectional-clear-threshold {
+                uses statistical-dm-performance-parameters;
+                description "This attribute contains the bidirectional clear threshold values of the delay measurements.";
+            }
+            description "This data type contains the threshold values for frame delay related 2-way measurements.";
+        }
+        grouping statistical-lm-performance-parameters {
+            leaf minimum-frame-loss-ratio {
+                type real;
+                description "This attribute contains the minimum frame loss ratio calculated over a period of time.
+                    The accuracy of the value is for further study.";
+            }
+            leaf average-frame-loss-ratio {
+                type real;
+                description "This attribute contains the average frame loss ratio calculated over a period of time.
+                    The accuracy of the value is for further study.";
+            }
+            leaf maximum-frame-loss-ratio {
+                type real;
+                description "This attribute contains the maximum frame loss ratio calculated over a period of time.
+                    The accuracy of the value is for further study.";
+            }
+            leaf ses {
+                type int64;
+                description "This attribute contains the SES detected in the monitoring interval.
+                    range of type : 0..900 for 15min interval or 0..86400 for 24 hr interval.";
+            }
+            leaf uas {
+                type int64;
+                description "This attribute contains UAS (unavailable seconds) detected in the monitoring interval.
+                    range of type : 0..900 for 15min interval or 0..86400 for 24 hr interval.";
+            }
+            description "This data type contains the statistical loss measurement performance parameters.";
+        }
+        grouping pro-active-lm-performance-parameters {
+            container statistical-near-end-frame-loss-performance-parameters {
+                uses statistical-lm-performance-parameters;
+                description "This attribute contains the statistical near end performnace parameters.";
+            }
+            container statistical-far-end-frame-loss-performance-parameters {
+                uses statistical-lm-performance-parameters;
+                description "This attribute contains the statistical far end performnace parameters.";
+            }
+            leaf bidirectional-uas {
+                type int64;
+                description "This attribute contains the bidirectional UAS (unavailable seconds) detected in the monitoring interval.
+                    range of type : 0..900 for 15min interval or 0..86400 for 24 hr interval.";
+            }
+            description "This data type contains the near and far end pro-active loss measurement PM data.";
+        }
+        grouping on-demand-frame-loss-performance-parameters {
+            leaf total-transmitted-frames {
+                type int64;
+                description "This attribute contains the total number of frames transmitted.";
+            }
+            leaf total-lost-frames {
+                type int64;
+                description "This attribute contains the total number of frames lost.";
+            }
+            leaf total-frame-loss-ratio {
+                type real;
+                description "This attribute contains the frame loss ratio (number of lost frames divided by the number of total frames (N_LF / N_TF)).
+                    The accuracy of the value is for further study.";
+            }
+            description "This data type contains the results of an on-demand loss measurement job.";
+        }
+        grouping on-demand-frame-delay-performance-parameters {
+            leaf number-of-samples {
+                type int64;
+                description "This attribute contains the number of received DM frames (successful samples) used for this frame delay measurement.
+                    range of type : non-negative";
+            }
+            leaf-list frame-delay-list {
+                type int64;
+                description "This attribute contains the frame delays measured in ns (nano second, 1x10e-9 seconds). The multiplicity is defined by the numberOfSamples attribute.";
+            }
+            leaf-list frame-delay-variation-list {
+                type int64;
+                description "This attribute contains the frame delay variations measured in ns (nano second).  The multiplicity is defined by (numberOfSamples - 1, for numberOfSamples > 0).";
+            }
+            description "This data type contains the results of an on-demand delay measurement job.";
+        }
+        grouping address-table-info {
+            container address-table-config {
+                uses address-table-config;
+                description "none";
+            }
+            container shared-vlan-address-table-reference {
+                uses shared-vlan-address-table-reference;
+                description "none";
+            }
+            container address-table-reference {
+                uses address-table-reference;
+                description "none";
+            }
+            description "none";
+        }
+        grouping address-table-config {
+            leaf ageing {
+                type int64;
+                default 300;
+                description "This attribute is used to provision the Ageing time period for entries configured from the Learning Process.
+                    The value defines units of seconds.
+                    range of type : 10–1 000 000 s";
+            }
+            leaf connection-type {
+                type connection-type;
+                description "This attribute contains the type of the cross connection. TBD in G.8021.
+                    Allowed values:
+                    - twoPort-point-to-point (unidirectional, no learning)
+                    - twoPort-point-to-point (bidirectional, no learning)
+                    - nPort(n>2)-point-to-multipoint (unidirectional, no learning)
+                    - nPort(n>2)-rooted-multipoint (bidirectional, learning)
+                    - nPort(n>2)-multipoint -to-multipoint (bidirectional, learning)";
+            }
+            leaf is-learning-enabled {
+                type boolean;
+                default true;
+                description "This attribute configures whether the learned address information will be used to update the address table (true) or not (false).";
+            }
+            description "This data type contains the information to be configured in the address table.";
+        }
+        grouping address-table-reference {
+            leaf table-reference {
+                type object-identifier;
+                description "none";
+            }
+            description "This data type contains the identifier of the address table that will be copied into a new address table.";
+        }
+        grouping shared-vlan-address-table-reference {
+            leaf table-reference {
+                type object-identifier;
+                description "none";
+            }
+            description "This data type contains the identifier of the address table to be used in the shared mode by the cross connection.";
+        }
+        typedef group-default-mode {
+            type enumeration {
+                enum forward-all-groups {
+                    description "none";
+                }
+                enum forward-unregistered-groups {
+                    description "none";
+                }
+                enum filter-unregistered-groups {
+                    description "none";
+                }
+            }
+            description "This enumeration provides the default group filtering behavior as specified in IEEE 802.1Q section 8.8.6. I.e., it defines how multicast MAC addresses are processed.";
+        }
+        typedef connection-type {
+            type enumeration {
+                enum 2-port-point-to-point-unidirectional {
+                    description "none";
+                }
+                enum 2-port-point-to-point-bidirectional {
+                    description "none";
+                }
+                enum n-port-point-to-multipoint {
+                    description "none";
+                }
+                enum n-port-rooted-to-multipoint {
+                    description "none";
+                }
+                enum n-port-multipoint-to-multipoint {
+                    description "none";
+                }
+            }
+            description "This enumeration provides the type of a cross connection.";
+        }
+        grouping port-group {
+            leaf-list termination-point-list {
+                type object-identifier;
+                min-elements 2;
+                description "none";
+            }
+            description "This data type provides the list of TPs/FPs associated to a port group.";
+        }
+        typedef protection-bridge-type {
+            type enumeration {
+                enum 1-plus-1-unidirectional-no-aps {
+                    description "none";
+                }
+                enum 1-plus-1-unidirectional-with-aps {
+                    description "none";
+                }
+                enum 1-plus-1-bidirectional-with-aps {
+                    description "none";
+                }
+                enum 1-for-1-bidirectional-with-aps-using-selector-bridge {
+                    description "none";
+                }
+                enum 1-for-1-bidirectional-with-aps-using-broadcast-bridge {
+                    description "none";
+                }
+            }
+            description "This enumeration models the valid configurations of the Protection Type and Bridge Type defined in Table 11-2 of G.8031 (06/2011).";
+        }
+        typedef operation-type {
+            type enumeration {
+                enum revertive {
+                    description "none";
+                }
+                enum non-revertive {
+                    description "none";
+                }
+            }
+            description "none";
+        }
+        typedef switch-direction {
+            type enumeration {
+                enum signal-selected-from-working {
+                    description "none";
+                }
+                enum signal-selected-from-protecting {
+                    description "none";
+                }
+            }
+            description "none";
+        }
+        typedef sncp-group-state {
+            type enumeration {
+                enum no-request {
+                    description "none";
+                }
+                enum lockout {
+                    description "none";
+                }
+                enum forced-switch {
+                    description "none";
+                }
+                enum signal-fail {
+                    description "none";
+                }
+                enum manual-switch {
+                    description "none";
+                }
+                enum do-not-revert {
+                    description "none";
+                }
+                enum exercise {
+                    description "none";
+                }
+                enum reverse-request {
+                    description "none";
+                }
+            }
+            description "none";
+        }
+        typedef control-process-type {
+            type enumeration {
+                enum major-ring-not-interconnected {
+                    description "none";
+                }
+                enum major-ring-interconnected {
+                    description "none";
+                }
+                enum sub-ring-not-interconnected {
+                    description "none";
+                }
+                enum sub-ring-interconnected-with-virtual-channel {
+                    description "none";
+                }
+                enum sub-ring-interconnected-without-virtual-channel {
+                    description "none";
+                }
+            }
+            description "This enumeration models the the allowed values for the R-APS block logic in interconnected rings.
+                An example showing the usage of these values is attached.
+                RAPS_ControlProcessType.jpg";
+        }
+        typedef mac-address {
+            type string;
+            description "This primitive data type contains an Ethernet MAC address defined by IEEE 802a. The format of the address consists of 12 hexadecimal characters, grouped in pairs and separated by '-' (e.g., 03-27-AC-75-3E-1D).";
+        }
+        typedef mp-identifier {
+            type string;
+            description "This primitive data type contains a Maintenance Point (MEP or MIP) identifier. The format of the identifier is a 2-octet field where the 13 least significant bits are used to identify the Maintenance Point. The identifier is unique within the MEG.";
+        }
+        grouping mac-or-mp-id {
+            leaf mp-identifier {
+                type mp-identifier;
+                description "none";
+            }
+            leaf mac-address {
+                type mac-address;
+                description "none";
+            }
+            description "This data type models the choice between a MAC address format and a Maintenance Point identifier format.";
+        }
+        typedef frame-type {
+            type enumeration {
+                enum admit-only-vlan-tagged-frames {
+                    description "none";
+                }
+                enum admit-only-untagged-and-priority-tagged-frames {
+                    description "none";
+                }
+                enum admit-all-frames {
+                    description "none";
+                }
+            }
+            description "none";
+        }
+        grouping priority-mapping {
+            leaf priority0 {
+                type int64 {
+                    range "0..7";
+                }
+                description "This attribute defines the new priority value for the old priority value 0.";
+            }
+            leaf priority1 {
+                type int64 {
+                    range "0..7";
+                }
+                default 1;
+                description "This attribute defines the new priority value for the old priority value 1.";
+            }
+            leaf priority2 {
+                type int64 {
+                    range "0..7";
+                }
+                default 2;
+                description "This attribute defines the new priority value for the old priority value 2.";
+            }
+            leaf priority3 {
+                type int64 {
+                    range "0..7";
+                }
+                default 3;
+                description "This attribute defines the new priority value for the old priority value 3.";
+            }
+            leaf priority4 {
+                type int64 {
+                    range "0..7";
+                }
+                default 4;
+                description "This attribute defines the new priority value for the old priority value 4.";
+            }
+            leaf priority5 {
+                type int64 {
+                    range "0..7";
+                }
+                default 5;
+                description "This attribute defines the new priority value for the old priority value 5.";
+            }
+            leaf priority6 {
+                type int64 {
+                    range "0..7";
+                }
+                default 6;
+                description "This attribute defines the new priority value for the old priority value 6.";
+            }
+            leaf priority7 {
+                type int64 {
+                    range "0..7";
+                }
+                default 7;
+                description "This attribute defines the new priority value for the old priority value 7.";
+            }
+            description "This data type provides the priority mapping done in the 'P Regenerate' process defined in G.8021.";
+        }
+        typedef vid {
+            type string;
+            description "This primitive type models the 12 Bit VLAN identifier of a VLAN tag.";
+        }
+        typedef pcp-coding {
+            type enumeration {
+                enum 8-p0-d {
+                    description "none";
+                }
+                enum 7-p1-d {
+                    description "none";
+                }
+                enum 6-p2-d {
+                    description "none";
+                }
+                enum 5-p3-d {
+                    description "none";
+                }
+                enum dei {
+                    description "This enumeration value means that all priorities should be drop eligible.
+                        DEI = Drop Eligibility Indicator";
+                }
+            }
+            description "This enum models the coding of the Priority Code Point as defined in section 'Priority Code Point encoding' of IEEE 802.1Q.";
+        }
+        typedef vlan-type {
+            type enumeration {
+                enum c-tag {
+                    description "0x8100";
+                }
+                enum s-tag {
+                    description "0x88a8";
+                }
+                enum i-tag {
+                    description "88-e7";
+                }
+            }
+            description "This enumeration contains the Ethertypes defined in IEEE 802.1Q.";
+        }
+        grouping set-cross-connection-data {
+            container address-table-info {
+                uses address-table-info;
+                description "This parameter provides the configuration information creating an AddressTable to be used by the CrossConnection or a reference to an existing AddressTable (in the Shared VLAN case) to be used by the CrossConnection.";
+            }
+            leaf-list port-ref-list {
+                type object-identifier;
+                min-elements 2;
+                description "This attribute provides the list of TPs/FPs/Ports to be connected by the new cross connection.
+                    TBD in G.8021 (Am2)";
+            }
+            list port-group-list {
+                uses port-group;
+                description "This parameter provides a list of port groups together with their contained ports.";
+            }
+            leaf group-default-mode {
+                type group-default-mode;
+                description "This attribute defines the default group filtering behavior as specified in IEEE 802.1Q section 8.8.6.";
+            }
+            description "none";
+        }
+        grouping create-cross-connection-data {
+            leaf cross-connection-name {
+                type object-identifier;
+                description "This attribute provides the name of the CrossConnection to be created.";
+            }
+            uses set-cross-connection-data;
+            description "none";
+        }
+        grouping modify-cross-connection-data {
+            uses set-cross-connection-data;
+            description "none";
+        }
+        typedef two-way-oam-type {
+            type enumeration {
+                enum lm-lmm {
+                    description "none";
+                }
+                enum dm {
+                    description "none";
+                }
+                enum sl {
+                    description "none";
+                }
+            }
+            description "This enumeration contains OAM types that produces 2-way measurement, such as Near-end and Far-end loss measurement, Near-end and Far-end delay measurement and round-trip delay measurement.";
+        }
+        grouping address-tuple {
+            leaf address {
+                type mac-address;
+                description "This attribute contains the MAC address of the address tuple.";
+            }
+            leaf-list port-list {
+                type string;
+                description "This attribute contains the ports associated to the MAC address in the address tuple.";
+            }
+            description "This data type contains an address tuple consisting of a MAC address and a corresponding port list.";
+        }
+        typedef one-way-oam-type {
+            type enumeration {
+                enum lm-ccm {
+                    description "none";
+                }
+                enum 1-dm {
+                    description "none";
+                }
+                enum 1-sl {
+                    description "none";
+                }
+            }
+            description "none";
+        }
+        typedef pro-active-oam-type {
+            type enumeration {
+                enum lm-ccm {
+                    description "none";
+                }
+                enum lm-lmm {
+                    description "none";
+                }
+                enum 1-sl {
+                    description "none";
+                }
+                enum sl {
+                    description "none";
+                }
+                enum 1-dm {
+                    description "none";
+                }
+                enum dm {
+                    description "none";
+                }
+            }
+            description "none";
+        }
+        typedef oam-pdu-generation-type {
+            type enumeration {
+                enum single-instance {
+                    description "none";
+                }
+                enum repetitive-instance {
+                    description "none";
+                }
+                enum single-series {
+                    description "none";
+                }
+                enum repetitive-series {
+                    description "none";
+                }
+            }
+            description "This enumeration defines the generation pattern of the on-demand OAM PDUs (messages). ";
+        }
+        typedef aggregator-problem-list {
+            type enumeration {
+                enum ssf {
+                    description "none";
+                }
+                enum pll {
+                    description "none";
+                }
+                enum tll {
+                    description "none";
+                }
+            }
+            description "This enumeration defines the valid list of problems for the LAG aggregator.";
+        }
+        grouping auxiliary-functions {
+            container mip {
+                uses mip-bidirectional;
+                description "none";
+            }
+            container mep {
+                uses mep;
+                description "none";
+            }
+            container traffic-conditioning {
+                uses eth-traffic-conditioning;
+                description "none";
+            }
+            container traffic-shaping {
+                uses eth-traffic-shaping;
+                description "none";
+            }
+            description "This choice data type represents a MEP, MIP, or TCS object.";
+        }
+        typedef scheduling-configuration {
+            type string;
+            description "The syntax of this dataType is pending on the specification in G.8021, which is for further study.";
+        }
+        typedef eth-ttp-problem-list {
+            type enumeration {
+                enum ssf {
+                    description "Server Signal Fail";
+                }
+                enum lck {
+                    description "Locked";
+                }
+                enum lo-ci- {
+                    description "Loss Of Continuity";
+                }
+                enum mmg {
+                    description "Mismerge";
+                }
+                enum unm {
+                    description "Unexpected MEP";
+                }
+                enum unp {
+                    description "Unexpected Periodicity";
+                }
+                enum un-pri {
+                    description "Unexpected Priority";
+                }
+                enum unl {
+                    description "Unpextected MEG Level";
+                }
+                enum deg {
+                    description "Degraded";
+                }
+                enum rdi {
+                    description "Remote Defect Indication";
+                }
+            }
+            description "This enumeration defines the valid list of problems for the ETH TTP Sink.";
+        }
+        typedef ety-ttp-problem-list {
+            type enumeration {
+                enum loc {
+                    description "Loss Of Continuity";
+                }
+                enum rdi {
+                    description "Remote Defect Indication";
+                }
+                enum fdi {
+                    description "Forward Defect Indication";
+                }
+            }
+            description "This enumeration defines the valid list of problems for the ETH TTP Sink.";
+        }
+        typedef ety-phy-type {
+            type enumeration {
+                enum other {
+                    description "none";
+                }
+                enum unknown {
+                    description "none";
+                }
+                enum none {
+                    description "none";
+                }
+                enum 2-base-tl {
+                    description "none";
+                }
+                enum 10-mbit-s {
+                    description "none";
+                }
+                enum 10-pass-ts {
+                    description "none";
+                }
+                enum 100-base-t4 {
+                    description "none";
+                }
+                enum 100-base-x {
+                    description "none";
+                }
+                enum 100-base-t2 {
+                    description "none";
+                }
+                enum 1000-base-x {
+                    description "none";
+                }
+                enum 1000-base-t {
+                    description "none";
+                }
+                enum 10-gbase-x {
+                    description "none";
+                }
+                enum 10-gbase-r {
+                    description "none";
+                }
+                enum 10-gbase-w {
+                    description "none";
+                }
+            }
+            description "none";
+        }
+        grouping on-demand1-sl-performance-data {
+            container near-end-frame-loss-performance-parameters {
+                uses on-demand-frame-loss-performance-parameters;
+                description "This attribute contains the results of an on-demand synthetic loss measurement job in the ingress direction.";
+            }
+            description "This data type contains the near end on-demand synthetic frame loss PM data.";
+        }
+        grouping on-demand-frame-loss-performance-data {
+            container near-end-frame-loss-performance-parameters {
+                uses on-demand-frame-loss-performance-parameters;
+                description "This attribute contains the results of an on-demand synthetic loss measurement job in the ingress direction.";
+            }
+            container far-end-frame-loss-performance-parameters {
+                uses on-demand-frame-loss-performance-parameters;
+                description "This attribute contains the results of an on-demand synthetic loss measurement job in the egress direction.";
+            }
+            description "This data type contains the near and far end on-demand frame loss PM data.";
+        }
+        grouping on-demand-sink-performance-data {
+            container on-demand1-sl-performance-data {
+                uses on-demand1-sl-performance-data;
+                description "none";
+            }
+            container on-demand1-dm-performance-data {
+                uses on-demand1-dm-performance-data;
+                description "none";
+            }
+            description "This data type choice is used as the generic data type for all kinds of 1 way on-demand PM data.";
+        }
+        grouping pro-active1-sl-performance-parameters {
+            container statistical-near-end-frame-loss-performance-parameters {
+                uses statistical-lm-performance-parameters;
+                description "This attribute contains the statistical near end performnace parameters.";
+            }
+            description "This data type contains the near end pro-active PM data.";
+        }
+        grouping statistical-dm-performance-parameters {
+            leaf minimum-frame-delay {
+                type int64;
+                description "This attribute contains the minimum frame delay observed over the monitored period. It is measured in units of ns (nano second, 1x10e-9 seconds).";
+            }
+            leaf average-frame-delay {
+                type int64;
+                description "This attribute contains the average frame delay observed over the monitored period. It is measured in units of ns (nano second, 1x10e-9 seconds).";
+            }
+            leaf maximum-frame-delay {
+                type int64;
+                description "This attribute contains the maximum frame delay observed over the monitored period. It is measured in units of ns (nano second, 1x10e-9 seconds).";
+            }
+            leaf minimum-frame-delay-variation {
+                type int64;
+                description "This attribute contains the minimum frame delay variation measured in units of ns (nano second, 1x10e-9 seconds).";
+            }
+            leaf average-frame-delay-variation {
+                type int64;
+                description "This attribute contains the average frame delay variation measured in units of ns (nano second, 1x10e-9 seconds).";
+            }
+            leaf maximum-frame-delay-variation {
+                type int64;
+                description "This attribute contains the maximum frame delay variation measured in units of ns (nano second, 1x10e-9 seconds).";
+            }
+            description "This data type contains the statistical delay measurement performance parameters.";
+        }
+        grouping pro-active-dm-performance-parameters {
+            container statistical-near-end-frame-delay-performance-parameters {
+                uses statistical-dm-performance-parameters;
+                description "This attribute contains the statistical near end performnace parameters.";
+            }
+            container statistical-far-end-frame-delay-performance-parameters {
+                uses statistical-dm-performance-parameters;
+                description "This attribute contains the statistical far end performnace parameters.";
+            }
+            container statistical-bidirectional-frame-delay-performance-parameters {
+                uses statistical-dm-performance-parameters;
+                description "This attribute contains the statistical bidirectional performnace parameters.";
+            }
+            description "This data type contains the near end, far end and bidirectional pro-active delay measurement PM data.";
+        }
+        grouping pro-active1-dm-performance-parameters {
+            container statistical-near-end-frame-delay-performance-parameters {
+                uses statistical-dm-performance-parameters;
+                description "This attribute contains the statistical near end performnace parameters.";
+            }
+            description "This data type contains the near end pro-active delay measurement PM data.";
+        }
+        grouping one-dm-threshold-values {
+            leaf granularity-period {
+                type time-period;
+                description "This attribute defines the granularity period of the current registers to which the thresholds are assigned.
+                    range of type : 24hr, 15min, 1 - 14 min";
+            }
+            container near-end-cross-threshold {
+                uses statistical-dm-performance-parameters;
+                description "This attribute contains the near end cross threshold values of the delay measurements.";
+            }
+            container near-end-clear-threshold {
+                uses statistical-dm-performance-parameters;
+                description "This attribute contains the near end clear threshold values of the delay measurements.";
+            }
+            description "This data type contains the threshold values for frame delay related 1-way measurements.";
+        }
+        grouping lm-threshold-values {
+            leaf granularity-period {
+                type time-period;
+                description "This attribute defines the granularity period of the current registers to which the thresholds are assigned.
+                    range of type : 24hr, 15min, 1 - 14 min";
+            }
+            container near-end-cross-threshold {
+                uses statistical-lm-performance-parameters;
+                description "This attribute contains the near end cross threshold values of the loss measurements.";
+            }
+            container near-end-clear-threshold {
+                uses statistical-lm-performance-parameters;
+                description "This attribute is only valid for frame loss ratio parameters and counter type parameters working in the 'standing condition method' (see G.7710, section 10.1.7.2: Threshold reporting) and contains the near end clear threshold values of the loss measurements.";
+            }
+            container far-end-cross-threshold {
+                uses statistical-lm-performance-parameters;
+                description "This attribute contains the far end cross threshold values of the loss measurements.";
+            }
+            container far-end-clear-threshold {
+                uses statistical-lm-performance-parameters;
+                description "This attribute is only valid for frame loss ratio parameters and counter type parameters working in the 'standing condition method' (see G.7710, section 10.1.7.2: Threshold reporting) and contains the far end clear threshold values of the loss measurements.";
+            }
+            leaf bidirectional-uas-cross-threshold {
+                type int64;
+                description "This attribute contains the bidirectional cross threshold value of the UAS loss measurement.";
+            }
+            leaf bidirectional-uas-clear-threshold {
+                type int64;
+                description "This attribute is only valid for the UAS parameter working in the 'standing condition method' (see G.7710, section 10.1.7.2: Threshold reporting) and contains the bidirectional clear threshold value of the UAS loss measurement.";
+            }
+            description "This data type contains the threshold values for frame loss related 2-way measurements.";
+        }
+        grouping one-lm-threshold-values {
+            leaf granularity-period {
+                type time-period;
+                description "This attribute defines the granularity period of the current registers to which the thresholds are assigned.
+                    range of type : 24hr, 15min, 1 - 14 min";
+            }
+            container near-end-cross-threshold {
+                uses statistical-lm-performance-parameters;
+                description "This attribute contains the near end cross threshold values of the loss measurements.";
+            }
+            container near-end-clear-threshold {
+                uses statistical-lm-performance-parameters;
+                description "This attribute is only valid for frame loss ratio parameters and counter type parameters working in the 'standing condition method' (see G.7710, section 10.1.7.2: Threshold reporting) and contains the near end clear threshold values of the loss measurements.";
+            }
+            description "This data type contains the threshold values for frame loss related 1-way measurements.";
+        }
+        grouping on-demand1-dm-performance-data {
+            container near-end-frame-delay-performance-parameters {
+                uses on-demand-frame-delay-performance-parameters;
+                description "This attribute contains the results of an on-demand frame delay measurement job in the ingress direction.";
+            }
+            description "This data type contains the near end on-demand frame delay PM data.";
+        }
+        grouping on-demand-performance-data {
+            container on-demand-frame-felay-performance-data {
+                uses on-demand-frame-delay-performance-data;
+                description "none";
+            }
+            container on-demand-frame-loss-performance-data {
+                uses on-demand-frame-loss-performance-data;
+                description "none";
+            }
+            description "This data type choice is used as the generic data type for all kinds of 1 way on-demand PM data.";
+        }
+        grouping on-demand-frame-delay-performance-data {
+            container near-end-frame-delay-performance-parameters {
+                uses on-demand-frame-delay-performance-parameters;
+                description "This attribute contains the results of an on-demand frame delay measurement job in the ingress direction.";
+            }
+            container far-end-frame-delay-performance-parameters {
+                uses on-demand-frame-delay-performance-parameters;
+                description "This attribute contains the results of an on-demand frame delay measurement job in the ingress direction.";
+            }
+            description "This data type contains the near end on-demand frame delay PM data.";
+        }
+        grouping on-demand-pdu-generation-schedule-data {
+            leaf start-time {
+                type generalized-time;
+                default "current time";
+                description "This attribute contains the start date and time of the on-demand session. The default value of this attribute shall be the current time of the NE’s real-time clock at the moment the measurement job is being created.";
+            }
+            leaf stop-time {
+                type generalized-time;
+                description "This attribute contains the stop date and time of the on-demand session.";
+            }
+            leaf oam-pdu-generation-type {
+                type oam-pdu-generation-type;
+                description "This attribute contains the pattern that is used for the generation of OAM PDUs.
+                    range of type : See associated Enum.";
+            }
+            leaf message-period {
+                type message-period;
+                description "This attribute contains the frequency of the OAM message (PDU) generation within a series. 
+                    Note that the value 0 means that only one OAM message per measurement interval is generated.
+                    Note that for on-demand LM, practical period should be 1 sec or longer.#
+                    range of type : See corresponding Enum";
+            }
+            leaf measurement-interval {
+                type int64;
+                description "This attribute contains the discrete non overlapping periods of time during which measurements are performed (i.e., OAM messages are generated) and reports are gathered at the end of the measurement intervals. 
+                    Note that the value 0 means a degenerated measurement interval with a single OAM message and the report is sent as immediately as possible.";
+            }
+            leaf repetition-period {
+                type repetition-period;
+                description "This attribute contains the time between the start of two measurement intervals. This IS applicable for the repetitive instance type and MAY be applicable for the repetitive series type. 
+                    Note that a value of 0 means not applicable (NA), which is for the cases of single instance, single series, or repetitive series without extra gap in between the measurement intervals (i.e., also as known as continuous series).
+                    range of type : See corresponding Enum";
+            }
+            description "This data type contains the parameters necessary for the configuration of the PDU generation cycle.
+                Not all parameters are always necessary; this is dependent on the PDU generation type (single instance, repetitive instance, single series, repetitive series).
+                Single instance:
+                - Start Time = any time
+                - Stop Time = same as Start Time
+                - Message Period = 0
+                - Repetition Period = 0
+                - Measurement Interval = 0
+                Repetitive instance:
+                - Start Time = any time
+                - Stop Time  greater than start time
+                - Message Period = 0
+                - Measurement Interval = 0
+                - Repetition Period = value required
+                Single series:
+                - Start Time = any time
+                - Stop Time = greater than Start Time
+                - Message Period = value required
+                - Measurement Interval = Stop Time - Start Time
+                - Repetition Period = 0
+                Repetitive series:
+                - Start Time = any time
+                - Stop Time = greater than Start Time
+                - Message Period = value required
+                - Measurement Interval = value required
+                - Repetition Period = value required {< Measurement Interval}";
+        }
+        typedef repetition-period {
+            type enumeration {
+                enum 1-min {
+                    description "none";
+                }
+                enum 1-s {
+                    description "none";
+                }
+                enum 10-s {
+                    description "none";
+                }
+                enum 0 {
+                    description "none";
+                }
+            }
+            description "This enumeration defines the allowed values for the repetition period in on-demand measurements.
+                Note: The value 0 means that the value is not relevant.";
+        }
+        typedef csf-config {
+            type enumeration {
+                enum disabled {
+                    description "This literal covers the following states of the CSF related MI informations:
+                        - MI_CSF_Enable is false
+                        - MI_CSFrdifdi_Enable is false
+                        - MI_CSFdci_Enable is false.";
+                }
+                enum enabled {
+                    description "This literal covers the following states of the CSF related MI informations:
+                        - MI_CSF_Enable is true
+                        - MI_CSFrdifdi_Enable is false
+                        - MI_CSFdci_Enable is false.";
+                }
+                enum enabled-with-rdi-fdi {
+                    description "This literal covers the following states of the CSF related MI informations:
+                        - MI_CSF_Enable is true
+                        - MI_CSFrdifdi_Enable is true
+                        - MI_CSFdci_Enable is false.";
+                }
+                enum enabled-with-rdi-fdi-dci {
+                    description "This literal covers the following states of the CSF related MI informations:
+                        - MI_CSF_Enable is true
+                        - MI_CSFrdifdi_Enable is true
+                        - MI_CSFdci_Enable is true.";
+                }
+                enum enabled-with-dci {
+                    description "This literal covers the following states of the CSF related MI informations:
+                        - MI_CSF_Enable is true
+                        - MI_CSFrdifdi_Enable is false
+                        - MI_CSFdci_Enable is true.";
+                }
+            }
+            description "none";
+        }
+        grouping control-frame-filter {
+            leaf c2-00-00-10 {
+                type boolean;
+                description "This attribute identifies the 'All LANs Bridge Management Group Address'.";
+            }
+            leaf c2-00-00-00 {
+                type boolean;
+                description "This attribute identifies the STP/RSTP/MSTP protocol address.";
+            }
+            leaf c2-00-00-01 {
+                type boolean;
+                description "This attribute identifies the IEEE MAC-specific Control Protocols group address (PAUSE protocol).";
+            }
+            leaf c2-00-00-02 {
+                type boolean;
+                description "This attribute identifies the IEEE 802.3 Slow_Protocols_Multicast address (LACP/LAMP or Link OAM protocols).";
+            }
+            leaf c2-00-00-03 {
+                type boolean;
+                description "This attribute identifies the Nearest non-TPMR Bridge group address (Port Authentication protocol).";
+            }
+            leaf c2-00-00-04 {
+                type boolean;
+                description "This attribute identifies the IEEE MAC-specific Control Protocols group address.";
+            }
+            leaf c2-00-00-05 {
+                type boolean;
+                description "Reserved for future standardization.";
+            }
+            leaf c2-00-00-06 {
+                type boolean;
+                description "Reserved for future standardization.";
+            }
+            leaf c2-00-00-07 {
+                type boolean;
+                description "This attribute identifies the Metro Ethernet Forum E-LMI protocol group address.";
+            }
+            leaf c2-00-00-08 {
+                type boolean;
+                description "This attribute identifies the Provider Bridge Group address.";
+            }
+            leaf c2-00-00-09 {
+                type boolean;
+                description "Reserved for future standardization.";
+            }
+            leaf c2-00-00-0-a {
+                type boolean;
+                description "Reserved for future standardization.";
+            }
+            leaf c2-00-00-0-b {
+                type boolean;
+                description "Reserved for future standardization.";
+            }
+            leaf c2-00-00-0-c {
+                type boolean;
+                description "Reserved for future standardization.";
+            }
+            leaf c2-00-00-0-d {
+                type boolean;
+                description "This attribute identifies the Provider Bridge MVRP address.";
+            }
+            leaf c2-00-00-0-e {
+                type boolean;
+                description "This attribute identifies the Individual LAN Scope group address, Nearest Bridge group address (LLDP protocol).";
+            }
+            leaf c2-00-00-0-f {
+                type boolean;
+                description "Reserved for future standardization.";
+            }
+            leaf c2-00-00-20 {
+                type boolean;
+                description "This attribute identifies the Customer and Provider Bridge MMRP address.";
+            }
+            leaf c2-00-00-21 {
+                type boolean;
+                description "This attribute identifies the Customer Bridge MVRP address.";
+            }
+            leaf c2-00-00-22 {
+                type boolean;
+                description "Reserved for future standardization.";
+            }
+            leaf c2-00-00-23 {
+                type boolean;
+                description "Reserved for future standardization.";
+            }
+            leaf c2-00-00-24 {
+                type boolean;
+                description "Reserved for future standardization.";
+            }
+            leaf c2-00-00-25 {
+                type boolean;
+                description "Reserved for future standardization.";
+            }
+            leaf c2-00-00-26 {
+                type boolean;
+                description "Reserved for future standardization.";
+            }
+            leaf c2-00-00-27 {
+                type boolean;
+                description "Reserved for future standardization.";
+            }
+            leaf c2-00-00-28 {
+                type boolean;
+                description "Reserved for future standardization.";
+            }
+            leaf c2-00-00-29 {
+                type boolean;
+                description "Reserved for future standardization.";
+            }
+            leaf c2-00-00-2-a {
+                type boolean;
+                description "Reserved for future standardization.";
+            }
+            leaf c2-00-00-2-b {
+                type boolean;
+                description "Reserved for future standardization.";
+            }
+            leaf c2-00-00-2-c {
+                type boolean;
+                description "Reserved for future standardization.";
+            }
+            leaf c2-00-00-2-d {
+                type boolean;
+                description "Reserved for future standardization.";
+            }
+            leaf c2-00-00-2-e {
+                type boolean;
+                description "Reserved for future standardization.";
+            }
+            leaf c2-00-00-2-f {
+                type boolean;
+                description "Reserved for future standardization.";
+            }
+            description "This data type identifies the filter action for each of the 33 group MAC addresses (control frames).
+                Value 'false' means block: The frame is discarded by the filter process.
+                Value 'true' means pass: The frame is passed unchanged through the filter process.";
+        }
+        grouping ctp-aggregator-sink-create-data {
+            leaf pll-thr {
+                type int64;
+                description "This attribute provisions the threshold for the number of active ports. If the number of active ports is more than zero but less than the provisioned threshold, a cPLL (Partial Link Loss) is raised. See section 9.7.1.2 of G.8021.
+                    Note: cannot find this in 802.1AX#
+                    range of type : 0..number of ports";
+            }
+            leaf is-ssf-reported {
+                type boolean;
+                description "This attribute provisions whether the SSF defect should be reported as fault cause or not.
+                    It models the ETH-LAG_FT_Sk_MI_SSF_Reported defined in G.8021.";
+            }
+            container filter-config {
+                uses control-frame-filter;
+                description "This attribute models the FilterConfig MI defined in section 8.3/G.8021. It indicates the configured filter action for each of the 33 group MAC addresses for control frames. The 33 MAC addresses are:
+                    - All bridges address: 01-80-C2-00-00-10,
+                    - Reserved addresses: 01-80-C2-00-00-00 to 01-80-C2-00-00-0F,
+                    - GARP Application addresses: 01-80-C2-00-00-20 to 01-80-C2-00-00-2F.
+                    The filter action is Pass or Block. 
+                    If the destination address of the incoming ETH_CI_D matches one of the above addresses, the filter process shall perform the corresponding configured filter action. 
+                    If none of the above addresses match, the ETH_CI_D is passed.";
+            }
+            description "This data type contains the configuration parameters for creating an Aggregator Sink object.";
+        }
+        typedef ctp-aggregator-source-create-data {
+            type string;
+            description "This data type contains the configuration parameters for creating an Aggregator Source object.";
+        }
+        grouping ctp-aggregator-create-data {
+            leaf ctp-ref {
+                type leafref {
+                    path '/g8052:eth-connection-termination-point/g8052:layer-protocol-name';
+                }
+                description "This attribute provides the CTP identifier to be added to the LAG.";
+            }
+            leaf ctp-aggregator-source-create-data {
+                type ctp-aggregator-source-create-data;
+                description "none";
+            }
+            container ctp-aggregator-sink-create-data {
+                uses ctp-aggregator-sink-create-data;
+                description "none";
+            }
+            description "This data type contains the configuration parameters for creating an Aggregator object accociated to a CTP.";
+        }
+        grouping ttp-aggregation-port-create-data {
+            leaf ttp-ref {
+                type string;
+                description "This attribute provides the TTP identifier to be added to the LAG.";
+            }
+            container ttp-aggregation-port-source-create-data {
+                uses ttp-aggregation-port-source-create-data;
+                description "none";
+            }
+            leaf ttp-aggregation-port-sink-create-data {
+                type ttp-aggregation-port-sink-create-data;
+                description "none";
+            }
+            description "This data type contains the configuration parameters for creating an Aggregation Port object accociated to a TTP.";
+        }
+        grouping ttp-aggregation-port-source-create-data {
+            leaf actor-admin-state {
+                type bit-string;
+                description "See IEEE 802.1AX:
+                    A string of 8 bits, corresponding to the administrative values of Actor_State (5.4.2) as transmitted by the Actor in LACPDUs. The first bit corresponds to bit 0 of Actor_State (LACP_Activity), the second bit corresponds to bit 1 (LACP_Timeout), the third bit corresponds to bit 2 (Aggregation), the fourth bit corresponds to bit 3 (Synchronization), the fifth bit corresponds to bit 4 (Collecting), the sixth bit corresponds to bit 5 (Distributing), the seventh bit corresponds to bit 6 (Defaulted), and the eighth bit corresponds to bit 7 (Expired). These values allow administrative control over the values of LACP_Activity, LACP_Timeout, and Aggregation. This attribute value is read-write.
+                    range of type : SIZE(1..8)";
+            }
+            leaf is-tx-pause-enabled {
+                type boolean;
+                description "This attribute identifies whether the Transmit Pause process is enabled or not. It models the MI_TxPauseEnable defined in G.8021.
+                    range of type : true, false";
+            }
+            description "This data type contains the configuration parameters for creating an Aggregation Port Source object.";
+        }
+        typedef ttp-aggregation-port-sink-create-data {
+            type string;
+            description "This data type contains the configuration parameters for creating an Aggregation Port Sink object.";
+        }
+        grouping mep-set-data {
+            leaf admin-state {
+                type admin-state;
+                description "This attribute models the MI_Admin_State information defined in G.8021.";
+            }
+            leaf client-mel {
+                type int64 {
+                    range "0..7";
+                }
+                description "This attribute models the MI_Client_MEL signal defined in G.8021 and configured as specified in G8051.";
+            }
+            leaf is-cc-enabled {
+                type boolean;
+                description "This attribute models the MI_CC_Enable signal defined in G.8021 and configured as specified in G8051.";
+            }
+            leaf cc-period {
+                type oam-period;
+                description "This attribute models the MI_CC_Period signal defined in G.8021 and configured as specified in G8051. 
+                    It is the period at which the CCM message should be sent.
+                    Default values: 3.33 ms for PS, 100 ms for PM, 1 s for FM";
+            }
+            leaf cc-priority {
+                type int64 {
+                    range "0..7";
+                }
+                default 7;
+                description "This attribute models the MI_CC_Pri signal defined in G.8021 and configured as specified in G8051. It is the priority at which the CCM message should be sent.";
+            }
+            leaf lck-period {
+                type oam-period;
+                default 1-s;
+                description "This attribute models the MI_LCK_Period signal defined in G.8021 and configured as specified in G8051. It is the frequency at which the LCK messages should be sent.
+                    range of type : 1s, 1min";
+            }
+            leaf lck-priority {
+                type int64 {
+                    range "0..7";
+                }
+                default 7;
+                description "This attribute models the MI_LCK_Pri signal defined in G.8021 and configured as specified in G8051. It is the priority at which the LCK messages should be sent.";
+            }
+            description "This data type contains the common parameters necessary for creating and modifying MEPs.";
+        }
+        grouping mep-source-modify-data {
+            leaf csf-config {
+                type csf-config;
+                description "This attribute models the combination of all CSF related MI signals (MI_CSF_Enable, MI_CSFrdifdi_Enable, MI_CSFdci_Enable) as defined in G.8021.";
+            }
+            leaf csf-period {
+                type oam-period;
+                default 1-s;
+                description "This attribute models the MI_CSF_Period signal defined in G.8021 and configured as specified in G8051. It is the period at which the CSF messages should be sent.
+                    range of type : 1s, 1min";
+            }
+            leaf csf-priority {
+                type int64 {
+                    range "0..7";
+                }
+                default 7;
+                description "This attribute models the MI_CSF_Pri signal defined in G.8021 and configured as specified in G8051. It is the priority at which the CSF messages should be sent";
+            }
+            leaf aps-priority {
+                type int64 {
+                    range "0..7";
+                }
+                default 7;
+                description "This attribute specifies the priority of the APS messages.
+                    See section 8.1.5    APS insert process in G.8021.";
+            }
+            uses mep-set-data;
+            description "This data type contains the parameters necessary for modifying MEP Sources.";
+        }
+        grouping mep-set-by-create-data {
+            leaf mep-mac {
+                type mac-address;
+                config false;
+                description "This attribute contains the MAC Address of the MEP.";
+            }
+            leaf mel {
+                type int64 {
+                    range "0..7";
+                }
+                description "This attribute identifies the MEG Level associated to the MEP.
+                    The default MEL is by agreement.";
+            }
+            leaf meg-identifier {
+                type string;
+                description "This attribute identifies the MEG associated to the MEP.";
+            }
+            description "This data type contains the common parameters necessary for creating MEPs.";
+        }
+        grouping mep-sink-modify-data {
+            leaf-list peer-mep-ref-list {
+                type int64 {
+                    range "0..8191";
+                }
+                description "This attribute models the MI_PeerMEP_ID[i] signal defined in G.8021 and configured as specified in G.8051. It provides the identifiers of the MEPs which are peer to the subject MEP.";
+            }
+            leaf ais-period {
+                type oam-period;
+                default 1-s;
+                description "This attribute models the MI_AIS_Period signal defined in G.8021 and configured as specified in G8051. It is the frequency at which the AIS messages should be sent.
+                    range of type : 1s, 1min";
+            }
+            leaf ais-priority {
+                type int64 {
+                    range "0..7";
+                }
+                default 7;
+                description "This attribute models the MI_AIS_Pri signal defined in G.8021 and configured as specified in G8051. It is the priority at which the AIS messages should be sent.";
+            }
+            leaf is-csf-reported {
+                type boolean;
+                default true;
+                description "This attribute models the MI_CSF_Reported signal defined in G.8021 and configured as specified in G8051. It configures whether the secondary failure CSF should be reported or not.";
+            }
+            leaf is-csf-rdi-fdi-enabled {
+                type boolean;
+                default true;
+                description "This attribute models the MI_CSFrdifdiEnable signal defined in G.8021 and configured as specified in G8051.";
+            }
+            leaf current-problem-list {
+                type string;
+                config false;
+                description "This attribute indicates the active alarms (i.e. current problems) of the MEP.
+                    range of type : cLOC[i], cUNL, cMMG, cUNM, cDEG, cUNP, cUNPr, cRDI, cSSF, cLCK";
+            }
+            uses mep-set-data;
+            description "This data type contains the parameters necessary for modifying MEP Sinks.";
+        }
+        grouping mep-source-create-data {
+            leaf mep-identifier {
+                type int64 {
+                    range "0..8191";
+                }
+                config false;
+                description "This attribute contains the identifier of the MEP.";
+            }
+            uses mep-set-by-create-data;
+            uses mep-source-modify-data;
+            description "This data type contains the parameters necessary for creating MEP Sources.";
+        }
+        grouping mep-sink-create-data {
+            uses mep-sink-modify-data;
+            uses mep-set-by-create-data;
+            description "This data type contains the parameters necessary for creating MEP Sinks.";
+        }
+        typedef object-type {
+            type enumeration {
+                enum sink {
+                    description "none";
+                }
+                enum source {
+                    description "none";
+                }
+                enum bidirectional {
+                    description "none";
+                }
+            }
+            description "This enumeration identifies the kind of object.";
+        }
+        grouping link-trace-result {
+            leaf source-address {
+                type mac-address;
+                description "This attribute contains the source MAC Address of an individual LTR frame result.";
+            }
+            leaf time-to-live-value {
+                type int64;
+                description "This attribute contains the Time To Live (TTL) value of an individual LTR frame result.";
+            }
+            leaf data-tlv-length {
+                type int64;
+                description "This attribute contains the length (in number of octets) of the Data TLV of an individual LTR frame result.";
+            }
+            description "This data type contains the result from an individual LTR frame.";
+        }
+        typedef granularity-period {
+            type enumeration {
+                enum 24-hour {
+                    description "none";
+                }
+                enum 15-minute {
+                    description "none";
+                }
+                enum less-than-15-minute {
+                    description "none";
+                }
+            }
+            description "This enumeration defines the granularity periods of the PM registers at the pro-active measurements.";
+        }
+        grouping ring-port-ref {
+            leaf ctp-ref {
+                type string;
+                config false;
+                description "This attribute identifies an ETH CTP.";
+            }
+            leaf rpl-port {
+                type rpl-port;
+                config false;
+                description "This attribute identifies the role of the ETH CTP wrt the RPL.";
+            }
+            description "This data type identifies an ETH CTP and its role in the RPL (i.e. either owner port, neighbour port, or normal port).";
+        }
+        typedef rpl-port {
+            type enumeration {
+                enum neighbour-port {
+                    description "none";
+                }
+                enum owner-port {
+                    description "none";
+                }
+                enum normal-port {
+                    description "none";
+                }
+            }
+            description "This enumeration identifies the kind of port wrt an RPL.";
+        }
+        grouping bandwidth-report {
+            leaf source-mac-address {
+                type mac-address;
+                description "The sourceMacAddress is the address from the far end.";
+            }
+            leaf port-id {
+                type int64;
+                description "This attribute returns the far end port identifier.";
+            }
+            leaf nominal-bandwidth {
+                type int64;
+                description "This attribute returns the configured bandwidth";
+            }
+            leaf current-bandwidth {
+                type int64;
+                description "This attribute returns the current bandwidth.";
+            }
+            description "Data type for the bandwidth report.";
+        }
+        grouping expected-defect-message {
+            leaf mep-identifier {
+                type int64;
+                description "This attribute provides the identifier for the peer MEP.";
+            }
+            leaf duration {
+                type int64;
+                description "This attribute reports on the duration of the expected defect message.";
+            }
+            description "This models the expected defect message.";
+        }
+
+    /***********************
+    * package imported-information-object-classes
+    **********************/ 
+        /***********************
+        * package q.822
+        **********************/ 
+            /***********************
+            * package imported-arche-types
+            **********************/ 
+                grouping q.822-filter-suppression-pkg {
+                    leaf discriminator-construct {
+                        type string;
+                        description "none";
+                    }
+                    description "none";
+                }
+                grouping q.822-history-data-measurement-list-pkg {
+                    leaf c-tp-id {
+                        type string;
+                        description "none";
+                    }
+                    description "none";
+                }
+                grouping q.822-history-data-suspect-interval-flag-pkg {
+                    leaf c-tp-id {
+                        type string;
+                        description "none";
+                    }
+                    description "none";
+                }
+                grouping q.822-history-retention-pkg {
+                    leaf history-retention {
+                        type string;
+                        description "none";
+                    }
+                    description "none";
+                }
+                grouping q.822-max-suppressed-intervals-pkg {
+                    leaf max-suppressed-intervals {
+                        type string;
+                        description "none";
+                    }
+                    description "none";
+                }
+                grouping q.822-measurement-list-pkg {
+                    leaf-list measurement-list {
+                        type string;
+                        description "none";
+                    }
+                    description "none";
+                }
+                grouping q.822-num-suppressed-intervals-pkg {
+                    leaf num-suppressed-intervals {
+                        type string;
+                        description "none";
+                    }
+                    description "none";
+                }
+                grouping q.822-object-delete-notification-pkg {
+                    leaf c-tp-id {
+                        type string;
+                        description "none";
+                    }
+                    description "none";
+                }
+                grouping q.822-observed-managed-object-pkg {
+                    leaf observed-object-class {
+                        type string;
+                        description "none";
+                    }
+                    leaf observed-object-instance {
+                        type string;
+                        description "none";
+                    }
+                    description "none";
+                }
+                grouping q.822-scheduled-pm-report-pkg {
+                    leaf-list scan-attribute-id-list {
+                        type string;
+                        description "none";
+                    }
+                    leaf numeric-attribute-id-array {
+                        type string;
+                        description "none";
+                    }
+                    leaf-list once-report-attribute-id-list {
+                        type string;
+                        description "none";
+                    }
+                    description "none";
+                }
+                grouping q.822-threshold-pkg {
+                    leaf report-all-attributes {
+                        type string;
+                        description "none";
+                    }
+                    leaf suppress-additional-thresholds {
+                        type string;
+                        description "none";
+                    }
+                    leaf threshold-data-instance {
+                        type string;
+                        description "none";
+                    }
+                    description "none";
+                }
+                grouping q.822-zero-suppression-pkg {
+                    description "none";
+                }
+
+            grouping q.822-current-data {
+                leaf suspect-interval-flag {
+                    type boolean;
+                    description "This attribute is used to indicate that the performance data for the current period may not be reliable. Some reasons for this to occur are:
+                        – Suspect data were detected by the actual resource doing data collection.
+                        – Transition of the administrativeState attribute to/from the 'lock' state.
+                        – Transition of the operationalState to/from the 'disabled' state.
+                        – Scheduler setting that inhibits the collection function.
+                        – The performance counters were reset during the interval.
+                        – The currentData (or subclass) object instance was created during the monitoring period.";
+                }
+                leaf elapsed-time {
+                    type string;
+                    description "none";
+                }
+                container q.822-filtersuppressionpkg {
+                    uses q.822-filter-suppression-pkg;
+                    description "none";
+                }
+                container q.822-historyretentionpkg {
+                    uses q.822-history-retention-pkg;
+                    description "none";
+                }
+                container q.822-maxsuppressedintervalspkg {
+                    uses q.822-max-suppressed-intervals-pkg;
+                    description "none";
+                }
+                container q.822-measurementlistpkg {
+                    uses q.822-measurement-list-pkg;
+                    description "none";
+                }
+                container q.822-numsuppressedintervalspkg {
+                    uses q.822-num-suppressed-intervals-pkg;
+                    description "none";
+                }
+                container q.822-observedmanagedobjectpkg {
+                    uses q.822-observed-managed-object-pkg;
+                    description "none";
+                }
+                container q.822-scheduledpmreportpkg {
+                    uses q.822-scheduled-pm-report-pkg;
+                    description "none";
+                }
+                container q.822-thresholdpkg {
+                    uses q.822-threshold-pkg;
+                    description "none";
+                }
+                container q.822-zerosuppressionpkg {
+                    uses q.822-zero-suppression-pkg;
+                    description "none";
+                }
+                uses x.739-scanner;
+                description "none";
+            }
+            grouping q.822-history-data {
+                leaf history-data-id {
+                    type string;
+                    description "none";
+                }
+                leaf period-end-time {
+                    type string;
+                    description "none";
+                }
+                leaf granularity-period {
+                    type string;
+                    description "none";
+                }
+                container q.822-numsuppressedintervalspkg {
+                    uses q.822-num-suppressed-intervals-pkg;
+                    description "none";
+                }
+                container q.822-historydatameasurementlistpkg {
+                    uses q.822-history-data-measurement-list-pkg;
+                    description "none";
+                }
+                container q.822-historydatasuspectintervalflagpkg {
+                    uses q.822-history-data-suspect-interval-flag-pkg;
+                    description "none";
+                }
+                container q.822-observedmanagedobjectpkg {
+                    uses q.822-observed-managed-object-pkg;
+                    description "none";
+                }
+                container q.822-objectdeletenotificationpkg {
+                    uses q.822-object-delete-notification-pkg;
+                    description "none";
+                }
+                uses x.721-top;
+                description "none";
+            }
+            container q.822-threshold-data {
+                leaf threshold-data-id {
+                    type string;
+                    description "The thresholdData object class is a class of managed support objects that contains the values of the threshold settings for the PM parameters. At least one of the counterThresholdListPkg or the gaugeThresholdListPkg must be instantiated.";
+                }
+                uses x.721-top;
+                description "none";
+            }
+
+        /***********************
+        * package x.739
+        **********************/ 
+            grouping x.739-scanner {
+                leaf scanner-id {
+                    type string;
+                    description "none";
+                }
+                leaf operational-state {
+                    type string;
+                    description "none";
+                }
+                leaf-list granularity-period {
+                    type string;
+                    min-elements 1;
+                    max-elements 3;
+                    description "none";
+                }
+                leaf administrative-state {
+                    type string;
+                    description "none";
+                }
+                uses x.721-top;
+                description "none";
+            }
+
+        /***********************
+        * package x.721
+        **********************/ 
+            /***********************
+            * package imported-arche-types
+            **********************/ 
+                container x.721-administrative-state-package {
+                    leaf administrative-state {
+                        type string;
+                        description "none";
+                    }
+                    description "none";
+                }
+
+            grouping x.721-top {
+                leaf object-class {
+                    type object-identifier;
+                    description "ObjectClass ::= CHOICE{    globalForm    [0] OBJECT IDENTIFIER,
+                        localForm    [1] INTEGER}";
+                }
+                leaf name-binding {
+                    type object-identifier;
+                    description "none";
+                }
+                leaf-list packages {
+                    type object-identifier;
+                    description "none";
+                }
+                leaf-list allomorphs {
+                    type object-identifier;
+                    description "none";
+                }
+                description "This is the top level of managed object class hierarchy and every other managed object class is a specialization of either this generic class (top) or a specialization of subclass of top. The parameter miscellaneousError is to be used when a processing failure has occurred and the error condition encountered does not match any of object's defined specific error types.";
+            }
+
+        grouping g8052-layer-protocol {
+            leaf layer-protocol-name {
+                type string;
+                description "Indicate the specific layer-protocol described by the LayerProtocol entity.";
+            }
+            leaf lp-spec {
+                type string;
+                description "The LpSpec identifies the interna structure of the LP explaining internal flexibilities, degree of termination and degree of adaptation on both client and server side.";
+            }
+            leaf configured-client-capacity {
+                type string;
+                description "Provides a summarized view of the client capacity that is configurable for use.
+                    Note the cleint LTP association should provide all necessary detail hence this attribute is questionable.";
+            }
+            leaf lp-direction {
+                type string;
+                description "The overall directionality of the LP. 
+                    - A BIDIRECTIONAL LP will have some SINK and/or SOURCE flowss.
+                    - A SINK LP can only contain elements with SINK flows or CONTRA_DIRECTION_SOURCE flows
+                    - A SOURCE LP can only contain SOURCE flows or CONTRA_DIRECTION_SINK flows";
+            }
+            leaf termination-state {
+                type string;
+                description "Indicates whether the layer is terminated and if so how.";
+            }
+            description "Each transport layer is represented by a LayerProtocol (LP) instance. The LayerProtocol instances it can be used for controlling termination and monitoring functionality. 
+                It can also be used for controlling the adaptation (i.e. encapsulation and/or multiplexing of client signal), tandem connection monitoring, traffic conditioning and/or shaping functionality at an intermediate point along a connection. 
+                Where the client – server relationship is fixed 1:1 and immutable, the layers can be encapsulated in a single LTP instance. Where the is a n:1 relationship between client and server, the layers must be split over two separate instances of LTP. ";
+        }
+        grouping g8052-global-class {
+            list local-id-list {
+                key 'value-name';
+                uses name-and-value;
+                description "An identifier that is unique in the context of some scope that is less than the global scope.
+                    (consider in the context of Identifier: A property of an entity/role with a value that is unique within an identifier space, where the identifier space is itself unique, and immutable. The identifier therefore represents the identity of the entity/role. An identifier carries no semantics with respect to the purpose of the entity.)";
+            }
+            leaf uuid {
+                type string;
+                description "UUID: An identifier that is universally unique
+                    (consider in the context of Identifier: A property of an entity/role with a value that is unique within an identifier space, where the identifier space is itself globally unique, and immutable. An identifier carries no semantics with respect to the purpose or state of the entity)";
+            }
+            description "Represents a type of thing (an Entity) that has instances which can exist in their own right (independently of any others).
+                Entity: Has identity, defined boundary, properties, functionality and lifecycle in a global context.
+                (consider in the context of an Object Class: (usage) The representation of a thing that may be an entity or an inseparable Entity Feature)";
+        }
+
+    /***********************
+    * package imported-data-types
+    **********************/ 
+        typedef object-instance {
+            type string;
+            description "none";
+        }
+        typedef name {
+            type string;
+            description "none";
+        }
+        typedef object-identifier {
+            type string;
+            description "none";
+        }
+        typedef generalized-time {
+            type string;
+            description "none";
+        }
+        typedef time-period {
+            type string;
+            description "This primitive Type is imported from X.739.";
+        }
+        grouping name-and-value {
+            leaf value-name {
+                type string;
+                description "The name of the value. The value need not have a name.";
+            }
+            leaf value {
+                type string;
+                description "The value";
+            }
+            leaf name-and-value-authority-ref {
+                type string;
+                description "The authority that defines the named value.";
+            }
+            leaf global-class-ref {
+                type string;
+                description "The scope of the name uniqueness";
+            }
+            leaf local-class-ref {
+                type string;
+                description "The scope of the name uniqueness";
+            }
+            description "A scoped name-value pair";
+        }
+
+    /***********************
+    * package server-client-object-classes
+    **********************/ 
+        grouping sdh-trail-termination-point {
+            description "Not in scope of G.8052.";
+        }
+        grouping pdh-trail-termination-point {
+            description "Not in scope of G.8052.";
+        }
+        grouping oth-trail-termination-point {
+            description "Not in scope of G.8052.";
+        }
+        grouping mt-trail-termination-point {
+            description "Not in scope of G.8052.";
+        }
+        grouping pdh-connection-termination-point {
+            description "Not in scope of G.8052.";
+        }
+        grouping atm-connection-termination-point {
+            description "Not in scope of G.8052.";
+        }
+        grouping mt-connection-termination-point {
+            description "Not in scope of G.8052.";
+        }
+
+    /***********************
+    * package pacs
+    **********************/ 
+        grouping filter-config-sink-pac {
+            leaf-list filter-config {
+                type mac-address;
+                min-elements 33;
+                max-elements 33;
+                description "This attribute models the FilteConfig MI defined in 8.3/G.8021. It indicates the configured filter action for each of the 33 group MAC addresses for control frames. The 33 MAC addresses are:
+                    01-80-C2-00-00-10, 
+                    01-80-C2-00-00-00 to 01-80-C2-00-00-0F, and 
+                    01-80-C2-00-00-20 to 01-80-C2-00-00-2F.
+                    The filter action is Pass or Block. 
+                    If the destination address of the incoming ETH_CI_D matches one of the above addresses, the filter process shall perform the corresponding configured filter action. 
+                    If none of the above addresses match, the ETH_CI_D is passed.";
+            }
+            leaf mac-length {
+                type int64;
+                default 2000;
+                description "This attribute models the MAC_Lenght MI defined in 8.6/G.8021 for the MAC Length Check process. It indicates the allowed maximum frame length in bytes.
+                    range of type : 1518, 1522, 2000";
+            }
+            description "none";
+        }
+        grouping csf-config-source-pac {
+            leaf csf-config {
+                type csf-config;
+                description "This attribute models the combination of all CSF related MI signals (MI_CSF_Enable, MI_CSFrdifdi_Enable, MI_CSFdci_Enable) as defined in G.8021.
+                    range of type : true, false";
+            }
+            description "This package provides the CSF related MI signals defined in the adaptation source atomic functions.";
+        }
+        grouping csf-rdi-fdi-enable-sink-pac {
+            leaf csf-rdi-fdi-enable {
+                type boolean;
+                description "This attribute models the MI_CSFrdifdiEnable information defined in G.8021.";
+            }
+            description "This pac provides the client layer related MI attributes defined in the following adaptation functions: G.8021 Sn/ETH, Sn-X-L/ETH, Sm/ETH, Sm-X-L/ETH, Pq/ETH, Pq-X-L/ETH, ODUkP/ETH, ODUkP-X-L/ETH.";
+        }
+        grouping csf-report-sink-pac {
+            leaf csf-report {
+                type boolean;
+                description "This attribute models the MI_CSF_Reported information defined in G.8021.
+                    range of type : true, false";
+            }
+            description "This package provides the client layer related MI attributes defined in the following adaptation functions: G.8021 Sn/ETH, Sn-X-L/ETH, Sm/ETH, Sm-X-L/ETH, Pq/ETH, Pq-X-L/ETH, ODUkP/ETH, ODUkP-X-L/ETH, Sn-X/ETC3, ODU2P/ETHPP-OS.";
+        }
+        grouping vlan-config-source-pac {
+            leaf vlan-config {
+                type int64;
+                description "This attribute models the ETHx/ETH-m_A_So_MI_Vlan_Config information defined in G.8021.
+                    range of type : -1, 0, 1..4094";
+            }
+            description "none";
+        }
+        grouping vlan-config-sink-pac {
+            leaf vlan-config {
+                type int64;
+                description "This attribute models the ETHx/ETH-m_A_So_MI_Vlan_Config information defined in G.8021.
+                    range of type : -1, 0, 1..4094";
+            }
+            description "none";
+        }
+        grouping degraded-detection-pac {
+            leaf lm-degm {
+                type int64;
+                default 10;
+                description "This attribute defines the number of consecutive bad seconds necessary for the 'degraded' detection. See also section 'Degraded signal defect (dDEG)' in G.8021.";
+            }
+            leaf lm-deg-thr {
+                type int64;
+                default 30;
+                description "This attribute defines the threshold for declaring a 'bad second'. See also section 'Degraded signal defect (dDEG)' in G.8021.";
+            }
+            leaf lm-m {
+                type int64 {
+                    range "2..10";
+                }
+                default 10;
+                description "This attribute defines the number of consecutive good seconds necessary for the clearing of 'degraded'. See also section 'Degraded signal defect (dDEG)' in G.8021.";
+            }
+            leaf lm-tf-min {
+                type int64;
+                description "This attribute defines the necessary number of transmitted frames to enable the detection of 'bad seconds'. See also section 'Degraded signal defect (dDEG)' in G.8021.";
+            }
+            description "This package contains the configuration parameters for detecting 'degraded signal' (DEG).";
+        }
+        grouping csf-rdi-fdi-enable-source-pac {
+            leaf csf-rdi-fdi-enable {
+                type boolean;
+                default false;
+                description "This attribute models the MI_CSFrdifdiEnable information defined in G.8021.";
+            }
+            description "This pac provides the client layer related MI attributes defined in the following adaptation functions: G.8021 Sn/ETH, Sn-X-L/ETH, Sm/ETH, Sm-X-L/ETH, Pq/ETH, Pq-X-L/ETH, ODUkP/ETH, ODUkP-X-L/ETH.";
+        }
+        grouping tp-pac {
+            leaf alarm-status {
+                type string;
+                description "none";
+            }
+            leaf cross-connection-object-pointer {
+                type string;
+                description "none";
+            }
+            leaf current-problem-list {
+                type string;
+                description "none";
+            }
+            leaf alarm-severity-assignment-profile-pointer {
+                type string;
+                description "This role (when present) represents the Termination Point (include its child classes Trail/Connection Termination Point Source/Sink/Bidirectional, Network CTP/TTP Source/Sink/Bidirectional) capability to identify the Alarm Severity Assignment Profile that is associated with this Termination Point. When this role is present, the TerminationPoint.alarmSeverityAssignmentProfilePointe shall carry the DN of Alarm Severity Assignment Profile.";
+            }
+            leaf containing-physical-subsystem {
+                type string;
+                description "none";
+            }
+            description "none";
+        }
+
+    /***********************
+    * package operation-exceptions
+    **********************/ 
+        /***********************
+        * package common-exceptions
+        **********************/ 
+            typedef already-in-post-condition {
+                type string;
+                description "Raised when the the server is already in the post-condition. It can be used by operations which are not defined as idempotent.";
+            }
+            typedef not-in-valid-state {
+                type string;
+                description "Raised when the state of the specified object is such that the NE cannot perform the request. In other words, the environment or the application is not in an appropriate state for the requested operation.";
+            }
+            typedef capacity-exceeded {
+                type string;
+                description "Raised when the request will result in resources being created or activated beyond the capacity supported by the NE.";
+            }
+            typedef object-in-use {
+                type string;
+                description "Raised when the object identified in the request is currently in use.";
+            }
+            typedef entity-not-found {
+                type string;
+                description "Raised when at least one of the specified entities does not exist.";
+            }
+            typedef duplicate {
+                type string;
+                description "Raised when an entity cannot be created because an object with the same identifier/name already exists.";
+            }
+            typedef low-priority {
+                type string;
+                description "Raised when the operation cannot be excecuted beacuse of an other higher priority command is still in effect.";
+            }
+
+        /***********************
+        * package generic-exceptions
+        **********************/ 
+            typedef access-denied {
+                type string;
+                description "Raised when the EMS does not have access rights to request the given operation.";
+            }
+            typedef not-implemented {
+                type string;
+                description "Raised when the entire request is not supported by the NE or the request with the specified input parameters is not supported.";
+            }
+            typedef invalid-input {
+                type string;
+                description "Raised when the request contains an input parameter that is syntactically incorrect or identifies an object of the wrong type or is out of range (as defined in the model or because of NE limitation).";
+            }
+            typedef comm-loss {
+                type string;
+                description "Raised when the NE is unable to communicate with an underlying system or resource, and such communication is required to complete the request.";
+            }
+            typedef unable-to-comply {
+                type string;
+                description "Raised when the NE cannot perform the request. Use Cases may identify specific conditions that will result in this exception.";
+            }
+            typedef internal-error {
+                type string;
+                description "Raised when the NE has an internal error.";
+            }
+
+
+    /***********************
+    * package type-definitions-common
+    **********************/ 
+        typedef date-and-time {
+            type string;
+            description "This primitive type defines the date and time according to the following structure:
+                'yyyyMMddhhmmss.s[Z|{+|-}HHMm]' where:
+                yyyy    '0000'..'9999'    year
+                MM        '01'..'12'            month
+                dd        '01'..'31'            day
+                hh        '00'..'23'            hour
+                mm        '00'..'59'            minute
+                ss        '00'..'59'            second
+                s        '.0'..'.9'            tenth of second (set to '.0' if EMS or NE cannot support this granularity)
+                Z        'Z'                    indicates UTC (rather than local time)
+                {+|-}    '+' or '-'            delta from UTC
+                HH        '00'..'23'            time zone difference in hours
+                Mm        '00'..'59'            time zone difference in minutes.";
+        }
+        typedef bit-string {
+            type string;
+            description "This primitive type defines a bit oriented string.
+                The size of the BitString will be defined in the valueRange property of the attribute; according to ASN.1 (X.680).
+                The semantic of each bit position will be defined in the Documentation field of the attribute.";
+        }
+        typedef real {
+            type string;
+            description "This primitive type maps to the 'realnumber' defined in Recommendation X.680.";
+        }
+
+}
