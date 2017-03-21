@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module name="core-model"
         xmlns="urn:ietf:params:xml:ns:yang:yin:1"
-        xmlns:core-model="urn:onf:params:xml:ns:yang:CoreModel">
-  <namespace uri="urn:onf:params:xml:ns:yang:CoreModel"/>
+        xmlns:core-model="urn:onf:params:xml:ns:yang:core-model">
+  <namespace uri="urn:onf:params:xml:ns:yang:core-model"/>
   <prefix value="core-model"/>
   <organization>
     <text>ONF (Open Networking Foundation) Open Transport Working Group - Wireless Transport Project</text>
@@ -22,7 +22,7 @@ Editors:  Thorsten Heinze
   <description>
     <text>This module contains a collection of YANG definitions for managing wireless networks.</text>
   </description>
-  <revision date="2017-02-17">
+  <revision date="2017-03-20">
     <description>
       <text>Initial version</text>
     </description>
@@ -49,8 +49,7 @@ Editors:  Thorsten Heinze
       </enum>
     </type>
     <description>
-      <text>The cause of the current protection state.
-Lifecycle : Preliminary</text>
+      <text>The cause of the current protection state.</text>
     </description>
   </typedef>
   <typedef name="route-selection-control">
@@ -92,8 +91,7 @@ Note: Only relevant when part of a protection scheme.</text>
       </enum>
     </type>
     <description>
-      <text>Possible degrees of administrative control applied to the Route selection.
-Lifecycle : Preliminary</text>
+      <text>Possible degrees of administrative control applied to the Route selection.</text>
     </description>
   </typedef>
   <typedef name="route-selection-reason">
@@ -150,8 +148,7 @@ Note: Only relevant when part of a protection scheme.</text>
       </enum>
     </type>
     <description>
-      <text>The cause of the current route selection.
-Lifecycle : Preliminary</text>
+      <text>The cause of the current route selection.</text>
     </description>
   </typedef>
   <typedef name="switch-control">
@@ -185,7 +182,7 @@ Can be returned to NORMAL by configuration action.</text>
       </enum>
     </type>
     <description>
-      <text>Lifecycle : Preliminary</text>
+      <text>none</text>
     </description>
   </typedef>
   <typedef name="switch-state-reason">
@@ -234,8 +231,7 @@ Can be returned to NORMAL by configuration action.</text>
       </enum>
     </type>
     <description>
-      <text>Explains the reason for the current switch state.
-Lifecycle : Preliminary</text>
+      <text>Explains the reason for the current switch state.</text>
     </description>
   </typedef>
   <typedef name="reversion-mode">
@@ -252,27 +248,23 @@ Lifecycle : Preliminary</text>
       </enum>
     </type>
     <description>
-      <text>The reversion mode associated with protection.
-Lifecycle : Experimental</text>
+      <text>The reversion mode associated with protection.</text>
     </description>
   </typedef>
-  <grouping name="global-pac">
-    <uses name="global-class"/>
+  <grouping name="global-pac-g">
+    <uses name="global-class-g"/>
     <description>
-      <text>Provides the properties of a GlobalClass via composition.
-Lifecycle : Preliminary</text>
+      <text>Provides the properties of a GlobalClass via composition.</text>
     </description>
   </grouping>
-  <grouping name="local-pac">
-    <uses name="local-class"/>
+  <grouping name="local-pac-g">
+    <uses name="local-class-g"/>
     <description>
-      <text>Provides the properties of a LocalClass via composition.
-Lifecycle : Preliminary</text>
+      <text>Provides the properties of a LocalClass via composition.</text>
     </description>
   </grouping>
   <typedef name="protection-type">
     <type name="string"/>
-    <status value="obsolete"/>
     <description>
       <text>Identifies the type of protection of an FcSwitch.</text>
     </description>
@@ -285,14 +277,13 @@ Note that it is expected that attributes will be added to this structure to conv
 Layer protocol names include:
 -    Layer 1 (L1): OTU, ODU
 -    Layer 2 (L2): Carrier Grade Ethernet (ETY, ETH), MPLS-TP (MT)
-Lifecycle : Preliminary</text>
+</text>
     </description>
   </typedef>
   <typedef name="port-role">
     <type name="string"/>
     <description>
-      <text>The role of a port in the context of the function of the forwarding entity that it bounds.
-Lifecycle : Preliminary</text>
+      <text>The role of a port in the context of the function of the forwarding entity that it bounds.</text>
     </description>
   </typedef>
   <typedef name="port-direction">
@@ -429,8 +420,7 @@ A SOURCE termiation can be bound to an INPUT Port of a Forwarding entity</text>
       </enum>
     </type>
     <description>
-      <text>Extended to include contra-direction considerations. Only applies to LP and elements of LP not to LTP.
-Lifecycle : Experimental</text>
+      <text>Extended to include contra-direction considerations. Only applies to LP and elements of LP not to LTP.</text>
     </description>
   </typedef>
   <typedef name="termination-state">
@@ -473,11 +463,10 @@ Lifecycle : Experimental</text>
     </type>
     <description>
       <text>Provides support for the range of behaviours and specific states that an LP can take with respect to termination of the signal.
-Indicates to what degree the LayerTermination is terminated.
-Lifecycle : Experimental</text>
+Indicates to what degree the LayerTermination is terminated.</text>
     </description>
   </typedef>
-  <grouping name="configuration-and-switch-controller">
+  <grouping name="configuration-and-switch-controller-g">
     <leaf name="switch-rule">
       <type name="to-be-defined"/>
       <description>
@@ -486,14 +475,14 @@ Lifecycle : Experimental</text>
     </leaf>
     <leaf-list name="fc-switch">
       <type name="leafref">
-        <path value="/core-model:forwarding-construct/core-model:fc-switch/core-model:uuid"/>
+        <path value="/forwarding-construct/fc-switch/uuid"/>
       </type>
       <description>
         <text>The switch being controlled.</text>
       </description>
     </leaf-list>
     <container name="control-parameters">
-      <uses name="control-parameters-pac"/>
+      <uses name="control-parameters-pac-g"/>
       <description>
         <text>The control parameters to be applied if local parameters are used rather than profiles</text>
       </description>
@@ -505,13 +494,13 @@ Lifecycle : Experimental</text>
       </description>
     </leaf-list>
     <container name="local-pac">
-      <uses name="local-pac"/>
+      <uses name="local-pac-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="global-pac">
-      <uses name="global-pac"/>
+      <uses name="global-pac-g"/>
       <description>
         <text>none</text>
       </description>
@@ -532,7 +521,7 @@ All administrative controls of any aspect of protection are rejected.</text>
     </leaf>
     <leaf-list name="subordinate-controller">
       <type name="leafref">
-        <path value="/core-model:network-element/core-model:ltp/core-model:lp/core-model:config-and-switch-controller/core-model:switch-rule"/>
+        <path value="/network-element/ltp/lp/config-and-switch-controller/switch-rule"/>
       </type>
       <description>
         <text>A C&amp;SC that is fully or partially subordinate this C&amp;SC. 
@@ -541,11 +530,10 @@ Where there is a peer relationship each controller in the peering will see the o
       </description>
     </leaf-list>
     <description>
-      <text>Represents the capability to control and coordinate switches, to add/delete/modify FCs and to add/delete/modify LTPs/LPs so as to realize a protection scheme.
-Lifecycle : Preliminary</text>
+      <text>Represents the capability to control and coordinate switches, to add/delete/modify FCs and to add/delete/modify LTPs/LPs so as to realize a protection scheme.</text>
     </description>
   </grouping>
-  <grouping name="control-parameters-pac">
+  <grouping name="control-parameters-pac-g">
     <leaf name="reversion-mode">
       <type name="reversion-mode"/>
       <description>
@@ -578,11 +566,10 @@ Lifecycle : Preliminary</text>
       </description>
     </leaf>
     <description>
-      <text>A list of control parameters to apply to a switch.
-Lifecycle : Preliminary</text>
+      <text>A list of control parameters to apply to a switch.</text>
     </description>
   </grouping>
-  <grouping name="fc-switch">
+  <grouping name="fc-switch-g">
     <leaf name="hold-off-time">
       <type name="int64"/>
       <description>
@@ -603,7 +590,7 @@ Lifecycle : Preliminary</text>
     </leaf>
     <leaf-list name="selected-fc-port">
       <type name="leafref">
-        <path value="/core-model:forwarding-construct/core-model:fc-port/core-model:uuid"/>
+        <path value="/forwarding-construct/fc-port/uuid"/>
       </type>
       <description>
         <text>Indicates which points are selected by the switch.
@@ -620,7 +607,7 @@ Depending on the switch spec (via Fcspec)
       </description>
     </leaf-list>
     <container name="internal-configuration-and-switch-control">
-      <uses name="configuration-and-switch-controller"/>
+      <uses name="configuration-and-switch-controller-g"/>
       <description>
         <text>A switch controller encapsulated in the FcSwitch.</text>
       </description>
@@ -645,7 +632,7 @@ Depending on the switch spec (via Fcspec)
       </description>
     </leaf>
     <container name="control-parameters">
-      <uses name="control-parameters-pac"/>
+      <uses name="control-parameters-pac-g"/>
       <description>
         <text>none</text>
       </description>
@@ -656,7 +643,7 @@ Depending on the switch spec (via Fcspec)
         <text>Moved to ControlParameter_Pac and changed to waitToRevert... If the protection system is revertive, this attribute specifies the amount of time, in seconds, to wait after the preferred FcPort returns to an acceptable state of operation (e.g. a fault has cleared) before restoring traffic to that preferred FcPort.</text>
       </description>
     </leaf>
-    <uses name="local-class"/>
+    <uses name="local-class-g"/>
     <description>
       <text>The FcSwitch class models the switched forwarding of traffic (traffic flow) between FcPorts and is present where there is protection functionality in the FC. 
 If an FC exposes protection (having two or more FcPorts that provide alternative identical inputs/outputs), the FC will have one or more associated FcSwitch objects to represent the alternative flow choices visible at the edge of the FC.
@@ -672,7 +659,7 @@ The ability for a Switch to be 'high impedance' allows bidirectional ForwardingC
 This ability allows multiple alternate routes to be present that otherwise would be in conflict.</text>
     </description>
   </grouping>
-  <grouping name="forwarding-domain">
+  <grouping name="forwarding-domain-g">
     <leaf-list name="layer-protocol-name">
       <type name="layer-protocol-name"/>
       <min-elements value="1"/>
@@ -682,7 +669,7 @@ This ability allows multiple alternate routes to be present that otherwise would
     </leaf-list>
     <leaf-list name="lower-level-fd">
       <type name="leafref">
-        <path value="/core-model:network-element/core-model:fd/core-model:uuid"/>
+        <path value="/network-element/fd/uuid"/>
       </type>
       <description>
         <text>The FD class supports a recursive aggregation relationship (HigherLevelFdEncompassesLowerLevelFds) such that the internal construction of an FD can be exposed as multiple lower level FDs and associated Links (partitioning).
@@ -693,7 +680,7 @@ Aggregation allow reallocation of capacity from lower level FDs to different hig
     </leaf-list>
     <leaf-list name="fc">
       <type name="leafref">
-        <path value="/core-model:forwarding-construct/core-model:uuid"/>
+        <path value="/forwarding-construct/uuid"/>
       </type>
       <description>
         <text>An FD aggregares one or more FCs. A aggregated FC connects LTPs that bound the FD.</text>
@@ -701,7 +688,7 @@ Aggregation allow reallocation of capacity from lower level FDs to different hig
     </leaf-list>
     <leaf-list name="ltp">
       <type name="leafref">
-        <path value="/core-model:network-element/core-model:ltp/core-model:uuid"/>
+        <path value="/network-element/ltp/uuid"/>
       </type>
       <description>
         <text>An instance of FD is associated with zero or more LTP objects. 
@@ -715,7 +702,7 @@ The LTPs that bound the FD provide capacity for forwarding.</text>
 See also _lowerLevelFd.</text>
       </description>
     </leaf-list>
-    <uses name="global-class"/>
+    <uses name="global-class-g"/>
     <description>
       <text>The ForwardingDomain (FD) class models the topological component that represents the opportunity to enable forwarding (of specific transport characteristic information at one or more protocol layers) between points represented by the LTP in the model.
 The FD object provides the context for and constrains the formation, adjustment and removal of FCs and hence offers the potential to enable forwarding. 
@@ -725,7 +712,7 @@ An NE can encompass more than one switch matrix and hence more than one FD. The 
 The FD corresponds to a subnetwork [ITU-T G.800], FlowDomain [TMF 612] and a MultiLayerSubNetwork (MLSN) [TMF 612]. As in the TMF concept of MLSN and unlike the ITU-T concet of subnetwork model the FD can support more than one layer-protocol.</text>
     </description>
   </grouping>
-  <grouping name="forwarding-construct">
+  <grouping name="forwarding-construct-g">
     <leaf name="layer-protocol-name">
       <type name="layer-protocol-name"/>
       <description>
@@ -734,7 +721,7 @@ The FD corresponds to a subnetwork [ITU-T G.800], FlowDomain [TMF 612] and a Mul
     </leaf>
     <leaf-list name="lower-level-fc">
       <type name="leafref">
-        <path value="/core-model:forwarding-construct/core-model:uuid"/>
+        <path value="/forwarding-construct/uuid"/>
       </type>
       <description>
         <text>An FC object supports a recursive aggregation relationship such that the internal construction of an FC can be exposed as multiple lower level FC objects (partitioning).
@@ -753,14 +740,14 @@ The FC represents a Cross-Connection in an NE. The Cross-Connection in an NE is 
     <list name="fc-port">
       <key value="uuid"/>
       <min-elements value="2"/>
-      <uses name="fc-port"/>
+      <uses name="fc-port-g"/>
       <description>
         <text>The association of the FC to LTPs is made via FcPorts (essentially the ports of the FC).</text>
       </description>
     </list>
     <list name="fc-switch">
       <key value="uuid"/>
-      <uses name="fc-switch"/>
+      <uses name="fc-switch-g"/>
       <description>
         <text>If an FC exposes protection (having two FcPorts that provide alternative identical inputs/outputs), the FC will have one or more associated FcSwitch objects.
 The arrangement of switches for a particular instance is described by a referenced FcSpec</text>
@@ -800,7 +787,7 @@ Covers cases such as preemptable.</text>
         <text>An FC that spans between LTPs that terminate the LayerProtocol usually supports one or more links in the client layer.</text>
       </description>
     </leaf-list>
-    <uses name="global-class"/>
+    <uses name="global-class-g"/>
     <description>
       <text>The ForwardingConstruct (FC) class models enabled constrained potential for forwarding between two or more LTPs at a particular specific layerProtocol.
 Like the LTP, the FC supports any transport protocol including all circuit and packet forms.
@@ -815,7 +802,7 @@ The FC object can be used to represent many different structures including point
     <presence value=""/>
     <list name="fd">
       <key value="uuid"/>
-      <uses name="forwarding-domain"/>
+      <uses name="forwarding-domain-g"/>
       <description>
         <text>Represents the FD that is completely within the boundary of the NE.
 At a low level of recursion, an FD (within a network element (NE)) represents a switch matrix (i.e., a fabric). 
@@ -826,14 +813,14 @@ Where an FD is referenced by the NeEncompassesFd association, any FDs that it en
     </list>
     <list name="ltp">
       <key value="uuid"/>
-      <uses name="logical-termination-point"/>
+      <uses name="logical-termination-point-g"/>
       <description>
         <text>An NE has associated LTPs that are at its boundary.
 The NeEncompassesFd association occurs for FDs that are within the bounds of the NetworkElement definition such that the FD is bounded by LTPs, all of which are on the boundary of the NetworkElement or are within the NetworkElement. 
 An LTP can be independent of an NE.</text>
       </description>
     </list>
-    <uses name="global-class"/>
+    <uses name="global-class-g"/>
     <description>
       <text>The Network Element (NE) class represents a network element (traditional NE) in the data plane.
 A data plane network element is essentially a consolidation of capabilities that can be viewed and controlled through a 'single' management-control port.
@@ -841,21 +828,20 @@ In the direct interface from an SDN controller to a network element in the data 
 For example internal transfer of user information between the external terminations (ports of the NE), encapsulation, multiplexing/demultiplexing, and OAM functions, etc. 
 The NetworkElement provides the scope of the naming space for identifying objects representing the resources within the data plane network element.
 NE is really a product bundling or some view of management scope, management access, session. 
-The NE is not directly part of topology but brings meaning to the FD context and the LTP context (and hence the links). 
-Lifecycle : LikelyToChange</text>
+The NE is not directly part of topology but brings meaning to the FD context and the LTP context (and hence the links). </text>
     </description>
   </container>
   <list name="forwarding-construct">
     <key value="uuid"/>
-    <uses name="forwarding-construct"/>
+    <uses name="forwarding-construct-g"/>
     <description>
       <text>none</text>
     </description>
   </list>
-  <grouping name="fc-port">
+  <grouping name="fc-port-g">
     <leaf-list name="ltp">
       <type name="leafref">
-        <path value="/core-model:network-element/core-model:ltp/core-model:uuid"/>
+        <path value="/network-element/ltp/uuid"/>
       </type>
       <max-elements value="2"/>
       <description>
@@ -920,7 +906,7 @@ This form of FcPort is used to enable chaining of FcSwitches or FcRoutes in comp
         <text>Identifies which route(s) currently actively forward to the FcPort to exit the FC to an LTP (or for an internal FcPort to propagate to the next internal switch/route).</text>
       </description>
     </leaf-list>
-    <uses name="local-class"/>
+    <uses name="local-class-g"/>
     <description>
       <text>The association of the FC to LTPs is made via FcPorts.
 The FcPort class models the access to the FC function. 
@@ -931,7 +917,7 @@ The FcPort replaces the Protection Unit of a traditional protection model.
 The ForwardingConstruct can be considered as a component and the FcPort as a Port on that component.</text>
     </description>
   </grouping>
-  <grouping name="layer-protocol">
+  <grouping name="layer-protocol-g">
     <leaf name="layer-protocol-name">
       <type name="layer-protocol-name"/>
       <description>
@@ -962,7 +948,7 @@ Note the client LTP association should provide all necessary detail hence this a
     </leaf>
     <list name="config-and-switch-controller">
       <key value="switch-rule"/>
-      <uses name="configuration-and-switch-controller"/>
+      <uses name="configuration-and-switch-controller-g"/>
       <description>
         <text>A switch controller external to the LayerProtocol.
 The controller will coordinate one or more switches in one or more FCs related to the LayerProtocol</text>
@@ -984,15 +970,15 @@ Note: Only relevant when part of a protection scheme.</text>
         <text>none</text>
       </description>
     </leaf>
-    <uses name="local-class"/>
+    <uses name="local-class-g"/>
     <description>
       <text>The projection of an LTP into each transport layer is represented by a LayerProtocol (LP) instance. A LayerProtocol instances can be used for controlling termination and monitoring functionality. It can also be used for controlling the adaptation (i.e. encapsulation and/or multiplexing of client signal), tandem connection monitoring, traffic conditioning and/or shaping functionality at an intermediate point along a connection. Where the client - server relationship is fixed 1:1 and immutable, the layers can be encapsulated in a single LTP instance. Where there is a n:1 relationship between client and server, the layers must be split over two separate instances of LTP. </text>
     </description>
   </grouping>
-  <grouping name="logical-termination-point">
+  <grouping name="logical-termination-point-g">
     <leaf-list name="server-ltp">
       <type name="leafref">
-        <path value="/core-model:network-element/core-model:ltp/core-model:uuid"/>
+        <path value="/network-element/ltp/uuid"/>
       </type>
       <description>
         <text>References contained LTPs representing servers of this LTP in an inverse multiplexing configuration (e.g. VCAT).</text>
@@ -1000,7 +986,7 @@ Note: Only relevant when part of a protection scheme.</text>
     </leaf-list>
     <leaf-list name="client-ltp">
       <type name="leafref">
-        <path value="/core-model:network-element/core-model:ltp/core-model:uuid"/>
+        <path value="/network-element/ltp/uuid"/>
       </type>
       <description>
         <text>References contained LTPs representing client traffic of this LTP for normal cases of multiplexing.</text>
@@ -1009,14 +995,14 @@ Note: Only relevant when part of a protection scheme.</text>
     <list name="lp">
       <key value="uuid"/>
       <min-elements value="1"/>
-      <uses name="layer-protocol"/>
+      <uses name="layer-protocol-g"/>
       <description>
         <text>Ordered list of LayerProtocols that this LTP is comprised of where the first entry in the list is the lowest server layer (e.g. physical).</text>
       </description>
     </list>
     <leaf name="connected-ltp">
       <type name="leafref">
-        <path value="/core-model:network-element/core-model:ltp/core-model:uuid"/>
+        <path value="/network-element/ltp/uuid"/>
       </type>
       <description>
         <text>Applicable in a simple context where two LTPs are associated via a non-adjustable enabled forwarding.
@@ -1025,7 +1011,7 @@ Reduces clutter removing the need for two additional LTPs and an FC with a pair 
     </leaf>
     <leaf name="peer-ltp">
       <type name="leafref">
-        <path value="/core-model:network-element/core-model:ltp/core-model:uuid"/>
+        <path value="/network-element/ltp/uuid"/>
       </type>
       <description>
         <text>References contained LTPs representing the reversal of orientation of flow where two LTPs are associated via a non-adjustable enabled forwarding and where the referenced LTP is fully dependent on the this LTP.</text>
@@ -1040,7 +1026,7 @@ In many cases there is no associated physical port.</text>
     </leaf-list>
     <leaf-list name="ltp-in-other-view">
       <type name="leafref">
-        <path value="/core-model:network-element/core-model:ltp/core-model:uuid"/>
+        <path value="/network-element/ltp/uuid"/>
       </type>
       <description>
         <text>References one or more LTPs in other views that represent this LTP. 
@@ -1056,7 +1042,7 @@ The referencing LTP is the provider of capability.</text>
 - A SOURCE LTP can only contain SOURCE LPs</text>
       </description>
     </leaf>
-    <uses name="global-class"/>
+    <uses name="global-class-g"/>
     <description>
       <text>The LogicalTerminationPoint (LTP) class encapsulates the termination and adaptation functions of one or more transport layers represented by instances of LayerProtocol.
 The encapsulated transport layers have a simple fixed 1:1 client-server relationship defined by association end ordering.
@@ -1123,11 +1109,11 @@ The semantic of each bit position will be defined in the Documentation field of 
 This type should only be used for attributes that are experimental.</text>
     </description>
   </typedef>
-  <grouping name="name">
+  <grouping name="name-g">
     <list name="name">
       <key value="value-name"/>
       <min-elements value="1"/>
-      <uses name="name-and-value"/>
+      <uses name="name-and-value-g"/>
       <description>
         <text>List of names.</text>
       </description>
@@ -1136,10 +1122,10 @@ This type should only be used for attributes that are experimental.</text>
       <text>Name: A property of an entity with a value that is unique in some namespace but may change during the life of the entity. A name carries no semantics with respect to the purpose of the entity.</text>
     </description>
   </grouping>
-  <grouping name="global-class">
+  <grouping name="global-class-g">
     <list name="local-id">
       <key value="value-name"/>
-      <uses name="name-and-value"/>
+      <uses name="name-and-value-g"/>
       <description>
         <text>An identifier that is unique in the context of some scope that is less than the global scope.
 (consider in the context of Identifier: A property of an entity/role with a value that is unique within an identifier space, where the identifier space is itself unique, and immutable. The identifier therefore represents the identity of the entity/role. An identifier carries no semantics with respect to the purpose of the entity.)</text>
@@ -1153,21 +1139,21 @@ This type should only be used for attributes that are experimental.</text>
 The uuid should be treated as opaque by the user.</text>
       </description>
     </leaf>
-    <uses name="name"/>
-    <uses name="label"/>
-    <uses name="extension"/>
-    <uses name="state-pac"/>
+    <uses name="name-g"/>
+    <uses name="label-g"/>
+    <uses name="extension-g"/>
+    <uses name="state-pac-g"/>
     <description>
       <text>Represents a type of thing (an Entity) that has instances which can exist in their own right (independently of any others).
 Entity: Has identity, defined boundary, properties, functionality and lifecycle in a global context.
 (consider in the context of a Class: (usage) The representation of a thing that may be an entity or an inseparable Entity Feature).</text>
     </description>
   </grouping>
-  <grouping name="local-class">
+  <grouping name="local-class-g">
     <list name="local-id">
       <key value="value-name"/>
       <min-elements value="1"/>
-      <uses name="name-and-value"/>
+      <uses name="name-and-value-g"/>
       <description>
         <text>An identifier that is unique in the context of some scope that is less than the global scope.
 (consider in the context of Identifier: A property of an entity/role with a value that is unique within an identifier space, where the identifier space is itself unique, and immutable. The identifier therefore represents the identity of the entity/role. An identifier carries no semantics with respect to the purpose of the entity.)</text>
@@ -1179,10 +1165,10 @@ Entity: Has identity, defined boundary, properties, functionality and lifecycle 
         <text>A global identifier for the LocalClass, which is used as reference.</text>
       </description>
     </leaf>
-    <uses name="name"/>
-    <uses name="label"/>
-    <uses name="extension"/>
-    <uses name="state-pac"/>
+    <uses name="name-g"/>
+    <uses name="label-g"/>
+    <uses name="extension-g"/>
+    <uses name="state-pac-g"/>
     <description>
       <text>A LocalClass represents a Feature of an Entity. It is inseparable from a GlobalClass but is a distinct feature of that GlobalClass such that the instances of LocalClass are able to have associations to other instances..
 Feature of an Entity: An inseparable, externally distinguishable part of an entity.
@@ -1191,10 +1177,10 @@ The mandatory LocalId of the LocalClass instance is unique in the context of the
 </text>
     </description>
   </grouping>
-  <grouping name="label">
+  <grouping name="label-g">
     <list name="label">
       <key value="value-name"/>
-      <uses name="name-and-value"/>
+      <uses name="name-and-value-g"/>
       <description>
         <text>List of labels.</text>
       </description>
@@ -1203,10 +1189,10 @@ The mandatory LocalId of the LocalClass instance is unique in the context of the
       <text>A property of an entity with a value that is not expected to be unique and is allowed to change. A label carries no semantics with respect to the purpose of the entity and has no effect on the entity behavior or state.</text>
     </description>
   </grouping>
-  <grouping name="extension">
+  <grouping name="extension-g">
     <list name="extension">
       <key value="value-name"/>
-      <uses name="name-and-value"/>
+      <uses name="name-and-value-g"/>
       <description>
         <text>List of simple name-value extensions.</text>
       </description>
@@ -1215,7 +1201,7 @@ The mandatory LocalId of the LocalClass instance is unique in the context of the
       <text>Extension provides an opportunity to define properties not declared in the class that extend the class enabling a realization with simple ad-hoc extension of standard classes to be conformant.</text>
     </description>
   </grouping>
-  <grouping name="universal-id-authority">
+  <grouping name="universal-id-authority-g">
     <leaf name="uuid">
       <type name="universal-id"/>
       <description>
@@ -1223,11 +1209,10 @@ The mandatory LocalId of the LocalClass instance is unique in the context of the
       </description>
     </leaf>
     <description>
-      <text>Represents the authority that controls the allocation of UUIDs.
-Lifecycle : Preliminary</text>
+      <text>Represents the authority that controls the allocation of UUIDs.</text>
     </description>
   </grouping>
-  <grouping name="name-and-value-authority">
+  <grouping name="name-and-value-authority-g">
     <leaf name="uuid">
       <type name="universal-id"/>
       <description>
@@ -1235,19 +1220,17 @@ Lifecycle : Preliminary</text>
       </description>
     </leaf>
     <description>
-      <text>Represents the authority that controls the legal values for the names and values of a name/value attribute.
-Lifecycle : Preliminary</text>
+      <text>Represents the authority that controls the legal values for the names and values of a name/value attribute.</text>
     </description>
   </grouping>
-  <grouping name="conditional-package">
-    <uses name="extension"/>
-    <uses name="label"/>
+  <grouping name="conditional-package-g">
+    <uses name="extension-g"/>
+    <uses name="label-g"/>
     <description>
-      <text>The base class for conditional packages.
-Lifecycle : Experimental</text>
+      <text>The base class for conditional packages.</text>
     </description>
   </grouping>
-  <grouping name="name-and-value">
+  <grouping name="name-and-value-g">
     <leaf name="value-name">
       <type name="string"/>
       <description>
@@ -1271,7 +1254,7 @@ Lifecycle : Experimental</text>
 A example structure is [IETF RFC4122].</text>
     </description>
   </typedef>
-  <grouping name="address">
+  <grouping name="address-g">
     <leaf name="address-name">
       <type name="string"/>
       <description>
@@ -1280,17 +1263,16 @@ A example structure is [IETF RFC4122].</text>
     </leaf>
     <list name="address-element">
       <key value="uuid"/>
-      <uses name="address-element"/>
+      <uses name="address-element-g"/>
       <description>
         <text>The elements of the address that form the recursive scope narrowing.</text>
       </description>
     </list>
     <description>
-      <text>A description of location via a hierarchy of narrowing contexts.
-Lifecycle : Experimental</text>
+      <text>A description of location via a hierarchy of narrowing contexts.</text>
     </description>
   </grouping>
-  <grouping name="local-id-and-class">
+  <grouping name="local-id-and-class-g">
     <leaf name="class-of-instance">
       <type name="string"/>
       <description>
@@ -1298,17 +1280,16 @@ Lifecycle : Experimental</text>
       </description>
     </leaf>
     <container name="local-id">
-      <uses name="name-and-value"/>
+      <uses name="name-and-value-g"/>
       <description>
         <text>The localId of the entity.</text>
       </description>
     </container>
     <description>
-      <text>The localId and the class of entity that it identifies.
-Lifecycle : Experimental</text>
+      <text>The localId and the class of entity that it identifies.</text>
     </description>
   </grouping>
-  <grouping name="name-and-class">
+  <grouping name="name-and-class-g">
     <leaf name="class-of-instance">
       <type name="string"/>
       <description>
@@ -1316,17 +1297,16 @@ Lifecycle : Experimental</text>
       </description>
     </leaf>
     <container name="name">
-      <uses name="name-and-value"/>
+      <uses name="name-and-value-g"/>
       <description>
         <text>If the element is a name.</text>
       </description>
     </container>
     <description>
-      <text>The name and the class of entity that it names.
-Lifecycle : Experimental</text>
+      <text>The name and the class of entity that it names.</text>
     </description>
   </grouping>
-  <grouping name="address-element">
+  <grouping name="address-element-g">
     <leaf name="address-element-name">
       <type name="string"/>
       <description>
@@ -1336,7 +1316,7 @@ The remainder of the structure has the reference for the shelf.
       </description>
     </leaf>
     <container name="local-id">
-      <uses name="local-id-and-class"/>
+      <uses name="local-id-and-class-g"/>
       <description>
         <text>If the element is a localId (where the element above in the hierarchy must be the context in which the specific localId is relevant).</text>
       </description>
@@ -1348,7 +1328,7 @@ The remainder of the structure has the reference for the shelf.
       </description>
     </leaf>
     <container name="name">
-      <uses name="name-and-class"/>
+      <uses name="name-and-class-g"/>
       <description>
         <text>If the element is a name.</text>
       </description>
@@ -1361,11 +1341,10 @@ The remainder of the structure has the reference for the shelf.
     </leaf>
     <description>
       <text>One element of a hierarchy of elements.
-Note that the element must have one and only one value chosen from a list of potential value types.
-Lifecycle : Experimental</text>
+Note that the element must have one and only one value chosen from a list of potential value types.</text>
     </description>
   </grouping>
-  <grouping name="state-pac">
+  <grouping name="state-pac-g">
     <leaf name="operational-state">
       <type name="operational-state"/>
       <config value="false"/>
@@ -1395,8 +1374,7 @@ The administrative state expresses usage permissions for specific resources with
       </description>
     </leaf>
     <description>
-      <text>Provides general state attributes.
-Lifecycle : Preliminary</text>
+      <text>Provides general state attributes.</text>
     </description>
   </grouping>
   <typedef name="operational-state">
@@ -1413,8 +1391,7 @@ Lifecycle : Preliminary</text>
       </enum>
     </type>
     <description>
-      <text>The possible values of the operationalState.
-Lifecycle : Preliminary</text>
+      <text>The possible values of the operationalState.</text>
     </description>
   </typedef>
   <typedef name="administrative-state">
@@ -1431,8 +1408,7 @@ Lifecycle : Preliminary</text>
       </enum>
     </type>
     <description>
-      <text>The possible values of the administrativeState.
-Lifecycle : Preliminary</text>
+      <text>The possible values of the administrativeState.</text>
     </description>
   </typedef>
   <typedef name="administrative-control">
@@ -1464,8 +1440,7 @@ The entity may already be LOCKED.</text>
     </type>
     <description>
       <text>Reflects the current control action when the entity is not in the desired state.
-The possible values of the current target administrative state.
-Lifecycle : Experimental</text>
+The possible values of the current target administrative state.</text>
     </description>
   </typedef>
   <typedef name="extended-admin-state">
@@ -1492,8 +1467,7 @@ Lifecycle : Experimental</text>
       </enum>
     </type>
     <description>
-      <text>Possible extensions to AdministrativeState.
-Lifecycle : Experimental</text>
+      <text>Possible extensions to AdministrativeState.</text>
     </description>
   </typedef>
   <typedef name="lifecycle-state">
@@ -1520,8 +1494,7 @@ Lifecycle : Experimental</text>
       </enum>
     </type>
     <description>
-      <text>The possible values of the lifecycleState.
-Lifecycle : Experimental</text>
+      <text>The possible values of the lifecycleState.</text>
     </description>
   </typedef>
   <typedef name="action-verbs">
@@ -1618,12 +1591,12 @@ Lifecycle : Experimental</text>
       <text>none</text>
     </description>
   </typedef>
-  <grouping name="general-directives">
+  <grouping name="general-directives-g">
     <description>
-      <text>Lifecycle : Experimental</text>
+      <text>none</text>
     </description>
   </grouping>
-  <grouping name="necessary-initial-condition-constraints">
+  <grouping name="necessary-initial-condition-constraints-g">
     <leaf name="is-not">
       <type name="boolean"/>
       <description>
@@ -1631,10 +1604,10 @@ Lifecycle : Experimental</text>
       </description>
     </leaf>
     <description>
-      <text>Lifecycle : Experimental</text>
+      <text>none</text>
     </description>
   </grouping>
-  <grouping name="operation-details">
+  <grouping name="operation-details-g">
     <leaf name="action-verb">
       <type name="action-verbs"/>
       <description>
@@ -1643,13 +1616,13 @@ Lifecycle : Experimental</text>
     </leaf>
     <list name="necessary-initialcondition-constraints">
       <key value="is-not"/>
-      <uses name="necessary-initial-condition-constraints"/>
+      <uses name="necessary-initial-condition-constraints-g"/>
       <description>
         <text>none</text>
       </description>
     </list>
     <description>
-      <text>Lifecycle : Experimental</text>
+      <text>none</text>
     </description>
   </grouping>
   <container name="operation-envelope">
@@ -1657,36 +1630,36 @@ Lifecycle : Experimental</text>
     <list name="operation-set">
       <key value="effort-and-action"/>
       <min-elements value="1"/>
-      <uses name="operation-set"/>
+      <uses name="operation-set-g"/>
       <description>
         <text>none</text>
       </description>
     </list>
     <container name="generaldirectives">
-      <uses name="general-directives"/>
+      <uses name="general-directives-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="operationidentifiers">
-      <uses name="operation-identifiers"/>
+      <uses name="operation-identifiers-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <description>
-      <text>Lifecycle : Experimental</text>
+      <text>none</text>
     </description>
   </container>
-  <grouping name="operation-identifiers">
+  <grouping name="operation-identifiers-g">
     <description>
-      <text>Lifecycle : Experimental</text>
+      <text>none</text>
     </description>
   </grouping>
-  <grouping name="operation-set">
+  <grouping name="operation-set-g">
     <leaf-list name="after-operation-set">
       <type name="leafref">
-        <path value="/core-model:operation-envelope/core-model:operation-set/core-model:effort-and-action"/>
+        <path value="/operation-envelope/operation-set/effort-and-action"/>
       </type>
       <description>
         <text>none</text>
@@ -1694,7 +1667,7 @@ Lifecycle : Experimental</text>
     </leaf-list>
     <leaf-list name="before-operation-set">
       <type name="leafref">
-        <path value="/core-model:operation-envelope/core-model:operation-set/core-model:effort-and-action"/>
+        <path value="/operation-envelope/operation-set/effort-and-action"/>
       </type>
       <description>
         <text>none</text>
@@ -1714,7 +1687,7 @@ Lifecycle : Experimental</text>
     </leaf>
     <leaf-list name="operationset">
       <type name="leafref">
-        <path value="/core-model:operation-envelope/core-model:operation-set/core-model:effort-and-action"/>
+        <path value="/operation-envelope/operation-set/effort-and-action"/>
       </type>
       <description>
         <text>none</text>
@@ -1730,7 +1703,7 @@ Lifecycle : Experimental</text>
     <list name="operation-details">
       <key value="action-verb"/>
       <min-elements value="1"/>
-      <uses name="operation-details"/>
+      <uses name="operation-details-g"/>
       <description>
         <text>none</text>
       </description>
@@ -1739,67 +1712,55 @@ Lifecycle : Experimental</text>
       <text>none</text>
     </description>
   </grouping>
-  <grouping name="connector-in-holder">
+  <grouping name="connector-in-holder-g">
     <leaf name="connector-on-equipment-for-holder">
-      <type name="leafref">
-        <path value="/core-model:connector-on-equipment-for-holder/core-model:uuid"/>
-      </type>
+      <type name="universal-id"/>
       <description>
         <text>none</text>
       </description>
     </leaf>
-    <uses name="connector"/>
+    <uses name="connector-g"/>
     <description>
-      <text>A rule class (an abstract specialization of Connector) that represents a connector that are only accessible to an equipment inserted in the holder.
-Lifecycle : Experimental</text>
+      <text>A rule class (an abstract specialization of Connector) that represents a connector that are only accessible to an equipment inserted in the holder.</text>
     </description>
   </grouping>
-  <grouping name="connector-cable-end">
+  <grouping name="connector-cable-end-g">
     <leaf name="connector-on-equipment-for-cable">
-      <type name="leafref">
-        <path value="/core-model:connector-on-equipment-for-cable/core-model:uuid"/>
-      </type>
+      <type name="universal-id"/>
       <description>
         <text>none</text>
       </description>
     </leaf>
-    <uses name="connector"/>
+    <uses name="connector-g"/>
     <description>
-      <text>A rule class (an abstract specialization of Connector) that represents a connector on the end of a cable.
-Lifecycle : Experimental</text>
+      <text>A rule class (an abstract specialization of Connector) that represents a connector on the end of a cable.</text>
     </description>
   </grouping>
-  <grouping name="connector-on-equipment-for-cable">
+  <grouping name="connector-on-equipment-for-cable-g">
     <leaf name="connector-cable-end">
-      <type name="leafref">
-        <path value="/core-model:connector-cable-end/core-model:uuid"/>
-      </type>
+      <type name="universal-id"/>
       <description>
         <text>none</text>
       </description>
     </leaf>
-    <uses name="connector"/>
+    <uses name="connector-g"/>
     <description>
-      <text>A rule class (an abstract specialization of Connector) that represents a connector exposed on an equipment such that a cable may be plugged in.
-Lifecycle : Experimental</text>
+      <text>A rule class (an abstract specialization of Connector) that represents a connector exposed on an equipment such that a cable may be plugged in.</text>
     </description>
   </grouping>
-  <grouping name="connector-on-equipment-for-holder">
+  <grouping name="connector-on-equipment-for-holder-g">
     <leaf name="connector-in-holder">
-      <type name="leafref">
-        <path value="/core-model:connector-in-holder/core-model:uuid"/>
-      </type>
+      <type name="universal-id"/>
       <description>
         <text>none</text>
       </description>
     </leaf>
-    <uses name="connector"/>
+    <uses name="connector-g"/>
     <description>
-      <text>A rule class (an abstract specialization of Connector) that represents a connector on an equipment that is intended to mate with a connector in a holder.
-Lifecycle : Experimental</text>
+      <text>A rule class (an abstract specialization of Connector) that represents a connector on an equipment that is intended to mate with a connector in a holder.</text>
     </description>
   </grouping>
-  <grouping name="function-enablers">
+  <grouping name="function-enablers-g">
     <leaf name="power-state">
       <type name="to-be-defined"/>
       <description>
@@ -1807,11 +1768,10 @@ Lifecycle : Experimental</text>
       </description>
     </leaf>
     <description>
-      <text>Represents the dynamic aspects of the properties that relate to the motive force that directly enable functionality to emerge from the equipment.
-Lifecycle : Experimental</text>
+      <text>Represents the dynamic aspects of the properties that relate to the motive force that directly enable functionality to emerge from the equipment.</text>
     </description>
   </grouping>
-  <grouping name="mechanical-functions">
+  <grouping name="mechanical-functions-g">
     <leaf name="rotation-speed">
       <type name="to-be-defined"/>
       <description>
@@ -1819,11 +1779,10 @@ Lifecycle : Experimental</text>
       </description>
     </leaf>
     <description>
-      <text>Represents the dynamic aspects of the mechanical functions of the equipment.
-Lifecycle : Experimental</text>
+      <text>Represents the dynamic aspects of the mechanical functions of the equipment.</text>
     </description>
   </grouping>
-  <grouping name="physical-properties">
+  <grouping name="physical-properties-g">
     <leaf name="temperature">
       <type name="to-be-defined"/>
       <description>
@@ -1831,11 +1790,10 @@ Lifecycle : Experimental</text>
       </description>
     </leaf>
     <description>
-      <text>Represents the dynamic aspects of the physical environmental properties of the equipment.
-Lifecycle : Experimental</text>
+      <text>Represents the dynamic aspects of the physical environmental properties of the equipment.</text>
     </description>
   </grouping>
-  <grouping name="holder-monitors">
+  <grouping name="holder-monitors-g">
     <leaf name="is-active">
       <type name="boolean"/>
       <description>
@@ -1855,28 +1813,27 @@ Lifecycle : Experimental</text>
       </description>
     </leaf>
     <description>
-      <text>Represents the dynamic state of the holder instance. 
-Lifecycle : Experimental</text>
+      <text>Represents the dynamic state of the holder instance. </text>
     </description>
   </grouping>
-  <grouping name="location">
+  <grouping name="location-g">
     <container name="equipment-location">
-      <uses name="address"/>
+      <uses name="address-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="geographical-location">
-      <uses name="address"/>
+      <uses name="address-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <description>
-      <text>Lifecycle : Experimental</text>
+      <text>none</text>
     </description>
   </grouping>
-  <grouping name="category">
+  <grouping name="category-g">
     <leaf name="category">
       <type name="equipment-category"/>
       <description>
@@ -1884,11 +1841,10 @@ Lifecycle : Experimental</text>
       </description>
     </leaf>
     <description>
-      <text>Represents the form of the equipment.
-Lifecycle : Experimental</text>
+      <text>Represents the form of the equipment.</text>
     </description>
   </grouping>
-  <grouping name="equipment-instance">
+  <grouping name="equipment-instance-g">
     <leaf name="manufacture-date">
       <type name="string"/>
       <description>
@@ -1908,11 +1864,10 @@ Lifecycle : Experimental</text>
       </description>
     </leaf>
     <description>
-      <text>Represents the per instance invariant properties of the equipment.
-Lifecycle : Experimental</text>
+      <text>Represents the per instance invariant properties of the equipment.</text>
     </description>
   </grouping>
-  <grouping name="equipment-type">
+  <grouping name="equipment-type-g">
     <leaf name="description">
       <type name="string"/>
       <description>
@@ -1944,11 +1899,10 @@ Lifecycle : Experimental</text>
       </description>
     </leaf>
     <description>
-      <text>Represents the invariant properties of the equipment that define and characterise the type.
-Lifecycle : Experimental</text>
+      <text>Represents the invariant properties of the equipment that define and characterise the type.</text>
     </description>
   </grouping>
-  <grouping name="holder-structure">
+  <grouping name="holder-structure-g">
     <leaf name="holder-category">
       <type name="holder-category"/>
       <description>
@@ -1974,41 +1928,39 @@ Lifecycle : Experimental</text>
       </description>
     </leaf>
     <description>
-      <text>Represents the form of the holder.
-Lifecycle : Experimental</text>
+      <text>Represents the form of the holder.</text>
     </description>
   </grouping>
-  <grouping name="manufactured-thing">
+  <grouping name="manufactured-thing-g">
     <container name="manufacturer-properties">
-      <uses name="manufacturer-properties"/>
+      <uses name="manufacturer-properties-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="equipment-type">
-      <uses name="equipment-type"/>
+      <uses name="equipment-type-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="equipment-instance">
-      <uses name="equipment-instance"/>
+      <uses name="equipment-instance-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="operator-augmented-equipment-type">
-      <uses name="operator-augmented-equipment-type"/>
+      <uses name="operator-augmented-equipment-type-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <description>
-      <text>Collects all invariant aspects of a manufactured thing.
-Lifecycle : Experimental</text>
+      <text>Collects all invariant aspects of a manufactured thing.</text>
     </description>
   </grouping>
-  <grouping name="manufacturer-properties">
+  <grouping name="manufacturer-properties-g">
     <leaf name="manufacturer-identifier">
       <type name="string"/>
       <description>
@@ -2022,17 +1974,15 @@ Lifecycle : Experimental</text>
       </description>
     </leaf>
     <description>
-      <text>Represents the properties of the manufacturer.
-Lifecycle : Experimental</text>
+      <text>Represents the properties of the manufacturer.</text>
     </description>
   </grouping>
-  <grouping name="mechanical-features">
+  <grouping name="mechanical-features-g">
     <description>
-      <text>Represents the invariant characteristics of dynamic mechanical features of a physical thing.
-Lifecycle : Experimental</text>
+      <text>Represents the invariant characteristics of dynamic mechanical features of a physical thing.</text>
     </description>
   </grouping>
-  <grouping name="operator-augmented-equipment-type">
+  <grouping name="operator-augmented-equipment-type-g">
     <leaf name="asset-type-identifier">
       <type name="string"/>
       <description>
@@ -2040,11 +1990,10 @@ Lifecycle : Experimental</text>
       </description>
     </leaf>
     <description>
-      <text>Represents the invariant properties of the equipment asset allocated by the operator that define and characterise the type.
-Lifecycle : Experimental</text>
+      <text>Represents the invariant properties of the equipment asset allocated by the operator that define and characterise the type.</text>
     </description>
   </grouping>
-  <grouping name="physical-characteristics">
+  <grouping name="physical-characteristics-g">
     <leaf name="weight-characteristics">
       <type name="to-be-defined"/>
       <description>
@@ -2064,11 +2013,10 @@ Lifecycle : Experimental</text>
       </description>
     </leaf>
     <description>
-      <text>Represents the invariant physical characteristics (including composition and physical robustness) of the type.
-Lifecycle : Experimental</text>
+      <text>Represents the invariant physical characteristics (including composition and physical robustness) of the type.</text>
     </description>
   </grouping>
-  <grouping name="physical-rating">
+  <grouping name="physical-rating-g">
     <leaf name="thermal-rating">
       <type name="to-be-defined"/>
       <description>
@@ -2082,11 +2030,10 @@ Lifecycle : Experimental</text>
       </description>
     </leaf>
     <description>
-      <text>Represents the invariant physical operational boundaries for the equipment/holder type.
-Lifecycle : Experimental</text>
+      <text>Represents the invariant physical operational boundaries for the equipment/holder type.</text>
     </description>
   </grouping>
-  <grouping name="position">
+  <grouping name="position-g">
     <leaf name="relative-position">
       <type name="to-be-defined"/>
       <description>
@@ -2094,11 +2041,10 @@ Lifecycle : Experimental</text>
       </description>
     </leaf>
     <description>
-      <text>Represents the invariant relative position of the holder (with respect to some frame of reference in an equipment) or connector on an equipment or pin in a connector.
-Lifecycle : Experimental</text>
+      <text>Represents the invariant relative position of the holder (with respect to some frame of reference in an equipment) or connector on an equipment or pin in a connector.</text>
     </description>
   </grouping>
-  <grouping name="spatial-properties-of-type">
+  <grouping name="spatial-properties-of-type-g">
     <leaf name="height">
       <type name="to-be-defined"/>
       <description>
@@ -2118,11 +2064,10 @@ Lifecycle : Experimental</text>
       </description>
     </leaf>
     <description>
-      <text>Represents the basic invariant spatial properties of a physical thing.
-Lifecycle : Experimental</text>
+      <text>Represents the basic invariant spatial properties of a physical thing.</text>
     </description>
   </grouping>
-  <grouping name="swapability">
+  <grouping name="swapability-g">
     <leaf name="is-hot-swappable">
       <type name="boolean"/>
       <default value="true"/>
@@ -2131,53 +2076,51 @@ Lifecycle : Experimental</text>
       </description>
     </leaf>
     <description>
-      <text>Represents the degree of field replacement that is possible for the equipment type.
-Lifecycle : Experimental</text>
+      <text>Represents the degree of field replacement that is possible for the equipment type.</text>
     </description>
   </grouping>
-  <grouping name="cable">
+  <grouping name="cable-g">
     <list name="connector">
       <key value="uuid"/>
       <min-elements value="1"/>
-      <uses name="connector"/>
+      <uses name="connector-g"/>
       <description>
         <text>none</text>
       </description>
     </list>
     <container name="manufactured-thing">
-      <uses name="manufactured-thing"/>
+      <uses name="manufactured-thing-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="physical-characteristics">
-      <uses name="physical-characteristics"/>
+      <uses name="physical-characteristics-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="mechanical-features">
-      <uses name="mechanical-features"/>
+      <uses name="mechanical-features-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="spatial-properties-of-type">
-      <uses name="spatial-properties-of-type"/>
+      <uses name="spatial-properties-of-type-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
-    <uses name="global-class"/>
+    <uses name="global-class-g"/>
     <description>
       <text>Basic model representing a cable with connectors fitted where the cable is 'short' (e.g.  patch cord, in-station cabling).
 This is intentionally a very basic representation of a cable. 
 In a more sophisticated representation cable ends might be represented that then associate to the attached connector. 
-At this point it is assumed that the basic model is sufficient.
-Lifecycle : Experimental</text>
+At this point it is assumed that the basic model is sufficient.</text>
     </description>
   </grouping>
-  <grouping name="connector">
+  <grouping name="connector-g">
     <leaf name="connector">
       <type name="string"/>
       <description>
@@ -2187,7 +2130,7 @@ Lifecycle : Experimental</text>
     <list name="pin">
       <key value="position"/>
       <min-elements value="1"/>
-      <uses name="pin"/>
+      <uses name="pin-g"/>
       <description>
         <text>none</text>
       </description>
@@ -2199,25 +2142,25 @@ Lifecycle : Experimental</text>
       </description>
     </leaf>
     <container name="manufactured-thing">
-      <uses name="manufactured-thing"/>
+      <uses name="manufactured-thing-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="position">
-      <uses name="position"/>
+      <uses name="position-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="mechanical-features">
-      <uses name="mechanical-features"/>
+      <uses name="mechanical-features-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="pin-layout">
-      <uses name="pin-layout"/>
+      <uses name="pin-layout-g"/>
       <description>
         <text>none</text>
       </description>
@@ -2228,91 +2171,90 @@ Lifecycle : Experimental</text>
         <text>none</text>
       </description>
     </leaf>
-    <uses name="local-class"/>
-    <uses name="group-of-pins"/>
+    <uses name="local-class-g"/>
+    <uses name="group-of-pins-g"/>
     <description>
-      <text>Represents a connector that may be fully exposed (e.g. to plug in a cable or on the end of a cable) or partially exposed (e.g. backplane to plug in another piece of equipment such as a module).
-Lifecycle : Experimental</text>
+      <text>Represents a connector that may be fully exposed (e.g. to plug in a cable or on the end of a cable) or partially exposed (e.g. backplane to plug in another piece of equipment such as a module).</text>
     </description>
   </grouping>
-  <grouping name="equipment">
+  <grouping name="equipment-g">
     <list name="connector">
       <key value="uuid"/>
-      <uses name="connector"/>
+      <uses name="connector-g"/>
       <description>
         <text>none</text>
       </description>
     </list>
     <list name="contained-holder">
       <key value="uuid"/>
-      <uses name="holder"/>
+      <uses name="holder-g"/>
       <description>
         <text>none</text>
       </description>
     </list>
     <list name="exposed-cable">
       <key value="uuid"/>
-      <uses name="cable"/>
+      <uses name="cable-g"/>
       <description>
         <text>none</text>
       </description>
     </list>
     <container name="manufactured-thing">
-      <uses name="manufactured-thing"/>
+      <uses name="manufactured-thing-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="spatial-properties-of-type">
-      <uses name="spatial-properties-of-type"/>
+      <uses name="spatial-properties-of-type-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="mechanical-features">
-      <uses name="mechanical-features"/>
+      <uses name="mechanical-features-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="physical-properties">
-      <uses name="physical-properties"/>
+      <uses name="physical-properties-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="function-enablers">
-      <uses name="function-enablers"/>
+      <uses name="function-enablers-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="mechanical-functions">
-      <uses name="mechanical-functions"/>
+      <uses name="mechanical-functions-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="physical-characteristics">
-      <uses name="physical-characteristics"/>
+      <uses name="physical-characteristics-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="swapability">
-      <uses name="swapability"/>
+      <uses name="swapability-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="category">
-      <uses name="category"/>
+      <uses name="category-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="physical-rating">
-      <uses name="physical-rating"/>
+      <uses name="physical-rating-g"/>
       <description>
         <text>none</text>
       </description>
@@ -2333,42 +2275,41 @@ Lifecycle : Experimental</text>
       </description>
     </leaf-list>
     <container name="expected-equipment">
-      <uses name="expected-equipment"/>
+      <uses name="expected-equipment-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="actual-equipment">
-      <uses name="actual-equipment"/>
+      <uses name="actual-equipment-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="location">
-      <uses name="location"/>
+      <uses name="location-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
-    <uses name="global-class"/>
+    <uses name="global-class-g"/>
     <description>
       <text>Represents any relevant physical thing. 
 Can be either field replaceable or not field replaceable.
-Note: The model is currently constrained to inside plant.
-Lifecycle : Experimental</text>
+Note: The model is currently constrained to inside plant.</text>
     </description>
   </grouping>
   <list name="equipment">
     <key value="uuid"/>
-    <uses name="equipment"/>
+    <uses name="equipment-g"/>
     <description>
       <text>none</text>
     </description>
   </list>
-  <grouping name="holder">
+  <grouping name="holder-g">
     <leaf-list name="connector">
       <type name="leafref">
-        <path value="/core-model:equipment/core-model:exposed-cable/core-model:connector/core-model:uuid"/>
+        <path value="/equipment/exposed-cable/connector/uuid"/>
       </type>
       <description>
         <text>none</text>
@@ -2376,7 +2317,7 @@ Lifecycle : Experimental</text>
     </leaf-list>
     <leaf name="occupying-fru">
       <type name="leafref">
-        <path value="/core-model:equipment/core-model:uuid"/>
+        <path value="/equipment/uuid"/>
       </type>
       <description>
         <text>The FRU that is occupying the holder. 
@@ -2385,37 +2326,37 @@ An FRU may occupy more hat one holder (using or blocking are intentionally not d
       </description>
     </leaf>
     <container name="spatial-properties-of-type">
-      <uses name="spatial-properties-of-type"/>
+      <uses name="spatial-properties-of-type-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="holder-monitors">
-      <uses name="holder-monitors"/>
+      <uses name="holder-monitors-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="holder-location">
-      <uses name="address"/>
+      <uses name="address-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="position">
-      <uses name="position"/>
+      <uses name="position-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="holder-structure">
-      <uses name="holder-structure"/>
+      <uses name="holder-structure-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="physical-rating">
-      <uses name="physical-rating"/>
+      <uses name="physical-rating-g"/>
       <description>
         <text>none</text>
       </description>
@@ -2428,21 +2369,20 @@ An FRU may occupy more hat one holder (using or blocking are intentionally not d
       </description>
     </leaf-list>
     <container name="expected-holder">
-      <uses name="expected-holder"/>
+      <uses name="expected-holder-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="actual-holder">
-      <uses name="actual-holder"/>
+      <uses name="actual-holder-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
-    <uses name="local-class"/>
+    <uses name="local-class-g"/>
     <description>
-      <text>Represents a space in an equipment in which another equipment can be fitted in the field.
-Lifecycle : Experimental</text>
+      <text>Represents a space in an equipment in which another equipment can be fitted in the field.</text>
     </description>
   </grouping>
   <typedef name="connector-and-pin-orientation">
@@ -2466,8 +2406,7 @@ The connecting element may be a surface rather than protrusions or indentations.
     </type>
     <description>
       <text>Most connector schems are asymmetric such that there are two orientations of the connector where a mating is only possible between two connectors of different orientations. 
-A multi-pin connector may have a mix of pin orientations. In this case it is expected that the dominant orientation of pin is chosen for the connector orientation.
-Lifecycle : Experimental</text>
+A multi-pin connector may have a mix of pin orientations. In this case it is expected that the dominant orientation of pin is chosen for the connector orientation.</text>
     </description>
   </typedef>
   <typedef name="equipment-category">
@@ -2506,8 +2445,7 @@ The assembly is designed to be mounted on the floor in a row with other RACKs.</
       </enum>
     </type>
     <description>
-      <text>The form of equipment.
-Lifecycle : Experimental</text>
+      <text>The form of equipment.</text>
     </description>
   </typedef>
   <typedef name="holder-category">
@@ -2520,41 +2458,36 @@ The guided holder is designed to take a particular form of CIRCUIT_PACK or SMALL
       </enum>
     </type>
     <description>
-      <text>The form of holder.
-Lifecycle : Experimental</text>
+      <text>The form of holder.</text>
     </description>
   </typedef>
-  <grouping name="actual-holder">
+  <grouping name="actual-holder-g">
     <description>
-      <text>A holder in the ActualEquipment.
-Lifecycle : Experimental</text>
+      <text>A holder in the ActualEquipment.</text>
     </description>
   </grouping>
-  <grouping name="expected-holder">
+  <grouping name="expected-holder-g">
     <description>
-      <text>A definition of a holder expected in the ActualEquipment (i.e. an ActualHolder) as part of the constraints provided by the ExpectedEquipment.
-Lifecycle : Experimental</text>
+      <text>A definition of a holder expected in the ActualEquipment (i.e. an ActualHolder) as part of the constraints provided by the ExpectedEquipment.</text>
     </description>
   </grouping>
-  <grouping name="actual-equipment">
+  <grouping name="actual-equipment-g">
     <description>
       <text>The equipment that is actually present in the physical network.
-It will expose all dynamic properties and some critical static properties.
-Lifecycle : Experimental</text>
+It will expose all dynamic properties and some critical static properties.</text>
     </description>
   </grouping>
-  <grouping name="expected-equipment">
+  <grouping name="expected-equipment-g">
     <description>
       <text>A definition of the restrictions on the equipment that is expected to be present in the physical network at a particular 'place'.
 The expected equipment will state the type and may constrain any other invariant properties. 
-It may also provide desired ranges for dynami properties.
-Lifecycle : Experimental</text>
+It may also provide desired ranges for dynami properties.</text>
     </description>
   </grouping>
-  <grouping name="pin">
+  <grouping name="pin-g">
     <leaf name="position">
       <type name="leafref">
-        <path value="/core-model:equipment/core-model:exposed-cable/core-model:connector/core-model:position/core-model:relative-position"/>
+        <path value="/equipment/exposed-cable/connector/position/relative-position"/>
       </type>
       <description>
         <text>none</text>
@@ -2569,98 +2502,86 @@ Lifecycle : Experimental</text>
     <description>
       <text>An individual physical connection point (male or female).
 May be capable of carrying electrical or optical signals. 
-A pin may have more than one wire/fiber attached but is such that all attached things get exactly the same signal set.
-Lifecycle : Experimental</text>
+A pin may have more than one wire/fiber attached but is such that all attached things get exactly the same signal set.</text>
     </description>
   </grouping>
-  <grouping name="pin-group">
+  <grouping name="pin-group-g">
     <leaf-list name="pin">
       <type name="leafref">
-        <path value="/core-model:equipment/core-model:exposed-cable/core-model:connector/core-model:pin/core-model:position"/>
+        <path value="/equipment/exposed-cable/connector/pin/position"/>
       </type>
       <min-elements value="1"/>
       <description>
         <text>none</text>
       </description>
     </leaf-list>
-    <uses name="port"/>
-    <uses name="group-of-pins"/>
+    <uses name="port-g"/>
+    <uses name="group-of-pins-g"/>
     <description>
-      <text>A group of pins that together provide signal group where any one pin removed from the group will prevent the signals of the signal group from flowing successfully.
-Lifecycle : Experimental</text>
+      <text>A group of pins that together provide signal group where any one pin removed from the group will prevent the signals of the signal group from flowing successfully.</text>
     </description>
   </grouping>
-  <grouping name="pin-layout">
+  <grouping name="pin-layout-g">
     <list name="position">
       <key value="relative-position"/>
       <min-elements value="1"/>
-      <uses name="position"/>
+      <uses name="position-g"/>
       <description>
         <text>none</text>
       </description>
     </list>
     <description>
-      <text>The structuring of pins in a connector.
-Lifecycle : Experimental</text>
+      <text>The structuring of pins in a connector.</text>
     </description>
   </grouping>
-  <grouping name="port">
+  <grouping name="port-g">
     <description>
-      <text>A conceptual access point for a group of signals (where that group of signals cannot be separated).
-Lifecycle : Experimental</text>
+      <text>A conceptual access point for a group of signals (where that group of signals cannot be separated).</text>
     </description>
   </grouping>
-  <grouping name="signal-ref-pt">
+  <grouping name="signal-ref-pt-g">
     <leaf name="ltp">
       <type name="leafref">
-        <path value="/core-model:network-element/core-model:ltp/core-model:uuid"/>
+        <path value="/network-element/ltp/uuid"/>
       </type>
       <description>
         <text>none</text>
       </description>
     </leaf>
     <leaf-list name="elemental-signals">
-      <type name="leafref">
-        <path value="/core-model:support-constraints/core-model:pin"/>
-      </type>
+      <type name="universal-id"/>
       <min-elements value="1"/>
       <description>
         <text>none</text>
       </description>
     </leaf-list>
     <description>
-      <text>A single coherent signal as processed by a single LTP.
-Lifecycle : Experimental</text>
+      <text>A single coherent signal as processed by a single LTP.</text>
     </description>
   </grouping>
-  <grouping name="signal-ref-pt-group">
+  <grouping name="signal-ref-pt-group-g">
     <leaf name="pin-group">
-      <type name="leafref">
-        <path value="/core-model:pin-group/core-model:pin"/>
-      </type>
+      <type name="universal-id"/>
       <description>
         <text>none</text>
       </description>
     </leaf>
     <leaf-list name="signal-ref-pt">
-      <type name="leafref">
-        <path value="/core-model:signal-ref-pt/core-model:ltp"/>
-      </type>
+      <type name="universal-id"/>
       <min-elements value="1"/>
       <description>
         <text>none</text>
       </description>
     </leaf-list>
-    <uses name="port"/>
+    <uses name="port-g"/>
     <description>
-      <text>A physical indivisible group of signals.
-Lifecycle : Experimental</text>
+      <text>A physical indivisible group of signals.</text>
     </description>
   </grouping>
-  <grouping name="elemental-signals">
+  <grouping name="elemental-signals-g">
     <leaf-list name="pin">
       <type name="leafref">
-        <path value="/core-model:equipment/core-model:exposed-cable/core-model:connector/core-model:pin/core-model:position"/>
+        <path value="/equipment/exposed-cable/connector/pin/position"/>
       </type>
       <min-elements value="1"/>
       <description>
@@ -2668,14 +2589,12 @@ Lifecycle : Experimental</text>
       </description>
     </leaf-list>
     <description>
-      <text>The elemental (sub-atomic) parts of an 'indivisible' signal where processing in the LTP is required to extract the elemental signals.
-Lifecycle : Experimental</text>
+      <text>The elemental (sub-atomic) parts of an 'indivisible' signal where processing in the LTP is required to extract the elemental signals.</text>
     </description>
   </grouping>
-  <grouping name="group-of-pins">
+  <grouping name="group-of-pins-g">
     <description>
-      <text>A group of pins from one or more connectors relevant for some purpose.
-Lifecycle : Experimental</text>
+      <text>A group of pins from one or more connectors relevant for some purpose.</text>
     </description>
   </grouping>
 </module>
