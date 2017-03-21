@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module name="onf-core-model-conditional-packages"
         xmlns="urn:ietf:params:xml:ns:yang:yin:1"
-        xmlns:onf-core-model-conditional-packages="urn:onf:params:xml:ns:yang:Onf-CoreModel-ConditionalPackages"
-        xmlns:core-model="urn:onf:params:xml:ns:yang:CoreModel"
-        xmlns:microwave-model="urn:onf:params:xml:ns:yang:MicrowaveModel">
-  <namespace uri="urn:onf:params:xml:ns:yang:Onf-CoreModel-ConditionalPackages"/>
+        xmlns:onf-core-model-conditional-packages="urn:onf:params:xml:ns:yang:onf-core-model-conditional-packages"
+        xmlns:core-model="urn:onf:params:xml:ns:yang:core-model"
+        xmlns:microwave-model="urn:onf:params:xml:ns:yang:microwave-model">
+  <namespace uri="urn:onf:params:xml:ns:yang:onf-core-model-conditional-packages"/>
   <prefix value="onf-core-model-conditional-packages"/>
   <import module="core-model">
     <prefix value="core-model"/>
@@ -30,7 +30,7 @@ Editors:  Thorsten Heinze
   <description>
     <text>This model adds conditional packages to the ONF CoreModel in order to support fault management for object classes NetworkElement, Equipment and Holder.</text>
   </description>
-  <revision date="2017-02-17">
+  <revision date="2017-03-20">
     <description>
       <text>Initial version</text>
     </description>
@@ -38,7 +38,7 @@ Editors:  Thorsten Heinze
       <text>ONF TR 532: A YANG Data Model for Wireless Networks.</text>
     </reference>
   </revision>
-  <grouping name="current-problem-type">
+  <grouping name="current-problem-type-g">
     <leaf name="problem-name">
       <type name="string"/>
       <default value="not-specified"/>
@@ -47,12 +47,12 @@ Editors:  Thorsten Heinze
         <text>Name of the alarm according capability::supportedAlarms.</text>
       </description>
     </leaf>
-    <uses name="microwave-model:mw-current-problem"/>
+    <uses name="microwave-model:mw-current-problem-g"/>
     <description>
       <text>none</text>
     </description>
   </grouping>
-  <grouping name="problem-severity-type">
+  <grouping name="problem-severity-type-g">
     <leaf name="problem-type-name">
       <type name="string"/>
       <default value="Problem kind name not defined."/>
@@ -80,25 +80,25 @@ Editors:  Thorsten Heinze
       </description>
     </leaf>
     <container name="network-element-capability">
-      <uses name="onf-core-model-conditional-packages:network-element-capability"/>
+      <uses name="onf-core-model-conditional-packages:network-element-capability-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="network-element-configuration">
-      <uses name="onf-core-model-conditional-packages:network-element-configuration"/>
+      <uses name="onf-core-model-conditional-packages:network-element-configuration-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="network-element-status">
-      <uses name="onf-core-model-conditional-packages:network-element-status"/>
+      <uses name="onf-core-model-conditional-packages:network-element-status-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="network-element-current-problems">
-      <uses name="onf-core-model-conditional-packages:network-element-current-problems"/>
+      <uses name="onf-core-model-conditional-packages:network-element-current-problems-g"/>
       <description>
         <text>none</text>
       </description>
@@ -107,7 +107,7 @@ Editors:  Thorsten Heinze
       <text>none</text>
     </description>
   </container>
-  <grouping name="network-element-capability">
+  <grouping name="network-element-capability-g">
     <leaf name="supported-alarms">
       <type name="string"/>
       <config value="false"/>
@@ -119,10 +119,10 @@ Editors:  Thorsten Heinze
       <text>none</text>
     </description>
   </grouping>
-  <grouping name="network-element-configuration">
+  <grouping name="network-element-configuration-g">
     <list name="problem-type-severity-list">
       <key value="problem-type-name"/>
-      <uses name="onf-core-model-conditional-packages:problem-severity-type"/>
+      <uses name="onf-core-model-conditional-packages:problem-severity-type-g"/>
       <description>
         <text>Severity of the problem to be configured.</text>
       </description>
@@ -131,16 +131,16 @@ Editors:  Thorsten Heinze
       <text>none</text>
     </description>
   </grouping>
-  <grouping name="network-element-status">
+  <grouping name="network-element-status-g">
     <description>
       <text>none</text>
     </description>
   </grouping>
-  <grouping name="network-element-current-problems">
+  <grouping name="network-element-current-problems-g">
     <list name="current-problem-list">
       <key value="sequence-number"/>
       <config value="false"/>
-      <uses name="onf-core-model-conditional-packages:current-problem-type"/>
+      <uses name="onf-core-model-conditional-packages:current-problem-type-g"/>
       <description>
         <text>none</text>
       </description>
@@ -160,25 +160,25 @@ Editors:  Thorsten Heinze
       </description>
     </leaf>
     <container name="equipment-capability">
-      <uses name="onf-core-model-conditional-packages:equipment-capability"/>
+      <uses name="onf-core-model-conditional-packages:equipment-capability-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="equipment-configuration">
-      <uses name="onf-core-model-conditional-packages:equipment-configuration"/>
+      <uses name="onf-core-model-conditional-packages:equipment-configuration-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="equipment-status">
-      <uses name="onf-core-model-conditional-packages:equipment-status"/>
+      <uses name="onf-core-model-conditional-packages:equipment-status-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="equipment-current-problems">
-      <uses name="onf-core-model-conditional-packages:equipment-current-problems"/>
+      <uses name="onf-core-model-conditional-packages:equipment-current-problems-g"/>
       <description>
         <text>none</text>
       </description>
@@ -187,7 +187,7 @@ Editors:  Thorsten Heinze
       <text>none</text>
     </description>
   </list>
-  <grouping name="equipment-capability">
+  <grouping name="equipment-capability-g">
     <leaf name="supported-alarms">
       <type name="string"/>
       <config value="false"/>
@@ -199,10 +199,10 @@ Editors:  Thorsten Heinze
       <text>none</text>
     </description>
   </grouping>
-  <grouping name="equipment-configuration">
+  <grouping name="equipment-configuration-g">
     <list name="problem-type-severity-list">
       <key value="problem-type-name"/>
-      <uses name="onf-core-model-conditional-packages:problem-severity-type"/>
+      <uses name="onf-core-model-conditional-packages:problem-severity-type-g"/>
       <description>
         <text>Severity of the problem to be configured.</text>
       </description>
@@ -211,16 +211,16 @@ Editors:  Thorsten Heinze
       <text>none</text>
     </description>
   </grouping>
-  <grouping name="equipment-status">
+  <grouping name="equipment-status-g">
     <description>
       <text>none</text>
     </description>
   </grouping>
-  <grouping name="equipment-current-problems">
+  <grouping name="equipment-current-problems-g">
     <list name="current-problem-list">
       <key value="sequence-number"/>
       <config value="false"/>
-      <uses name="onf-core-model-conditional-packages:current-problem-type"/>
+      <uses name="onf-core-model-conditional-packages:current-problem-type-g"/>
       <description>
         <text>none</text>
       </description>
@@ -240,25 +240,25 @@ Editors:  Thorsten Heinze
       </description>
     </leaf>
     <container name="holder-capability">
-      <uses name="onf-core-model-conditional-packages:holder-capability"/>
+      <uses name="onf-core-model-conditional-packages:holder-capability-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="holder-configuration">
-      <uses name="onf-core-model-conditional-packages:holder-configuration"/>
+      <uses name="onf-core-model-conditional-packages:holder-configuration-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="holder-current-problems">
-      <uses name="onf-core-model-conditional-packages:holder-current-problems"/>
+      <uses name="onf-core-model-conditional-packages:holder-current-problems-g"/>
       <description>
         <text>none</text>
       </description>
     </container>
     <container name="holder-status">
-      <uses name="onf-core-model-conditional-packages:holder-status"/>
+      <uses name="onf-core-model-conditional-packages:holder-status-g"/>
       <description>
         <text>none</text>
       </description>
@@ -267,7 +267,7 @@ Editors:  Thorsten Heinze
       <text>none</text>
     </description>
   </list>
-  <grouping name="holder-capability">
+  <grouping name="holder-capability-g">
     <leaf name="supported-alarms">
       <type name="string"/>
       <config value="false"/>
@@ -279,10 +279,10 @@ Editors:  Thorsten Heinze
       <text>none</text>
     </description>
   </grouping>
-  <grouping name="holder-configuration">
+  <grouping name="holder-configuration-g">
     <list name="problem-type-severity-list">
       <key value="problem-type-name"/>
-      <uses name="onf-core-model-conditional-packages:problem-severity-type"/>
+      <uses name="onf-core-model-conditional-packages:problem-severity-type-g"/>
       <description>
         <text>Severity of the problem to be configured.</text>
       </description>
@@ -291,16 +291,16 @@ Editors:  Thorsten Heinze
       <text>none</text>
     </description>
   </grouping>
-  <grouping name="holder-status">
+  <grouping name="holder-status-g">
     <description>
       <text>none</text>
     </description>
   </grouping>
-  <grouping name="holder-current-problems">
+  <grouping name="holder-current-problems-g">
     <list name="current-problem-list">
       <key value="sequence-number"/>
       <config value="false"/>
-      <uses name="onf-core-model-conditional-packages:current-problem-type"/>
+      <uses name="onf-core-model-conditional-packages:current-problem-type-g"/>
       <description>
         <text>none</text>
       </description>
